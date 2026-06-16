@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>6月份Google廣告報表</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{
+    /* ── Morandi Palette ── */
+    --ink:#3d3d3b;          /* 溫暖深炭，取代冷黑 */
+    --steel:#6b7f8e;        /* 霧藍灰，主要強調色 */
+    --field:#8fa8b8;        /* 天青石，次要強調 */
+    --sky:#c0d3de;          /* 淡霧藍，圖表輔助 */
+    --mist:#f0eeeb;         /* 米霧白，偶數行/卡片背景 */
+    --paper:#faf8f5;        /* 溫白底色 */
+    --line:#ddd9d4;         /* 米灰分隔線 */
+    --good:#7aab8a;         /* 鼠尾草綠，正向指標 */
+    --warn:#c4976a;         /* 陶土橘，警示 */
+    --bad:#b87171;          /* 玫瑰紅，負向指標 */
+    --font-zh:"Microsoft JhengHei","PingFang TC","Noto Sans TC",sans-serif;
+    --font-en:"Calibri","Segoe UI",sans-serif;
+
+    /* ── Brand accents (Morandi-ified) ── */
+    --b-胃腸錠:#5e9e7e;     /* 鼠尾草深綠 */
+    --b-益生菌:#6a8eb8;     /* 霧藍 */
+    --b-改源IB:#b87171;     /* 玫瑰磚紅 */
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family: var(--font-en), var(--font-zh);
+    background: var(--paper);
+    color: var(--ink);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .zh{font-family: var(--font-zh);}
+
+  header{
+    background: linear-gradient(135deg, #4a5a60 0%, var(--steel) 60%, var(--field) 100%);
+    color:#fff;
+    padding: 36px 28px 28px;
+    position:relative;
+    overflow:hidden;
+  }
+  header::after{
+    content:"";
+    position:absolute; right:-60px; top:-60px;
+    width:240px; height:240px; border-radius:50%;
+    background: radial-gradient(circle, rgba(159,197,232,0.25), transparent 70%);
+  }
+  .eyebrow{
+    font-family: var(--font-zh);
+    font-size:12px; letter-spacing:.3em; text-transform:uppercase;
+    color: var(--sky); margin-bottom:10px; font-weight:700;
+  }
+  h1{
+    font-family: var(--font-zh);
+    font-size: clamp(24px, 4vw, 36px);
+    font-weight:700;
+    letter-spacing: .02em;
+  }
+  .meta{
+    margin-top:10px; font-size:13px; color:#cfe0ee;
+    font-family: var(--font-zh);
+  }
+  .meta b{color:#fff; font-family: var(--font-en);}
+
+  main{ max-width:1280px; margin:0 auto; padding: 28px 20px 60px;}
+  section{ margin-top: 38px; }
+  .section-head{
+    display:flex; align-items:baseline; gap:12px; margin-bottom:16px;
+    border-bottom: 2px solid var(--ink); padding-bottom:10px;
+  }
+  .section-num{
+    font-family: var(--font-en); font-weight:700; font-size:13px;
+    color:#fff; background:var(--ink); border-radius:4px;
+    padding:3px 8px; letter-spacing:.05em;
+  }
+  .section-head h2{
+    font-family: var(--font-zh); font-size:19px; font-weight:700; color:var(--ink);
+  }
+  .section-head .en{
+    font-family: var(--font-en); font-size:12px; color:#8a98a8; letter-spacing:.04em;
+  }
+
+  /* Brand toggle */
+  .brand-toggle{
+    display:flex; gap:10px; margin-bottom:8px;
+  }
+  .brand-toggle button{
+    flex:1; font-family: var(--font-zh); font-size:15px; font-weight:700;
+    padding:14px 20px; border:2px solid var(--line); border-radius:10px;
+    background:#fff; color:#6f7e8d; cursor:pointer; transition: all .15s ease;
+    display:flex; align-items:center; justify-content:center; gap:10px;
+  }
+  .brand-toggle button .dot{
+    width:12px; height:12px; border-radius:50%; display:inline-block;
+  }
+  .brand-toggle button.active{
+    border-color: currentColor; background: var(--mist); color: var(--ink);
+  }
+  .brand-toggle button[data-brand="胃腸錠"].active{ color: var(--b-胃腸錠); background:#eaf4ef; border-color: var(--b-胃腸錠); }
+  .brand-toggle button[data-brand="益生菌"].active{ color: var(--b-益生菌); background:#eaeff7; border-color: var(--b-益生菌); }
+  .brand-toggle button[data-brand="改源IB"].active{ color: var(--b-改源IB); background:#f7eeee; border-color: var(--b-改源IB); }
+  .brand-toggle button:not(.active):hover{ background:var(--mist); }
+
+  /* KPI cards */
+  .kpi-grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px,1fr));
+    gap:14px;
+  }
+  .kpi-card{
+    background:#fff; border:1px solid var(--line); border-radius:10px;
+    padding:18px 18px 16px; position:relative; overflow:hidden;
+    transition: box-shadow .2s ease, transform .2s ease;
+  }
+  .kpi-card:hover{ box-shadow:0 6px 18px rgba(26,35,50,.08); transform:translateY(-2px);}
+  .kpi-card .label{
+    font-family: var(--font-zh); font-size:12px; color:#6f7e8d; font-weight:700;
+    letter-spacing:.02em;
+  }
+  .kpi-card .value{
+    font-family: var(--font-en); font-size:26px; font-weight:700; color:var(--ink);
+    margin-top:6px; letter-spacing:.01em;
+  }
+  .kpi-card .sub{
+    margin-top:6px; font-size:11.5px; color:#9aa6b1; font-family: var(--font-zh);
+  }
+  .kpi-card .accent{
+    position:absolute; left:0; top:0; bottom:0; width:4px;
+  }
+
+  /* Chart card */
+  .chart-card{
+    background:#fff; border:1px solid var(--line); border-radius:10px; padding:20px;
+  }
+  .chart-controls{
+    display:flex; flex-wrap:wrap; gap:10px; margin-bottom:14px; align-items:center;
+  }
+  .chip{
+    font-family: var(--font-zh); font-size:12.5px; font-weight:700;
+    padding:7px 16px; border-radius:999px; border:1.5px solid var(--line);
+    background:#fff; color:#6f7e8d; cursor:pointer; transition: all .15s ease;
+    display:inline-flex; align-items:center; gap:6px;
+  }
+  .chip .dot{ width:9px; height:9px; border-radius:50%; display:inline-block; }
+  .chip.active{ border-color: currentColor; }
+  .chip-group-label{
+    font-family: var(--font-zh); font-size:12px; font-weight:700; color:#9aa6b1;
+    margin-right:4px; align-self:center;
+  }
+  canvas{ max-height:380px; }
+
+  /* Tables */
+  table{ width:100%; border-collapse:collapse; background:#fff; border-radius:10px; overflow:hidden; border:1px solid var(--line); min-width:600px;}
+  .chart-card, .fb-card, .notes{ overflow-x:auto; }
+  thead th{
+    font-family: var(--font-zh); font-size:12px; font-weight:700; text-align:right;
+    background: var(--ink); color:#fff; padding:9px 10px; white-space:nowrap;
+  }
+  thead th:first-child, thead th:nth-child(2){ text-align:left; }
+  tbody td{
+    font-family: var(--font-en); font-size:13px; text-align:right; padding:8px 10px;
+    border-bottom:1px solid var(--line); color:var(--ink); white-space:nowrap;
+  }
+  tbody td:first-child, tbody td:nth-child(2){
+    text-align:left; font-family: var(--font-zh);
+  }
+  tbody tr:nth-child(even){ background: var(--mist); }
+  tbody tr.subtotal{ background:#e4dfd9; font-weight:700; }
+  tbody tr.subtotal td{ border-top:2px solid var(--steel); }
+  tbody tr:hover{ background:#e8e4df; }
+  tbody tr.paused{ background:#e8e6e4 !important; color:#9a9896; }
+  tbody tr.paused:hover{ background:#dedad6 !important; }
+
+  .cat-pill{
+    display:inline-block; padding:2px 10px; border-radius:999px; font-weight:700; font-size:11.5px;
+    font-family:var(--font-zh);
+  }
+  .cat-search{ background:#dff0e6; color:#5e9e7e; }
+  .cat-bumper{ background:#f5ece0; color:#b08060; }
+  .cat-cpv{ background:#dfe9f5; color:#6a8eb8; }
+  .cat-other{ background:#ede8f2; color:#8e78a8; }
+
+  /* highlight cells — Morandi-softened */
+  .hl-cpc{ background:#f5f0d8 !important; font-weight:700; }
+  .hl-cpm{ background:#f5e8d5 !important; font-weight:700; }
+  .hl-cpv, .hl-vtr{ background:#d8e8f5 !important; font-weight:700; }
+
+  .campaign-note{
+    display:block; font-family:var(--font-zh); font-size:11px; color:#9aa6b1; margin-top:2px; font-weight:400;
+  }
+  .pause-tag{
+    display:inline-block; margin-left:6px; padding:1px 8px; border-radius:999px;
+    font-family:var(--font-zh); font-size:11px; font-weight:700; color:#fff; background:#9aa6b1;
+    vertical-align:middle;
+  }
+
+  .subsection-title{
+    font-family: var(--font-zh); font-size:14px; font-weight:700; color:var(--steel);
+    margin: 24px 0 10px;
+  }
+  .subsection-title:first-child{ margin-top:0; }
+
+  /* Platform toggle for daily detail */
+  .platform-toggle{
+    display:inline-flex; flex-wrap:wrap; gap:6px; border:1px solid var(--line); border-radius:8px; padding:6px;
+    margin-bottom:16px; background:#fff;
+  }
+  .platform-toggle button{
+    font-family: var(--font-zh); font-size:12.5px; font-weight:700;
+    padding:9px 16px; border:none; border-radius:6px; background:transparent; color:#6f7e8d; cursor:pointer;
+    transition: all .15s ease;
+  }
+  .platform-toggle button.active{
+    background: var(--steel); color:#fff;
+  }
+  .platform-toggle button:not(.active):hover{ background:var(--mist); }
+
+  footer{
+    text-align:center; padding:24px; font-size:11.5px; color:#9aa6b1;
+    font-family:var(--font-zh);
+  }
+
+  @media (max-width: 1100px){
+    .kpi-grid{ grid-template-columns: repeat(3,1fr); }
+  }
+  @media (max-width: 900px){
+    .kpi-grid{ grid-template-columns: repeat(2,1fr); }
+    .brand-toggle{ flex-direction:column; }
+  }
+  @media (max-width: 540px){
+    .kpi-grid{ grid-template-columns: 1fr; }
+    table{ font-size:12px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow zh">6月廣告成效報告　·　Wakamoto / 改源</div>
+  <h1>6月份 Google 廣告報表</h1>
+  <div class="meta">
+    產品線：wakamoto胃腸錠　|　wakamoto益生菌　|　改源IB　|　報表期間：<b>2026/06/01 – 06/14</b>（Google Ads 每日數據）
+  </div>
+</header>
+
+<main>
+
+  <!-- ============ Brand Toggle ============ -->
+  <section style="margin-top:24px;">
+    <div class="brand-toggle" id="brandToggle">
+      <button class="active" data-brand="胃腸錠"><span class="dot" style="background:var(--b-胃腸錠)"></span>胃腸錠</button>
+      <button data-brand="益生菌"><span class="dot" style="background:var(--b-益生菌)"></span>益生菌</button>
+      <button data-brand="改源IB"><span class="dot" style="background:var(--b-改源IB)"></span>改源IB</button>
+    </div>
+  </section>
+
+  <!-- ============ Section 1: KPI ============ -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">01</span>
+      <h2 class="zh">核心績效指標</h2>
+      <span class="en">KPI Overview · 6/1–6/14</span>
+    </div>
+    <div class="kpi-grid" id="kpiGrid"></div>
+  </section>
+
+  <!-- ============ Section 2: Daily Trend ============ -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">02</span>
+      <h2 class="zh">每日成效趨勢</h2>
+      <span class="en">Daily Trend · 6/1–6/14</span>
+    </div>
+    <div class="chart-card">
+      <div class="chart-controls" id="formatChips"></div>
+      <div class="chart-controls" id="seriesChips"></div>
+      <canvas id="trendChart"></canvas>
+    </div>
+  </section>
+
+  <!-- ============ Section 3: Campaign Performance ============ -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">03</span>
+      <h2 class="zh">各廣告版位成效彙整</h2>
+      <span class="en">Campaign Performance Summary · 6/1–6/14 加總</span>
+    </div>
+    <div id="campaignTableWrap"></div>
+  </section>
+
+  <!-- ============ Section 4: Daily Detail ============ -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">04</span>
+      <h2 class="zh">每日數據明細</h2>
+      <span class="en">Daily Performance Detail · 6/1–6/14</span>
+    </div>
+    <div class="platform-toggle" id="campaignToggle"></div>
+    <div id="dailyDetailWrap" style="overflow-x:auto;"></div>
+  </section>
+
+
+  <!-- ============ Section 05: Monthly Keyword History ============ -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">05</span>
+      <h2 class="zh">關鍵字廣告成效整理</h2>
+      <span class="en">Keyword Campaign Monthly Performance · Aug 2025 – Jun 2026</span>
+    </div>
+
+    <div id="kwTableWrap" style="margin-bottom:20px; overflow-x:auto;"></div>
+
+    <div class="chart-card">
+      <div class="chart-controls" id="kwSeriesChips" style="margin-bottom:14px;">
+        <span class="chip active" data-kwseries="cost"><span class="dot" style="background:#6b7f8e"></span>花費</span>
+        <span class="chip active" data-kwseries="cpc"><span class="dot" style="background:#c4976a"></span>CPC</span>
+        <span class="chip" data-kwseries="ctr"><span class="dot" style="background:#7aab8a"></span>CTR</span>
+      </div>
+      <canvas id="kwChart" style="max-height:320px;"></canvas>
+    </div>
+  </section>
+
+  <!-- ============ Section 06: Top 30 Search Terms ============ -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">06</span>
+      <h2 class="zh">5月份搜尋字詞 TOP 30</h2>
+      <span class="en">Top 30 Search Terms · May 2026</span>
+    </div>
+    <div id="top30Wrap" style="overflow-x:auto;"></div>
+  </section>
+
+  <!-- ============ Section 07: Campaign Execution Notes ============ -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">07</span>
+      <h2 class="zh">廣告執行說明</h2>
+      <span class="en">Campaign Execution Status</span>
+    </div>
+    <div id="execNotesWrap"></div>
+  </section>
+
+</main>
+
+<footer class="zh">資料來源：daily報表更新0611.xls（Google Ads raw data）　·　報表期間：2026/06/01 – 06/14</footer>
+
+<script>
+
+const BUDGETS = {胃腸錠: 271379, 益生菌: 523251, 改源IB: 15750};
+const DATA = {"胃腸錠": {"daily_totals": {"dates": ["6/1", "6/2", "6/3", "6/4", "6/5", "6/6", "6/7", "6/8", "6/9", "6/10", "6/11", "6/12", "6/13", "6/14"], "cost": [8753.52, 8641.9, 8603.05, 8859.2, 8730.22, 8859.51, 8980.0, 8912.06, 9041.56, 8704.71, 8670.62, 8659.91, 8912.2, 9110.26], "impressions": [243631, 254923, 204787, 195487, 212960, 221740, 224067, 227345, 218854, 225209, 237391, 224241, 243894, 238223], "clicks": [396, 379, 338, 333, 325, 377, 369, 381, 351, 378, 357, 337, 422, 412], "views": [45828, 57010, 55379, 57139, 57125, 57857, 58023, 58417, 61923, 58574, 60837, 58092, 60367, 62409]}, "ad_format_daily": {"搜尋": {"cost": [826.08, 712.27, 674.01, 933.63, 808.11, 933.72, 1053.04, 992.91, 760.47, 807.66, 771.84, 760.13, 1005.59, 1200.99], "impressions": [1137, 943, 892, 1022, 949, 1068, 1137, 1066, 1003, 1005, 980, 978, 1062, 1321], "clicks": [125, 103, 95, 128, 114, 128, 142, 136, 110, 113, 105, 106, 142, 170], "views": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "ctr": [0.1099, 0.1092, 0.1065, 0.1252, 0.1201, 0.1199, 0.1249, 0.1276, 0.1097, 0.1124, 0.1071, 0.1084, 0.1337, 0.1287], "cpc": [6.61, 6.92, 7.09, 7.29, 7.09, 7.29, 7.42, 7.3, 6.91, 7.15, 7.35, 7.17, 7.08, 7.06], "cpm": [726.54, 755.32, 755.62, 913.53, 851.54, 874.27, 926.16, 931.44, 758.2, 803.64, 787.59, 777.23, 946.88, 909.15], "cpv": [null, null, null, null, null, null, null, null, null, null, null, null, null, null], "vtr": [null, null, null, null, null, null, null, null, null, null, null, null, null, null]}, "Bumper": {"cost": [3958.4, 3964.33, 3963.08, 3958.56, 3957.13, 3959.25, 3959.64, 3954.16, 3960.52, 3962.41, 3964.93, 3965.35, 3970.75, 3972.65], "impressions": [170208, 146643, 107595, 100717, 111866, 120185, 122662, 125624, 117334, 121451, 125728, 124793, 130858, 125741], "clicks": [224, 194, 165, 143, 138, 179, 162, 185, 175, 200, 168, 179, 191, 167], "views": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "ctr": [0.0013, 0.0013, 0.0015, 0.0014, 0.0012, 0.0015, 0.0013, 0.0015, 0.0015, 0.0016, 0.0013, 0.0014, 0.0015, 0.0013], "cpc": [17.67, 20.43, 24.02, 27.68, 28.67, 22.12, 24.44, 21.37, 22.63, 19.81, 23.6, 22.15, 20.79, 23.79], "cpm": [23.26, 27.03, 36.83, 39.3, 35.37, 32.94, 32.28, 31.48, 33.75, 32.63, 31.54, 31.78, 30.34, 31.59], "cpv": [null, null, null, null, null, null, null, null, null, null, null, null, null, null], "vtr": [null, null, null, null, null, null, null, null, null, null, null, null, null, null]}, "CPV": {"cost": [3969.04, 3965.3, 3965.96, 3967.01, 3964.98, 3966.54, 3967.32, 3964.99, 4320.57, 3934.64, 3933.85, 3934.43, 3935.86, 3936.62], "impressions": [72286, 107337, 96300, 93748, 100145, 100487, 100268, 100655, 100517, 102753, 110683, 98470, 111974, 111161], "clicks": [47, 82, 78, 62, 73, 70, 65, 60, 66, 65, 84, 52, 89, 75], "views": [45828, 57010, 55379, 57139, 57125, 57857, 58023, 58417, 61923, 58574, 60837, 58092, 60367, 62409], "ctr": [0.0007, 0.0008, 0.0008, 0.0007, 0.0007, 0.0007, 0.0006, 0.0006, 0.0007, 0.0006, 0.0008, 0.0005, 0.0008, 0.0007], "cpc": [84.45, 48.36, 50.85, 63.98, 54.31, 56.66, 61.04, 66.08, 65.46, 60.53, 46.83, 75.66, 44.22, 52.49], "cpm": [54.91, 36.94, 41.18, 42.32, 39.59, 39.47, 39.57, 39.39, 42.98, 38.29, 35.54, 39.96, 35.15, 35.41], "cpv": [0.09, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.06, 0.07, 0.07, 0.06], "vtr": [0.634, 0.5311, 0.5751, 0.6095, 0.5704, 0.5758, 0.5787, 0.5804, 0.616, 0.57, 0.5497, 0.5899, 0.5391, 0.5614]}}, "campaigns": [{"name": "品牌關鍵字", "category": "搜尋", "note": "6/1-6/21 618檔期期間限制出價 $7", "paused_after": null, "paused_note": null, "budget": 33600, "cost": 12240.45, "impressions": 14563, "clicks": 1717, "views": 0, "achieve_rate": 0.3643, "ctr": 0.1179, "cpc": 7.13, "cpm": 840.52, "cpv": null, "vtr": null, "dates": ["6/1", "6/2", "6/3", "6/4", "6/5", "6/6", "6/7", "6/8", "6/9", "6/10", "6/11", "6/12", "6/13", "6/14"], "daily_cost": [826.08, 712.27, 674.01, 933.63, 808.11, 933.72, 1053.04, 992.91, 760.47, 807.66, 771.84, 760.13, 1005.59, 1200.99], "daily_impressions": [1137, 943, 892, 1022, 949, 1068, 1137, 1066, 1003, 1005, 980, 978, 1062, 1321], "daily_clicks": [125, 103, 95, 128, 114, 128, 142, 136, 110, 113, 105, 106, 142, 170], "daily_views": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}, {"name": "Bumper影片廣告（不老人生）", "category": "Bumper", "note": null, "paused_after": null, "paused_note": null, "budget": 119047, "cost": 55471.16, "impressions": 1751405, "clicks": 2470, "views": 0, "achieve_rate": 0.466, "ctr": 0.0014, "cpc": 22.46, "cpm": 31.67, "cpv": null, "vtr": null, "dates": ["6/1", "6/2", "6/3", "6/4", "6/5", "6/6", "6/7", "6/8", "6/9", "6/10", "6/11", "6/12", "6/13", "6/14"], "daily_cost": [3958.4, 3964.33, 3963.08, 3958.56, 3957.13, 3959.25, 3959.64, 3954.16, 3960.52, 3962.41, 3964.93, 3965.35, 3970.75, 3972.65], "daily_impressions": [170208, 146643, 107595, 100717, 111866, 120185, 122662, 125624, 117334, 121451, 125728, 124793, 130858, 125741], "daily_clicks": [224, 194, 165, 143, 138, 179, 162, 185, 175, 200, 168, 179, 191, 167], "daily_views": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}, {"name": "CPV影片-不老人生-受眾", "category": "CPV", "note": null, "paused_after": null, "paused_note": null, "budget": 112000, "cost": 48995.52, "impressions": 1321619, "clicks": 890, "views": 755165, "achieve_rate": 0.4375, "ctr": 0.0007, "cpc": 55.05, "cpm": 37.07, "cpv": 0.06, "vtr": 0.5714, "dates": ["6/1", "6/2", "6/3", "6/4", "6/5", "6/6", "6/7", "6/8", "6/9", "6/10", "6/11", "6/12", "6/13", "6/14"], "daily_cost": [3175.49, 3172.25, 3172.19, 3172.03, 3173.01, 3172.79, 3172.2, 3172.38, 3937.78, 3934.64, 3933.85, 3934.43, 3935.86, 3936.62], "daily_impressions": [63390, 99151, 85793, 83034, 89347, 89933, 89235, 90150, 96545, 102753, 110683, 98470, 111974, 111161], "daily_clicks": [38, 69, 69, 52, 70, 57, 59, 48, 63, 65, 84, 52, 89, 75], "daily_views": [40072, 52576, 49037, 50207, 50070, 50829, 50708, 52056, 59331, 58574, 60837, 58092, 60367, 62409]}, {"name": "CPV影片-不老人生-內容", "category": "CPV", "note": null, "paused_after": "6/8", "paused_note": "已於6/8下午開始暫停執行", "budget": 6732, "cost": 6731.59, "impressions": 85165, "clicks": 78, "views": 53815, "achieve_rate": 0.9999, "ctr": 0.0009, "cpc": 86.3, "cpm": 79.04, "cpv": 0.13, "vtr": 0.6319, "dates": ["6/1", "6/2", "6/3", "6/4", "6/5", "6/6", "6/7", "6/8", "6/9", "6/10", "6/11", "6/12", "6/13", "6/14"], "daily_cost": [793.55, 793.05, 793.77, 794.98, 791.97, 793.75, 795.12, 792.61, 382.79, 0.0, 0.0, 0.0, 0.0, 0.0], "daily_impressions": [8896, 8186, 10507, 10714, 10798, 10554, 11033, 10505, 3972, 0, 0, 0, 0, 0], "daily_clicks": [9, 13, 9, 10, 3, 13, 6, 12, 3, 0, 0, 0, 0, 0], "daily_views": [5756, 4434, 6342, 6932, 7055, 7028, 7315, 6361, 2592, 0, 0, 0, 0, 0]}]}, "益生菌": {"daily_totals": {"dates": ["6/1", "6/2", "6/3", "6/4", "6/5", "6/6", "6/7", "6/8", "6/9", "6/10", "6/11", "6/12", "6/13", "6/14"], "cost": [22471.84, 21192.53, 21261.71, 21226.56, 21263.73, 21220.89, 21530.04, 21176.25, 22060.54, 21317.58, 21161.57, 21010.74, 21216.92, 21141.88], "impressions": [344288, 405420, 372178, 340216, 355705, 331361, 310197, 339336, 336462, 315664, 347077, 335419, 346160, 344526], "clicks": [2101, 2636, 2807, 2688, 2893, 2898, 2783, 2695, 2716, 2638, 2460, 2417, 2513, 2578], "views": [78204, 103189, 100671, 99693, 97105, 101363, 102801, 103718, 108209, 106476, 105023, 103748, 102876, 109482]}, "ad_format_daily": {"需求開發": {"cost": [2268.16, 2268.09, 2268.79, 2269.1, 2267.96, 2267.56, 2267.63, 2267.45, 2268.16, 2268.47, 2266.2, 2268.8, 2268.14, 2268.19], "impressions": [22176, 36399, 28982, 24671, 24526, 31900, 29049, 25530, 25291, 24403, 37221, 39464, 45434, 44333], "clicks": [1240, 2016, 2060, 2041, 2214, 2122, 2059, 2091, 2077, 1923, 1860, 1826, 1805, 1886], "views": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "ctr": [0.0559, 0.0554, 0.0711, 0.0827, 0.0903, 0.0665, 0.0709, 0.0819, 0.0821, 0.0788, 0.05, 0.0463, 0.0397, 0.0425], "cpc": [1.83, 1.13, 1.1, 1.11, 1.02, 1.07, 1.1, 1.08, 1.09, 1.18, 1.22, 1.24, 1.26, 1.2], "cpm": [102.28, 62.31, 78.28, 91.97, 92.47, 71.08, 78.06, 88.82, 89.68, 92.96, 60.88, 57.49, 49.92, 51.16], "cpv": [null, null, null, null, null, null, null, null, null, null, null, null, null, null], "vtr": [null, null, null, null, null, null, null, null, null, null, null, null, null, null]}, "Bumper": {"cost": [7936.64, 7935.32, 7935.2, 7935.53, 7934.77, 7934.7, 7934.71, 7935.42, 7936.28, 7936.46, 7936.59, 7936.32, 7938.16, 7938.19], "impressions": [194027, 208989, 188839, 161018, 178929, 139030, 126432, 156713, 146267, 134521, 157466, 143178, 143893, 139218], "clicks": [602, 452, 560, 481, 486, 578, 519, 436, 460, 530, 429, 437, 534, 540], "views": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "ctr": [0.0031, 0.0022, 0.003, 0.003, 0.0027, 0.0042, 0.0041, 0.0028, 0.0031, 0.0039, 0.0027, 0.0031, 0.0037, 0.0039], "cpc": [13.18, 17.56, 14.17, 16.5, 16.33, 13.73, 15.29, 18.2, 17.25, 14.97, 18.5, 18.16, 14.87, 14.7], "cpm": [40.9, 37.97, 42.02, 49.28, 44.35, 57.07, 62.76, 50.64, 54.26, 59.0, 50.4, 55.43, 55.17, 57.02], "cpv": [null, null, null, null, null, null, null, null, null, null, null, null, null, null], "vtr": [null, null, null, null, null, null, null, null, null, null, null, null, null, null]}, "搜尋": {"cost": [2051.98, 794.08, 864.09, 823.15, 864.63, 822.13, 1127.96, 775.82, 856.53, 1020.92, 876.5, 717.59, 922.08, 841.4], "impressions": [3660, 1786, 1854, 2055, 1974, 2115, 2271, 2290, 2224, 2180, 2133, 2018, 2032, 2372], "clicks": [157, 82, 87, 82, 87, 82, 111, 74, 89, 102, 88, 72, 94, 82], "views": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "ctr": [0.0429, 0.0459, 0.0469, 0.0399, 0.0441, 0.0388, 0.0489, 0.0323, 0.04, 0.0468, 0.0413, 0.0357, 0.0463, 0.0346], "cpc": [13.07, 9.68, 9.93, 10.04, 9.94, 10.03, 10.16, 10.48, 9.62, 10.01, 9.96, 9.97, 9.81, 10.26], "cpm": [560.65, 444.61, 466.07, 400.56, 438.01, 388.71, 496.68, 338.79, 385.13, 468.31, 410.92, 355.59, 453.78, 354.72], "cpv": [null, null, null, null, null, null, null, null, null, null, null, null, null, null], "vtr": [null, null, null, null, null, null, null, null, null, null, null, null, null, null]}, "CPV": {"cost": [10215.06, 10195.04, 10193.63, 10198.78, 10196.37, 10196.5, 10199.74, 10197.56, 10999.57, 10091.73, 10082.28, 10088.03, 10088.54, 10094.1], "impressions": [124425, 158246, 152503, 152472, 150276, 158316, 152445, 154803, 162680, 154560, 150257, 150759, 154801, 158603], "clicks": [102, 86, 100, 84, 106, 116, 94, 94, 90, 83, 83, 82, 80, 70], "views": [78204, 103189, 100671, 99693, 97105, 101363, 102801, 103718, 108209, 106476, 105023, 103748, 102876, 109482], "ctr": [0.0008, 0.0005, 0.0007, 0.0006, 0.0007, 0.0007, 0.0006, 0.0006, 0.0006, 0.0005, 0.0006, 0.0005, 0.0005, 0.0004], "cpc": [100.15, 118.55, 101.94, 121.41, 96.19, 87.9, 108.51, 108.48, 122.22, 121.59, 121.47, 123.02, 126.11, 144.2], "cpm": [82.1, 64.43, 66.84, 66.89, 67.85, 64.41, 66.91, 65.87, 67.61, 65.29, 67.1, 66.91, 65.17, 63.64], "cpv": [0.13, 0.1, 0.1, 0.1, 0.11, 0.1, 0.1, 0.1, 0.1, 0.09, 0.1, 0.1, 0.1, 0.09], "vtr": [0.6285, 0.6521, 0.6601, 0.6538, 0.6462, 0.6403, 0.6743, 0.67, 0.6652, 0.6889, 0.699, 0.6882, 0.6646, 0.6903]}}, "campaigns": [{"name": "CPV影片-瓶中菌（受眾+內容）", "category": "CPV", "note": null, "paused_after": null, "paused_note": null, "budget": 83223, "cost": 55691.64, "impressions": 856579, "clicks": 509, "views": 548440, "achieve_rate": 0.6692, "ctr": 0.0006, "cpc": 109.41, "cpm": 65.02, "cpv": 0.1, "vtr": 0.6403, "dates": ["6/1", "6/2", "6/3", "6/4", "6/5", "6/6", "6/7", "6/8", "6/9", "6/10", "6/11", "6/12", "6/13", "6/14"], "daily_cost": [3972.3, 3965.48, 3965.84, 3966.49, 3964.06, 3967.6, 3966.52, 3965.49, 4308.05, 3931.41, 3928.14, 3929.51, 3929.96, 3930.79], "daily_impressions": [50826, 62948, 61591, 61012, 61961, 65274, 62691, 62738, 65120, 60891, 59674, 58353, 60946, 62554], "daily_clicks": [39, 40, 41, 30, 39, 40, 39, 28, 41, 28, 30, 46, 42, 26], "daily_views": [32264, 40610, 40143, 39473, 38550, 40458, 40406, 40411, 40418, 39501, 39919, 37903, 37616, 40768]}, {"name": "CPV影片-順暢篇（受眾+內容）", "category": "CPV", "note": null, "paused_after": null, "paused_note": null, "budget": 83129, "cost": 55592.51, "impressions": 851639, "clicks": 454, "views": 534457, "achieve_rate": 0.6687, "ctr": 0.0005, "cpc": 122.45, "cpm": 65.28, "cpv": 0.1, "vtr": 0.6276, "dates": ["6/1", "6/2", "6/3", "6/4", "6/5", "6/6", "6/7", "6/8", "6/9", "6/10", "6/11", "6/12", "6/13", "6/14"], "daily_cost": [3970.31, 3964.82, 3964.49, 3967.92, 3966.83, 3964.58, 3967.31, 3966.01, 4212.48, 3932.64, 3925.99, 3928.98, 3928.14, 3932.01], "daily_impressions": [53133, 61851, 59749, 60252, 58465, 60996, 59590, 61180, 64989, 63302, 60062, 61105, 62775, 64190], "daily_clicks": [42, 26, 29, 27, 33, 54, 41, 39, 26, 29, 31, 22, 26, 29], "daily_views": [30814, 40246, 38353, 38761, 36551, 37141, 38144, 38643, 40151, 40676, 38135, 38174, 37998, 40670]}, {"name": "CPV影片-營養師品瑄（受眾+內容）", "category": "CPV", "note": null, "paused_after": null, "paused_note": null, "budget": 47376, "cost": 31752.78, "impressions": 426928, "clicks": 307, "views": 339661, "achieve_rate": 0.6702, "ctr": 0.0007, "cpc": 103.43, "cpm": 74.38, "cpv": 0.09, "vtr": 0.7956, "dates": ["6/1", "6/2", "6/3", "6/4", "6/5", "6/6", "6/7", "6/8", "6/9", "6/10", "6/11", "6/12", "6/13", "6/14"], "daily_cost": [2272.45, 2264.74, 2263.3, 2264.37, 2265.48, 2264.32, 2265.91, 2266.06, 2479.04, 2227.68, 2228.15, 2229.54, 2230.44, 2231.3], "daily_impressions": [20466, 33447, 31163, 31208, 29850, 32046, 30164, 30885, 32571, 30367, 30521, 31301, 31080, 31859], "daily_clicks": [21, 20, 30, 27, 34, 22, 14, 27, 23, 26, 22, 14, 12, 15], "daily_views": [15126, 22333, 22175, 21459, 22004, 23764, 24251, 24664, 27640, 26299, 26969, 27671, 27262, 28044]}, {"name": "DGC需求開發廣告", "category": "需求開發", "note": null, "paused_after": null, "paused_note": null, "budget": 47619, "cost": 31752.7, "impressions": 439379, "clicks": 27220, "views": 0, "achieve_rate": 0.6668, "ctr": 0.062, "cpc": 1.17, "cpm": 72.27, "cpv": null, "vtr": null, "dates": ["6/1", "6/2", "6/3", "6/4", "6/5", "6/6", "6/7", "6/8", "6/9", "6/10", "6/11", "6/12", "6/13", "6/14"], "daily_cost": [2268.16, 2268.09, 2268.79, 2269.1, 2267.96, 2267.56, 2267.63, 2267.45, 2268.16, 2268.47, 2266.2, 2268.8, 2268.14, 2268.19], "daily_impressions": [22176, 36399, 28982, 24671, 24526, 31900, 29049, 25530, 25291, 24403, 37221, 39464, 45434, 44333], "daily_clicks": [1240, 2016, 2060, 2041, 2214, 2122, 2059, 2091, 2077, 1923, 1860, 1826, 1805, 1886], "daily_views": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}, {"name": "6秒Bumper影片廣告", "category": "Bumper", "note": null, "paused_after": null, "paused_note": null, "budget": 166666, "cost": 111104.29, "impressions": 2218520, "clicks": 7044, "views": 0, "achieve_rate": 0.6666, "ctr": 0.0032, "cpc": 15.77, "cpm": 50.08, "cpv": null, "vtr": null, "dates": ["6/1", "6/2", "6/3", "6/4", "6/5", "6/6", "6/7", "6/8", "6/9", "6/10", "6/11", "6/12", "6/13", "6/14"], "daily_cost": [7936.64, 7935.32, 7935.2, 7935.53, 7934.77, 7934.7, 7934.71, 7935.42, 7936.28, 7936.46, 7936.59, 7936.32, 7938.16, 7938.19], "daily_impressions": [194027, 208989, 188839, 161018, 178929, 139030, 126432, 156713, 146267, 134521, 157466, 143178, 143893, 139218], "daily_clicks": [602, 452, 560, 481, 486, 578, 519, 436, 460, 530, 429, 437, 534, 540], "daily_views": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}, {"name": "品類字_益生菌", "category": "搜尋", "note": "6/1-6/21 618檔期期間限制出價 $7", "paused_after": null, "paused_note": null, "budget": 19048, "cost": 4403.99, "impressions": 7684, "clicks": 406, "views": 0, "achieve_rate": 0.2312, "ctr": 0.0528, "cpc": 10.85, "cpm": 573.14, "cpv": null, "vtr": null, "dates": ["6/1", "6/2", "6/3", "6/4", "6/5", "6/6", "6/7", "6/8", "6/9", "6/10", "6/11", "6/12", "6/13", "6/14"], "daily_cost": [1093.44, 278.21, 215.04, 161.8, 308.95, 278.51, 289.63, 175.18, 242.96, 349.16, 318.01, 212.02, 326.79, 154.29], "daily_impressions": [1659, 405, 384, 420, 422, 456, 463, 460, 563, 562, 483, 477, 457, 473], "daily_clicks": [76, 29, 21, 17, 31, 27, 29, 17, 26, 34, 31, 20, 32, 16], "daily_views": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}, {"name": "產品字", "category": "搜尋", "note": "6/1-6/21 618檔期期間限制出價 $7", "paused_after": null, "paused_note": null, "budget": 38095, "cost": 4546.05, "impressions": 4027, "clicks": 409, "views": 0, "achieve_rate": 0.1193, "ctr": 0.1016, "cpc": 11.12, "cpm": 1128.89, "cpv": null, "vtr": null, "dates": ["6/1", "6/2", "6/3", "6/4", "6/5", "6/6", "6/7", "6/8", "6/9", "6/10", "6/11", "6/12", "6/13", "6/14"], "daily_cost": [537.99, 282.61, 393.7, 366.12, 368.33, 209.61, 433.03, 279.19, 274.15, 274.19, 275.51, 179.55, 228.73, 443.34], "daily_impressions": [341, 231, 271, 278, 298, 308, 306, 274, 200, 283, 290, 244, 294, 409], "daily_clicks": [39, 26, 36, 34, 35, 19, 40, 25, 25, 26, 25, 16, 22, 41], "daily_views": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}, {"name": "品類字_症狀相關", "category": "搜尋", "note": "6/1-6/21 618檔期期間限制出價 $7", "paused_after": null, "paused_note": null, "budget": 28571, "cost": 3522.56, "impressions": 16011, "clicks": 375, "views": 0, "achieve_rate": 0.1233, "ctr": 0.0234, "cpc": 9.39, "cpm": 220.01, "cpv": null, "vtr": null, "dates": ["6/1", "6/2", "6/3", "6/4", "6/5", "6/6", "6/7", "6/8", "6/9", "6/10", "6/11", "6/12", "6/13", "6/14"], "daily_cost": [372.75, 233.26, 158.02, 244.92, 150.16, 238.96, 388.9, 222.58, 255.42, 300.26, 188.9, 260.1, 301.34, 206.99], "daily_impressions": [1488, 947, 987, 1137, 1048, 1123, 1287, 1239, 1034, 1018, 1112, 1111, 1114, 1366], "daily_clicks": [37, 27, 20, 26, 16, 26, 40, 22, 28, 31, 21, 27, 33, 21], "daily_views": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}, {"name": "競品字", "category": "搜尋", "note": "6/1-6/21 618檔期期間限制出價 $7", "paused_after": null, "paused_note": null, "budget": 9524, "cost": 886.26, "impressions": 3242, "clicks": 99, "views": 0, "achieve_rate": 0.0931, "ctr": 0.0305, "cpc": 8.95, "cpm": 273.37, "cpv": null, "vtr": null, "dates": ["6/1", "6/2", "6/3", "6/4", "6/5", "6/6", "6/7", "6/8", "6/9", "6/10", "6/11", "6/12", "6/13", "6/14"], "daily_cost": [47.8, 0.0, 97.33, 50.31, 37.19, 95.05, 16.4, 98.87, 84.0, 97.31, 94.08, 65.92, 65.22, 36.78], "daily_impressions": [172, 203, 212, 220, 206, 228, 215, 317, 427, 317, 248, 186, 167, 124], "daily_clicks": [5, 0, 10, 5, 5, 10, 2, 10, 10, 11, 11, 9, 7, 4], "daily_views": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}]}, "改源IB": {"daily_totals": {"dates": ["6/1", "6/2", "6/3", "6/4", "6/5", "6/6", "6/7", "6/8", "6/9", "6/10", "6/11", "6/12", "6/13", "6/14"], "cost": [353.85, 467.16, 596.31, 400.11, 614.84, 398.47, 477.64, 616.15, 499.64, 365.34, 539.84, 509.13, 409.52, 427.16], "impressions": [1033, 1159, 1565, 1152, 1317, 1288, 1371, 1211, 1015, 1104, 1064, 1278, 1154, 1231], "clicks": [34, 45, 50, 36, 52, 36, 42, 52, 43, 34, 44, 43, 35, 40], "views": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}, "ad_format_daily": {"搜尋": {"cost": [353.85, 467.16, 596.31, 400.11, 614.84, 398.47, 477.64, 616.15, 499.64, 365.34, 539.84, 509.13, 409.52, 427.16], "impressions": [1033, 1159, 1565, 1152, 1317, 1288, 1371, 1211, 1015, 1104, 1064, 1278, 1154, 1231], "clicks": [34, 45, 50, 36, 52, 36, 42, 52, 43, 34, 44, 43, 35, 40], "views": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "ctr": [0.0329, 0.0388, 0.0319, 0.0312, 0.0395, 0.028, 0.0306, 0.0429, 0.0424, 0.0308, 0.0414, 0.0336, 0.0303, 0.0325], "cpc": [10.41, 10.38, 11.93, 11.11, 11.82, 11.07, 11.37, 11.85, 11.62, 10.75, 12.27, 11.84, 11.7, 10.68], "cpm": [342.55, 403.07, 381.03, 347.32, 466.85, 309.37, 348.39, 508.79, 492.26, 330.92, 507.37, 398.38, 354.87, 347.0], "cpv": [null, null, null, null, null, null, null, null, null, null, null, null, null, null], "vtr": [null, null, null, null, null, null, null, null, null, null, null, null, null, null]}}, "campaigns": [{"name": "症狀字", "category": "搜尋", "note": null, "paused_after": null, "paused_note": null, "budget": 6457, "cost": 3693.05, "impressions": 11327, "clicks": 342, "views": 0, "achieve_rate": 0.5719, "ctr": 0.0302, "cpc": 10.8, "cpm": 326.04, "cpv": null, "vtr": null, "dates": ["6/1", "6/2", "6/3", "6/4", "6/5", "6/6", "6/7", "6/8", "6/9", "6/10", "6/11", "6/12", "6/13", "6/14"], "daily_cost": [148.03, 242.95, 402.28, 258.31, 275.24, 273.89, 227.02, 308.15, 273.15, 179.23, 324.1, 284.63, 236.13, 259.94], "daily_impressions": [632, 830, 1081, 625, 862, 901, 910, 914, 578, 714, 733, 961, 793, 793], "daily_clicks": [16, 26, 32, 24, 26, 25, 22, 30, 25, 18, 25, 26, 21, 26], "daily_views": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}, {"name": "產品字-IB", "category": "搜尋", "note": null, "paused_after": null, "paused_note": null, "budget": 2678, "cost": 1897.29, "impressions": 3102, "clicks": 146, "views": 0, "achieve_rate": 0.7085, "ctr": 0.0471, "cpc": 13.0, "cpm": 611.63, "cpv": null, "vtr": null, "dates": ["6/1", "6/2", "6/3", "6/4", "6/5", "6/6", "6/7", "6/8", "6/9", "6/10", "6/11", "6/12", "6/13", "6/14"], "daily_cost": [147.08, 145.22, 78.92, 98.61, 239.87, 36.45, 184.16, 208.91, 143.73, 112.81, 135.16, 151.25, 96.09, 119.03], "daily_impressions": [248, 144, 179, 261, 264, 250, 355, 115, 140, 255, 136, 184, 245, 326], "daily_clicks": [12, 12, 8, 8, 17, 3, 14, 12, 10, 9, 11, 12, 8, 10], "daily_views": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}, {"name": "品牌字", "category": "搜尋", "note": null, "paused_after": null, "paused_note": null, "budget": 1576, "cost": 758.64, "impressions": 1139, "clicks": 63, "views": 0, "achieve_rate": 0.4814, "ctr": 0.0553, "cpc": 12.04, "cpm": 666.06, "cpv": null, "vtr": null, "dates": ["6/1", "6/2", "6/3", "6/4", "6/5", "6/6", "6/7", "6/8", "6/9", "6/10", "6/11", "6/12", "6/13", "6/14"], "daily_cost": [41.3, 56.62, 70.88, 22.57, 70.58, 71.89, 47.91, 49.92, 62.8, 42.54, 55.09, 65.27, 62.86, 38.41], "daily_impressions": [98, 66, 150, 91, 111, 68, 30, 95, 74, 71, 110, 79, 59, 37], "daily_clicks": [4, 4, 6, 2, 6, 6, 4, 5, 6, 4, 5, 4, 4, 3], "daily_views": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}, {"name": "競品字", "category": "搜尋", "note": null, "paused_after": null, "paused_note": null, "budget": 4723, "cost": 181.88, "impressions": 706, "clicks": 18, "views": 0, "achieve_rate": 0.0385, "ctr": 0.0255, "cpc": 10.1, "cpm": 257.62, "cpv": null, "vtr": null, "dates": ["6/1", "6/2", "6/3", "6/4", "6/5", "6/6", "6/7", "6/8", "6/9", "6/10", "6/11", "6/12", "6/13", "6/14"], "daily_cost": [11.26, 8.93, 31.29, 10.92, 19.15, 0.0, 10.17, 49.17, 0.0, 20.64, 10.57, 0.0, 0.0, 9.78], "daily_impressions": [12, 96, 116, 39, 33, 27, 53, 55, 30, 46, 61, 33, 56, 49], "daily_clicks": [1, 1, 3, 1, 2, 0, 1, 5, 0, 2, 1, 0, 0, 1], "daily_views": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}, {"name": "產品字-感冒", "category": "搜尋", "note": null, "paused_after": null, "paused_note": null, "budget": 316, "cost": 144.3, "impressions": 668, "clicks": 17, "views": 0, "achieve_rate": 0.4566, "ctr": 0.0254, "cpc": 8.49, "cpm": 216.02, "cpv": null, "vtr": null, "dates": ["6/1", "6/2", "6/3", "6/4", "6/5", "6/6", "6/7", "6/8", "6/9", "6/10", "6/11", "6/12", "6/13", "6/14"], "daily_cost": [6.18, 13.44, 12.94, 9.7, 10.0, 16.24, 8.38, 0.0, 19.96, 10.12, 14.92, 7.98, 14.44, 0.0], "daily_impressions": [43, 23, 39, 136, 47, 42, 23, 32, 193, 18, 24, 21, 1, 26], "daily_clicks": [1, 2, 1, 1, 1, 2, 1, 0, 2, 1, 2, 1, 2, 0], "daily_views": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}]}};
+
+const brandColors = {
+  '胃腸錠': '#5e9e7e',
+  '益生菌': '#6a8eb8',
+  '改源IB': '#b87171',
+};
+
+let currentBrand = '胃腸錠';
+let currentFormat = null; // null = 全部
+
+const fmtMoney = v => v==null ? "–" : "$" + Math.round(v).toLocaleString();
+const fmtNum = v => v==null ? "–" : Math.round(v).toLocaleString();
+const fmtPct = v => v==null ? "–" : (v*100).toFixed(2) + "%";
+const fmtCurrency2 = v => v==null ? "–" : "$" + v.toFixed(2);
+const fmtCurrency4 = v => v==null ? "–" : "$" + v.toFixed(2);
+
+const catClass = {'搜尋':'cat-search','Bumper':'cat-bumper','CPV':'cat-cpv','需求開發':'cat-other','其他':'cat-other'};
+const catHighlight = {'搜尋':['cpc'],'Bumper':['cpm'],'CPV':['cpv','vtr']};
+
+// ===== Section 1: KPI =====
+function renderKPI(brand){
+  const data = DATA[brand];
+  const fmts = data.ad_format_daily;
+  const totalBudget = BUDGETS[brand] || 0;
+  const accent = brandColors[brand];
+
+  // compute per-format totals from ad_format_daily
+  function fmtTotal(key) {
+    if(!fmts[key]) return null;
+    const f = fmts[key];
+    const n = f.cost.length;
+    const cost = f.cost.reduce((a,b)=>a+b,0);
+    const imp = f.impressions.reduce((a,b)=>a+b,0);
+    const clk = f.clicks.reduce((a,b)=>a+b,0);
+    const views = (f.views||[]).reduce((a,b)=>a+b,0);
+    return {cost, imp, clk, views,
+      ctr: imp ? clk/imp : null,
+      cpc: clk ? cost/clk : null,
+      cpm: imp ? (cost/imp)*1000 : null,
+      cpv: views ? cost/views : null,
+      vtr: (imp && views) ? views/imp : null,
+    };
+  }
+
+  // budget per format (hardcoded by brand)
+  const formatBudgets = {
+    '胃腸錠': {'搜尋':33600,'Bumper':119047,'CPV':118732},
+    '益生菌': {'搜尋':95238,'Bumper':166666,'CPV':213728,'需求開發':47619},
+    '改源IB': {'搜尋':15750},
+  };
+  const fb = formatBudgets[brand] || {};
+
+  // Total budget & cost
+  const totalCost = Object.keys(fmts).reduce((s,k)=>s+fmts[k].cost.reduce((a,b)=>a+b,0), 0);
+
+  function makeCard(label, cost, budget, metrics, highlight=[], bgColor=null) {
+    const achieve = budget ? cost/budget : null;
+    const style = bgColor ? `background:${bgColor}; border-color:${accent};` : '';
+    const metricHtml = metrics.map(m => {
+      const isHL = highlight.includes(m.key);
+      return `<span style="${isHL ? 'background:#f5e6a3;padding:1px 6px;border-radius:4px;font-weight:700;color:#6b5400;' : ''}">${m.label} ${m.val}</span>`;
+    }).join('　');
+    return `<div class="kpi-card" style="${style}">
+      <div class="accent" style="background:${accent};"></div>
+      <div class="label zh">${label}</div>
+      <div class="value">${fmtMoney(cost)}</div>
+      <div class="sub zh" style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;">
+        ${budget ? `<span style="background:#f5e6a3;padding:1px 6px;border-radius:4px;font-weight:700;color:#6b5400;font-family:var(--font-zh);font-size:11.5px;">達成率 ${fmtPct(achieve)}</span>` : ''}
+        ${metricHtml}
+      </div>
+    </div>`;
+  }
+
+  let html = '';
+
+  // Row 0: 總預算 + 總花費
+  html += `<div class="kpi-card" style="background:#eaf6ef;border-color:${accent};">
+    <div class="accent" style="background:${accent};"></div>
+    <div class="label zh">6月總預算</div>
+    <div class="value">${fmtMoney(totalBudget)}</div>
+    <div class="sub zh">各版位預算加總</div>
+  </div>`;
+  html += `<div class="kpi-card" style="background:#eaf6ef;border-color:${accent};">
+    <div class="accent" style="background:${accent};"></div>
+    <div class="label zh">總花費（6/1–6/14）</div>
+    <div class="value">${fmtMoney(totalCost)}</div>
+    <div class="sub zh"><span style="background:#f5e6a3;padding:1px 6px;border-radius:4px;font-weight:700;color:#6b5400;">花費達成率 ${fmtPct(totalBudget ? totalCost/totalBudget : null)}</span></div>
+  </div>`;
+
+  // Per-format cards
+  const formatDefs = [
+    {key:'搜尋', label:'關鍵字廣告花費', metrics:[{key:'cpc',label:'CPC',fn:v=>fmtCurrency2(v.cpc)}]},
+    {key:'Bumper', label:'Bumper廣告花費', metrics:[{key:'cpm',label:'CPM',fn:v=>fmtCurrency2(v.cpm)}]},
+    {key:'CPV', label:'CPV廣告花費', metrics:[{key:'cpv',label:'CPV',fn:v=>fmtCurrency2(v.cpv)},{key:'vtr',label:'VTR',fn:v=>fmtPct(v.vtr)}]},
+    {key:'需求開發', label:'需求開發廣告花費', metrics:[{key:'cpc',label:'CPC',fn:v=>fmtCurrency2(v.cpc)},{key:'ctr',label:'CTR',fn:v=>fmtPct(v.ctr)}]},
+  ];
+
+  formatDefs.forEach(fd => {
+    const t = fmtTotal(fd.key);
+    if(!t) return;
+    const budget = fb[fd.key] || 0;
+    const achieve = budget ? t.cost/budget : null;
+    const metricHtml = fd.metrics.map(m =>
+      `<span>${m.label} ${m.fn(t)}</span>`
+    ).join('　');
+    html += `<div class="kpi-card">
+      <div class="accent" style="background:${accent};"></div>
+      <div class="label zh">${fd.label}</div>
+      <div class="value">${fmtMoney(t.cost)}</div>
+      <div class="sub zh" style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;">
+        ${budget ? `<span style="background:#f5e6a3;padding:1px 6px;border-radius:4px;font-weight:700;color:#6b5400;font-family:var(--font-zh);font-size:11.5px;">達成率 ${fmtPct(achieve)}</span>` : ''}
+        <span>${metricHtml}</span>
+      </div>
+    </div>`;
+  });
+
+  document.getElementById('kpiGrid').innerHTML = html;
+}
+
+// ===== Section 2: Trend chart =====
+const seriesConfig = {
+  cost:        {label:'花費', color:'#6b7f8e'},
+  impressions: {label:'曝光', color:'#a8becd'},
+  clicks:      {label:'點擊', color:'#7aab8a'},
+  ctr:         {label:'CTR', color:'#9e8ab8'},
+  cpc:         {label:'CPC', color:'#c4976a'},
+  cpm:         {label:'CPM', color:'#b87171'},
+  cpv:         {label:'CPV', color:'#6a9eaa'},
+  vtr:         {label:'VTR', color:'#6a8eb8'},
+};
+const defaultActiveSeries = ['cost','impressions','clicks'];
+
+const ctx = document.getElementById('trendChart').getContext('2d');
+let trendChart;
+
+function renderFormatChips(brand){
+  const formats = Object.keys(DATA[brand].ad_format_daily);
+  const wrap = document.getElementById('formatChips');
+  let html = `<span class="chip-group-label zh">廣告形式：</span>`;
+  html += `<span class="chip ${currentFormat===null?'active':''}" data-format="__all__">全部</span>`;
+  formats.forEach(f=>{
+    html += `<span class="chip ${currentFormat===f?'active':''}" data-format="${f}">${f}</span>`;
+  });
+  wrap.innerHTML = html;
+}
+
+function renderSeriesChips(){
+  const wrap = document.getElementById('seriesChips');
+  let html = `<span class="chip-group-label zh">指標：</span>`;
+  Object.entries(seriesConfig).forEach(([key,cfg])=>{
+    const active = defaultActiveSeries.includes(key) ? 'active' : '';
+    html += `<span class="chip ${active}" data-series="${key}"><span class="dot" style="background:${cfg.color}"></span>${cfg.label}</span>`;
+  });
+  wrap.innerHTML = html;
+}
+
+function getTrendData(brand){
+  if(currentFormat === null){
+    const dt = DATA[brand].daily_totals;
+    const n = dt.cost.length;
+    return {
+      dates: dt.dates,
+      cost: dt.cost,
+      impressions: dt.impressions,
+      clicks: dt.clicks,
+      views: dt.views,
+      ctr: dt.impressions.map((imp,i)=> imp ? dt.clicks[i]/imp : null),
+      cpc: dt.clicks.map((clk,i)=> clk ? dt.cost[i]/clk : null),
+      cpm: dt.impressions.map((imp,i)=> imp ? (dt.cost[i]/imp)*1000 : null),
+      cpv: dt.views.map((v,i)=> v ? dt.cost[i]/v : null),
+      vtr: dt.impressions.map((imp,i)=> (imp && dt.views[i]) ? dt.views[i]/imp : null),
+    };
+  }
+  const f = DATA[brand].ad_format_daily[currentFormat];
+  return { dates: DATA[brand].daily_totals.dates, ...f };
+}
+
+function renderChart(brand){
+  const trend = getTrendData(brand);
+  const active = Array.from(document.querySelectorAll('#seriesChips .chip.active')).map(c=>c.dataset.series);
+
+  const moneyKeys = ['cost'];
+  const countKeys = ['impressions','clicks'];
+  const pctKeys = ['ctr','vtr'];
+  const rateKeys = ['cpc','cpm','cpv'];
+
+  const datasets = active.map(key=>{
+    const cfg = seriesConfig[key];
+    let yAxis = 'y3';
+    if(moneyKeys.includes(key)) yAxis = 'y';
+    else if(countKeys.includes(key)) yAxis = 'y1';
+    else if(pctKeys.includes(key)) yAxis = 'y2';
+    else if(rateKeys.includes(key)) yAxis = 'y3';
+    return {
+      label: cfg.label,
+      data: trend[key],
+      backgroundColor: cfg.color + 'cc',
+      borderColor: cfg.color,
+      yAxisID: yAxis,
+      type: key === 'cost' ? 'bar' : 'line',
+      tension: .35, borderWidth:2.5, pointRadius:3, pointBackgroundColor:cfg.color,
+      borderRadius: 4, maxBarThickness: 28, spanGaps:true,
+    };
+  });
+
+  const usedAxes = new Set(datasets.map(d=>d.yAxisID));
+
+  if(trendChart) trendChart.destroy();
+  trendChart = new Chart(ctx, {
+    data: { labels: trend.dates, datasets },
+    options: {
+      responsive:true,
+      interaction:{ mode:'index', intersect:false },
+      plugins:{
+        legend:{ position:'bottom', labels:{ font:{family:'Microsoft JhengHei', size:12} } },
+        tooltip:{
+          titleFont:{family:'Calibri'}, bodyFont:{family:'Microsoft JhengHei'},
+          callbacks:{
+            label: ctx => {
+              const v = ctx.raw;
+              if(v == null) return `${ctx.dataset.label}: –`;
+              const key = active[ctx.datasetIndex];
+              if(key==='cost') return `花費: $${Math.round(v).toLocaleString()}`;
+              if(key==='impressions'||key==='clicks') return `${ctx.dataset.label}: ${Math.round(v).toLocaleString()}`;
+              if(key==='ctr'||key==='vtr') return `${ctx.dataset.label}: ${(v*100).toFixed(2)}%`;
+              if(key==='cpv') return `${ctx.dataset.label}: $${v.toFixed(2)}`;
+              return `${ctx.dataset.label}: $${v.toFixed(2)}`;
+            }
+          }
+        }
+      },
+      scales:{
+        x:{ ticks:{ font:{family:'Calibri'} }, grid:{ display:false } },
+        y:{ position:'left', display: usedAxes.has('y'),
+            title:{display:true, text:'花費 (NT$)', font:{family:'Microsoft JhengHei', size:12}},
+            ticks:{ font:{family:'Calibri'}, callback:v=>'$'+v.toLocaleString() } },
+        y1:{ position:'right', display: usedAxes.has('y1'),
+             title:{display:true, text:'曝光/點擊', font:{family:'Microsoft JhengHei', size:12}},
+             grid:{drawOnChartArea:false}, ticks:{font:{family:'Calibri'}, callback:v=>v.toLocaleString()} },
+        y2:{ position:'right', display: usedAxes.has('y2'),
+             title:{display:true, text:'CTR/VTR', font:{family:'Microsoft JhengHei', size:12}},
+             grid:{drawOnChartArea:false}, ticks:{font:{family:'Calibri'}, callback:v=>(v*100).toFixed(0)+'%'} },
+        y3:{ position:'right', display: usedAxes.has('y3'),
+             title:{display:true, text:'CPC/CPM/CPV', font:{family:'Microsoft JhengHei', size:12}},
+             grid:{drawOnChartArea:false}, ticks:{font:{family:'Calibri'}, callback:v=>'$'+v} }
+      }
+    }
+  });
+}
+
+document.getElementById('formatChips').addEventListener('click', e=>{
+  const chip = e.target.closest('.chip');
+  if(!chip) return;
+  document.querySelectorAll('#formatChips .chip').forEach(c=>c.classList.remove('active'));
+  chip.classList.add('active');
+  currentFormat = chip.dataset.format === '__all__' ? null : chip.dataset.format;
+  renderChart(currentBrand);
+});
+
+document.getElementById('seriesChips').addEventListener('click', e=>{
+  const chip = e.target.closest('.chip');
+  if(!chip) return;
+  chip.classList.toggle('active');
+  renderChart(currentBrand);
+});
+
+// ===== Section 3: Campaign performance table =====
+function buildCampaignRow(c, accent){
+  const hl = catHighlight[c.category] || [];
+  const cellClass = key => hl.includes(key) ? `class="hl-${key}"` : '';
+  let pauseInfo = '';
+  if(c.paused_after){
+    pauseInfo = `<span class="pause-tag">${c.paused_note}</span>`;
+  }
+  let noteInfo = c.note ? `<span class="campaign-note">${c.note}</span>` : '';
+  const rowClass = c.paused_after ? 'paused' : '';
+  return `<tr class="${rowClass}">
+      <td><span class="cat-pill ${catClass[c.category]||'cat-other'}">${c.category}</span></td>
+      <td class="zh">${c.name}${pauseInfo}${noteInfo}</td>
+      <td>${fmtMoney(c.budget)}</td>
+      <td>${fmtMoney(c.cost)}</td>
+      <td>${fmtPct(c.achieve_rate)}</td>
+      <td>${fmtNum(c.impressions)}</td>
+      <td>${fmtNum(c.clicks)}</td>
+      <td>${fmtPct(c.ctr)}</td>
+      <td ${cellClass('cpc')}>${fmtCurrency2(c.cpc)}</td>
+      <td ${cellClass('cpm')}>${fmtCurrency2(c.cpm)}</td>
+      <td ${cellClass('cpv')}>${fmtCurrency4(c.cpv)}</td>
+      <td ${cellClass('vtr')}>${fmtPct(c.vtr)}</td>
+    </tr>`;
+}
+
+function tableHeader(label){
+  return `<table><thead><tr>
+    <th class="zh">類型</th><th class="zh">${label}</th>
+    <th class="zh">預算</th><th class="zh">花費</th><th class="zh">達成率</th>
+    <th class="zh">曝光</th><th class="zh">點擊</th><th class="zh">CTR</th>
+    <th class="zh">CPC</th><th class="zh">CPM</th><th class="zh">CPV</th><th class="zh">VTR</th>
+  </tr></thead><tbody>`;
+}
+
+function totalRow(camps){
+  const totBudget = camps.reduce((a,c)=>a+(c.budget||0),0);
+  const totCost = camps.reduce((a,c)=>a+c.cost,0);
+  const totImp = camps.reduce((a,c)=>a+c.impressions,0);
+  const totClk = camps.reduce((a,c)=>a+c.clicks,0);
+  const totViews = camps.reduce((a,c)=>a+(c.views||0),0);
+  return `<tr class="subtotal">
+    <td colspan="2" class="zh">總計</td>
+    <td>${fmtMoney(totBudget)}</td>
+    <td>${fmtMoney(totCost)}</td>
+    <td>${fmtPct(totBudget ? totCost/totBudget : null)}</td>
+    <td>${fmtNum(totImp)}</td>
+    <td>${fmtNum(totClk)}</td>
+    <td>${fmtPct(totImp ? totClk/totImp : null)}</td>
+    <td>${fmtCurrency2(totClk ? totCost/totClk : null)}</td>
+    <td>${fmtCurrency2(totImp ? (totCost/totImp)*1000 : null)}</td>
+    <td>${fmtCurrency4(totViews ? totCost/totViews : null)}</td>
+    <td>${fmtPct((totImp && totViews) ? totViews/totImp : null)}</td>
+  </tr>`;
+}
+
+function renderCampaignTable(brand){
+  const camps = DATA[brand].campaigns;
+  const accent = brandColors[brand];
+  const order = {'搜尋':0,'Bumper':1,'CPV':2,'需求開發':3,'其他':4};
+
+  let html = '';
+
+  if(brand === '益生菌'){
+    const groups = {
+      '搜尋廣告': camps.filter(c=>c.category==='搜尋'),
+      '影片廣告': camps.filter(c=>c.category==='Bumper'||c.category==='CPV').sort((a,b)=>order[a.category]-order[b.category]),
+      '需求開發廣告': camps.filter(c=>c.category==='需求開發'),
+    };
+    Object.entries(groups).forEach(([title, list])=>{
+      if(!list.length) return;
+      html += `<div class="subsection-title">${title}</div>`;
+      html += `<table style="border-top:3px solid ${accent}; margin-bottom:8px;">` + tableHeader('廣告活動').slice(6);
+      list.forEach(c=> html += buildCampaignRow(c, accent));
+      html += totalRow(list);
+      html += `</tbody></table>`;
+    });
+  } else {
+    const sorted = [...camps].sort((a,b)=> (order[a.category]-order[b.category]) || (b.cost-a.cost));
+    html += `<table style="border-top:3px solid ${accent};">` + tableHeader('廣告版位').slice(6);
+    sorted.forEach(c=> html += buildCampaignRow(c, accent));
+    html += totalRow(camps);
+    html += `</tbody></table>`;
+  }
+
+  document.getElementById('campaignTableWrap').innerHTML = html;
+}
+
+// ===== Section 4: Daily detail per campaign =====
+function renderCampaignToggle(brand){
+  const camps = DATA[brand].campaigns;
+  const accent = brandColors[brand];
+  let html = '';
+  camps.forEach((c,i)=>{
+    html += `<button class="${i===0?'active':''}" data-idx="${i}">${c.name}</button>`;
+  });
+  const wrap = document.getElementById('campaignToggle');
+  wrap.innerHTML = html;
+  Array.from(wrap.querySelectorAll('button')).forEach(b=>{
+    if(b.classList.contains('active')) b.style.background = accent;
+  });
+}
+
+function renderDailyDetail(brand, idx){
+  const c = DATA[brand].campaigns[idx];
+  const accent = brandColors[brand];
+  const hl = catHighlight[c.category] || [];
+  const cellClass = key => hl.includes(key) ? `class="hl-${key}"` : '';
+
+  let titleNote = '';
+  if(c.note) titleNote += ` <span class="campaign-note" style="display:inline; margin-left:8px;">${c.note}</span>`;
+  if(c.paused_after) titleNote += ` <span class="pause-tag">${c.paused_note}</span>`;
+
+  let html = `<h3 class="zh" style="font-size:14px; margin-bottom:10px; color:var(--steel);">${c.name}　每日成效明細${titleNote}</h3>`;
+  html += `<table style="margin-bottom:8px; border-top:3px solid ${accent};"><thead><tr>
+      <th class="zh" style="text-align:left;">日期</th>
+      <th class="zh">花費</th>
+      <th class="zh">曝光</th>
+      <th class="zh">點擊</th>
+      <th class="zh">CTR</th>
+      <th class="zh">CPC</th>
+      <th class="zh">CPM</th>
+      <th class="zh">CPV</th>
+      <th class="zh">VTR</th>
+    </tr></thead><tbody>`;
+
+  c.dates.forEach((dt,i)=>{
+    const cost = c.daily_cost[i];
+    const imp = c.daily_impressions[i];
+    const clk = c.daily_clicks[i];
+    const views = c.daily_views ? c.daily_views[i] : 0;
+    const ctr = imp ? clk/imp : null;
+    const cpc = clk ? cost/clk : null;
+    const cpm = imp ? (cost/imp)*1000 : null;
+    const cpv = views ? cost/views : null;
+    const vtr = (imp && views) ? views/imp : null;
+    html += `<tr>
+      <td class="zh" style="text-align:left;">${dt}</td>
+      <td>${fmtMoney(cost)}</td>
+      <td>${fmtNum(imp)}</td>
+      <td>${fmtNum(clk)}</td>
+      <td>${fmtPct(ctr)}</td>
+      <td ${cellClass('cpc')}>${fmtCurrency2(cpc)}</td>
+      <td ${cellClass('cpm')}>${fmtCurrency2(cpm)}</td>
+      <td ${cellClass('cpv')}>${fmtCurrency4(cpv)}</td>
+      <td ${cellClass('vtr')}>${fmtPct(vtr)}</td>
+    </tr>`;
+  });
+
+  const totCost = c.daily_cost.reduce((a,b)=>a+b,0);
+  const totImp = c.daily_impressions.reduce((a,b)=>a+b,0);
+  const totClk = c.daily_clicks.reduce((a,b)=>a+b,0);
+  const totViews = (c.daily_views||[]).reduce((a,b)=>a+b,0);
+  html += `<tr class="subtotal">
+    <td class="zh" style="text-align:left;">合計</td>
+    <td><b>${fmtMoney(totCost)}</b></td>
+    <td><b>${fmtNum(totImp)}</b></td>
+    <td><b>${fmtNum(totClk)}</b></td>
+    <td><b>${fmtPct(totImp ? totClk/totImp : null)}</b></td>
+    <td><b>${fmtCurrency2(totClk ? totCost/totClk : null)}</b></td>
+    <td><b>${fmtCurrency2(totImp ? (totCost/totImp)*1000 : null)}</b></td>
+    <td><b>${fmtCurrency4(totViews ? totCost/totViews : null)}</b></td>
+    <td><b>${fmtPct((totImp && totViews) ? totViews/totImp : null)}</b></td>
+  </tr>`;
+
+  html += `</tbody></table>`;
+  document.getElementById('dailyDetailWrap').innerHTML = html;
+}
+
+document.getElementById('campaignToggle').addEventListener('click', e=>{
+  if(e.target.tagName !== 'BUTTON') return;
+  const wrap = document.getElementById('campaignToggle');
+  Array.from(wrap.querySelectorAll('button')).forEach(b=>{ b.classList.remove('active'); b.style.background=''; });
+  e.target.classList.add('active');
+  e.target.style.background = brandColors[currentBrand];
+  renderDailyDetail(currentBrand, parseInt(e.target.dataset.idx));
+});
+
+document.getElementById('brandToggle').addEventListener('click', e=>{
+  const btn = e.target.closest('button');
+  if(!btn) return;
+  document.querySelectorAll('#brandToggle button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  switchBrand(btn.dataset.brand);
+});
+
+renderSeriesChips();
+
+// ===== Section 05: Monthly Keyword History =====
+const MONTHLY_KW = {"胃腸錠": [{"month": "8月", "period": "8/1-8/31", "imp": 23057, "clk": 3202, "cost": 32953, "ctr": 0.1389, "cpc": 10.29}, {"month": "9月", "period": "9/1-9/30", "imp": 36872, "clk": 4903, "cost": 33651, "ctr": 0.133, "cpc": 6.86}, {"month": "10月", "period": "10/1-10/31", "imp": 35441, "clk": 4996, "cost": 32046.35, "ctr": 0.141, "cpc": 6.41}, {"month": "11月", "period": "11/1-11/31", "imp": 32180, "clk": 5696, "cost": 33651.98, "ctr": 0.177, "cpc": 5.91}, {"month": "12月", "period": "12/1-12/31", "imp": 35958, "clk": 4662, "cost": 32530.99, "ctr": 0.1297, "cpc": 6.98}, {"month": "1月", "period": "1/1-1/31", "imp": 32171, "clk": 4844, "cost": 32990.55, "ctr": 0.1506, "cpc": 6.81}, {"month": "2月", "period": "2/1-2/28", "imp": 29538, "clk": 4428, "cost": 33648.31, "ctr": 0.15, "cpc": 7.6}, {"month": "3月", "period": "3/1-3/31", "imp": 32310, "clk": 4459, "cost": 33464.82, "ctr": 0.138, "cpc": 7.51}, {"month": "4月", "period": "4/1-4/30", "imp": 26835, "clk": 3488, "cost": 27511.7, "ctr": 0.13, "cpc": 7.89}, {"month": "5月", "imp": 33688, "clk": 3894, "cost": 27226.55, "ctr": 0.1156, "cpc": 6.99}, {"month": "6月(截至6/14)", "period": "6/1-6/14", "imp": 14563, "clk": 1717, "cost": 12240.45, "ctr": 0.1179, "cpc": 7.13}], "益生菌": [{"month": "8月", "period": "8/1-8/31", "imp": 23057, "clk": 3202, "cost": 99501, "ctr": 0.1389, "cpc": 31.07}, {"month": "9月", "period": "9/1-9/30", "imp": 130788, "clk": 6711, "cost": 100173, "ctr": 0.0513, "cpc": 14.93}, {"month": "10月", "period": "10/1-10/31", "imp": 134771, "clk": 6650, "cost": 101387.79, "ctr": 0.0493, "cpc": 15.25}, {"month": "11月", "period": "11/1-11/30", "imp": 119807, "clk": 6573, "cost": 100293.19, "ctr": 0.0549, "cpc": 15.26}, {"month": "12月", "note": "12/22-12/31", "period": "12/22-12/31", "imp": 28621, "clk": 1561, "cost": 23224.69, "ctr": 0.0545, "cpc": 14.88}, {"month": "1月", "period": "1/1-1/31", "imp": 126742, "clk": 6771, "cost": 108045.95, "ctr": 0.0534, "cpc": 15.96}, {"month": "2月", "period": "2/1-2/28", "imp": 129363, "clk": 7019, "cost": 105302.8, "ctr": 0.054, "cpc": 15.0}, {"month": "3月", "period": "3/1-3/31", "imp": 124679, "clk": 6688, "cost": 93523.51, "ctr": 0.0536, "cpc": 13.98}, {"month": "4月", "period": "4/1-4/30", "imp": 98536, "clk": 4706, "cost": 70802.96, "ctr": 0.0478, "cpc": 15.05}, {"month": "5月", "period": "5/1-5/31", "imp": 81833, "clk": 3661, "cost": 47000.45, "ctr": 0.0447, "cpc": 12.84}, {"month": "6月(截至6/14)", "period": "6/1-6/14", "imp": 30964, "clk": 1289, "cost": 13358.86, "ctr": 0.0416, "cpc": 10.36}], "改源IB": [{"month": "8月", "period": "8/1-8/31", "imp": 9699, "clk": 561, "cost": 15273.87, "ctr": 0.0578, "cpc": 27.22}, {"month": "9月", "period": "9/1-9/30", "imp": 28735, "clk": 1448, "cost": 16920, "ctr": 0.0504, "cpc": 11.68}, {"month": "10月", "period": "10/1-10/31", "imp": 54074, "clk": 2743, "cost": 34341, "ctr": 0.0507, "cpc": 12.52}, {"month": "11月", "period": "11/1-11/30", "imp": 63459, "clk": 3254, "cost": 40151.43, "ctr": 0.0513, "cpc": 12.34}, {"month": "12月", "period": "12/1-12/31", "imp": 63728, "clk": 3194, "cost": 39117.13, "ctr": 0.0501, "cpc": 12.25}, {"month": "1月", "period": "1/1-1/31", "imp": 70112, "clk": 3216, "cost": 39326.8, "ctr": 0.0459, "cpc": 12.23}, {"month": "2月", "period": "2/1-2/28", "imp": 69713, "clk": 3294, "cost": 40228, "ctr": 0.047, "cpc": 12.21}, {"month": "3月", "period": "3/1-3/31", "imp": 33223, "clk": 1624, "cost": 15363.56, "ctr": 0.0489, "cpc": 9.46}, {"month": "4月", "period": "4/1-4/30", "imp": 31507, "clk": 1311, "cost": 14101.25, "ctr": 0.0416, "cpc": 10.76}, {"month": "5月", "imp": 35844, "clk": 1355, "cost": 14373.74, "ctr": 0.0378, "cpc": 10.61}, {"month": "6月(截至6/14)", "period": "6/1-6/14", "imp": 16942, "clk": 586, "cost": 6675.16, "ctr": 0.0346, "cpc": 11.39}]};
+const TOP30 = {"胃腸錠": [{"term": "wakamoto", "match": "完全比對", "kw": "[Wakamoto]", "cost": 5026.23, "imp": 7134, "clk": 723}, {"term": "若元錠", "match": "完全比對", "kw": "[若 元 錠]", "cost": 4477.28, "imp": 4521, "clk": 631}, {"term": "wakamoto若元錠", "match": "完全比對", "kw": "\"wakamoto 若 元 錠\"", "cost": 3790.59, "imp": 3349, "clk": 534}, {"term": "諾元錠", "match": "完全比對", "kw": "[諾 元 錠]", "cost": 818.51, "imp": 799, "clk": 116}, {"term": "日本wakamoto", "match": "完全比對", "kw": "[日本 wakamoto]", "cost": 464.75, "imp": 408, "clk": 67}, {"term": "若原定", "match": "詞組比對 (近似變體)", "kw": "\"若元整腸錠\"", "cost": 371.77, "imp": 362, "clk": 53}, {"term": "若元胃腸錠", "match": "完全比對", "kw": "[若 元 胃腸 錠]", "cost": 335.0, "imp": 286, "clk": 49}, {"term": "若元錠功效", "match": "完全比對", "kw": "\"若 元 錠 功效\"", "cost": 320.78, "imp": 533, "clk": 47}, {"term": "若元錠價格", "match": "完全比對", "kw": "\"若 元 錠 價格\"", "cost": 279.31, "imp": 399, "clk": 40}, {"term": "諾元錠功效", "match": "詞組比對 (近似變體)", "kw": "\"若元整腸錠\"", "cost": 247.9, "imp": 343, "clk": 35}, {"term": "日本若元錠", "match": "詞組比對", "kw": "\"若 元 錠\"", "cost": 186.32, "imp": 164, "clk": 27}, {"term": "wakamoto價格", "match": "完全比對", "kw": "\"wakamoto 價格\"", "cost": 175.76, "imp": 270, "clk": 25}, {"term": "日本腸胃藥wakamoto", "match": "完全比對", "kw": "\"日本 腸胃 藥 wakamoto\"", "cost": 142.48, "imp": 101, "clk": 20}, {"term": "哇卡魔豆", "match": "完全比對", "kw": "[哇 卡 魔 豆]", "cost": 131.18, "imp": 357, "clk": 18}, {"term": "諾元錠價格", "match": "完全比對", "kw": "\"諾 元 錠 價格\"", "cost": 131.06, "imp": 109, "clk": 18}, {"term": "若原定價格", "match": "詞組比對 (近似變體)", "kw": "\"若元整腸錠\"", "cost": 124.61, "imp": 72, "clk": 17}, {"term": "諾原定", "match": "詞組比對 (近似變體)", "kw": "\"若元整腸錠\"", "cost": 122.0, "imp": 157, "clk": 18}, {"term": "wakamoto怎麼吃", "match": "完全比對", "kw": "\"wakamoto 怎麼 吃\"", "cost": 116.82, "imp": 397, "clk": 17}, {"term": "強力若元錠", "match": "詞組比對 (近似變體)", "kw": "\"若元整腸錠\"", "cost": 115.98, "imp": 122, "clk": 16}, {"term": "わかもと整腸藥日本", "match": "詞組比對 (近似變體)", "kw": "\"若元整腸錠\"", "cost": 111.51, "imp": 73, "clk": 16}, {"term": "若元錠1000錠價格", "match": "詞組比對", "kw": "\"若 元 錠 價格\"", "cost": 110.62, "imp": 147, "clk": 15}, {"term": "wakamoto功效", "match": "詞組比對", "kw": "\"Wakamoto\"", "cost": 104.54, "imp": 319, "clk": 15}, {"term": "哇卡摩多", "match": "詞組比對 (近似變體)", "kw": "\"若元整腸錠\"", "cost": 101.37, "imp": 129, "clk": 14}, {"term": "若元錠可以長期吃嗎", "match": "詞組比對", "kw": "\"若 元 錠\"", "cost": 96.27, "imp": 165, "clk": 13}, {"term": "wakamoto1000錠", "match": "詞組比對", "kw": "\"wakamoto 1000\"", "cost": 95.34, "imp": 145, "clk": 16}, {"term": "若元錠1000錠", "match": "完全比對", "kw": "\"若 元 錠 1000 錠\"", "cost": 94.43, "imp": 183, "clk": 15}, {"term": "哇卡媽豆", "match": "詞組比對 (近似變體)", "kw": "\"若元整腸錠\"", "cost": 94.02, "imp": 112, "clk": 15}, {"term": "若元錠一天吃幾顆", "match": "詞組比對", "kw": "\"若 元 錠\"", "cost": 89.89, "imp": 147, "clk": 13}, {"term": "wakamoto1000錠", "match": "詞組比對 (近似變體)", "kw": "\"若 元 錠 1000 錠\"", "cost": 83.47, "imp": 134, "clk": 11}, {"term": "strongwakamoto", "match": "詞組比對", "kw": "\"Wakamoto\"", "cost": 81.12, "imp": 49, "clk": 12}], "益生菌": [{"term": "wakamoto", "match": "完全比對", "kw": "[Wakamoto]", "cost": 4645.26, "imp": 3608, "clk": 340}, {"term": "wakamoto益生菌", "match": "完全比對", "kw": "\"wakamoto 益生 菌\"", "cost": 1803.35, "imp": 1134, "clk": 137}, {"term": "若元益生菌", "match": "完全比對", "kw": "\"若 元 益生 菌\"", "cost": 1152.71, "imp": 584, "clk": 90}, {"term": "日本益生菌", "match": "完全比對", "kw": "\"日本 益生 菌\"", "cost": 856.49, "imp": 1185, "clk": 68}, {"term": "若元錠益生菌", "match": "完全比對", "kw": "\"若 元 錠 益生 菌\"", "cost": 655.92, "imp": 319, "clk": 52}, {"term": "日本益生菌推薦", "match": "完全比對", "kw": "\"日本 益生 菌 推薦\"", "cost": 468.9, "imp": 216, "clk": 33}, {"term": "日本wakamoto", "match": "詞組比對 (近似變體)", "kw": "\"若 元 錠 益生 菌\"", "cost": 443.63, "imp": 219, "clk": 33}, {"term": "日本益生菌推薦", "match": "完全比對", "kw": "\"日本 益生 菌 推薦\"", "cost": 365.95, "imp": 250, "clk": 26}, {"term": "表飛鳴益生菌", "match": "廣泛比對", "kw": "三得利益生菌dcard", "cost": 359.0, "imp": 616, "clk": 36}, {"term": "哇卡麻豆益生菌", "match": "詞組比對 (近似變體)", "kw": "\"若 元 錠 益生 菌\"", "cost": 231.27, "imp": 92, "clk": 18}, {"term": "哇卡摩多", "match": "詞組比對 (近似變體)", "kw": "\"若 元 錠 益生 菌\"", "cost": 214.14, "imp": 104, "clk": 15}, {"term": "新表飛鳴益生菌", "match": "廣泛比對", "kw": "三得利益生菌dcard", "cost": 204.5, "imp": 301, "clk": 20}, {"term": "諾元益生菌", "match": "完全比對", "kw": "\"諾 元 益生 菌\"", "cost": 199.97, "imp": 74, "clk": 15}, {"term": "妙利散益生菌", "match": "詞組比對", "kw": "\"益生 菌\"", "cost": 181.39, "imp": 443, "clk": 12}, {"term": "益生菌推薦", "match": "完全比對", "kw": "[益生菌推薦]", "cost": 154.28, "imp": 261, "clk": 11}, {"term": "便秘", "match": "詞組比對 (近似變體)", "kw": "\"便祕\"", "cost": 151.08, "imp": 1054, "clk": 17}, {"term": "日本腸胃藥wakamoto", "match": "詞組比對 (近似變體)", "kw": "\"若 元 錠 益生 菌\"", "cost": 150.68, "imp": 98, "clk": 10}, {"term": "健胃整腸", "match": "詞組比對 (近似變體)", "kw": "\"腸胃保健\"", "cost": 144.33, "imp": 91, "clk": 13}, {"term": "日本益生菌推薦", "match": "詞組比對 (近似變體)", "kw": "\"腸胃保健\"", "cost": 138.67, "imp": 132, "clk": 13}, {"term": "哇卡媽豆", "match": "詞組比對 (近似變體)", "kw": "\"若 元 錠 益生 菌\"", "cost": 133.08, "imp": 75, "clk": 10}, {"term": "腸胃保健食品", "match": "詞組比對", "kw": "\"腸胃保健\"", "cost": 128.08, "imp": 84, "clk": 11}, {"term": "挖咖麻豆", "match": "詞組比對 (近似變體)", "kw": "\"若 元 錠 益生 菌\"", "cost": 121.38, "imp": 35, "clk": 9}, {"term": "布拉氏酵母菌", "match": "詞組比對 (近似變體)", "kw": "\"益生 菌\"", "cost": 111.01, "imp": 133, "clk": 7}, {"term": "日本若元錠益生菌", "match": "詞組比對", "kw": "\"若 元 益生 菌 錠\"", "cost": 107.32, "imp": 30, "clk": 8}, {"term": "日本整腸藥", "match": "AI Max", "kw": "\"日本 益生 菌\"", "cost": 96.9, "imp": 22, "clk": 6}, {"term": "わかもと整腸藥日本", "match": "詞組比對 (近似變體)", "kw": "\"腸胃保健\"", "cost": 96.72, "imp": 43, "clk": 9}, {"term": "哇卡麻豆", "match": "詞組比對 (近似變體)", "kw": "\"若 元 錠 益生 菌\"", "cost": 92.94, "imp": 70, "clk": 8}, {"term": "日本若元錠益生菌", "match": "詞組比對", "kw": "\"日本 益生 菌\"", "cost": 92.19, "imp": 43, "clk": 7}, {"term": "腸胃益生菌", "match": "完全比對", "kw": "[腸胃 益生菌]", "cost": 91.03, "imp": 77, "clk": 7}, {"term": "日本腸胃保健食品", "match": "完全比對", "kw": "\"日本 腸胃 保健 食品\"", "cost": 88.76, "imp": 111, "clk": 8}], "改源IB": [{"term": "eve止痛藥", "match": "完全比對", "kw": "\"eve 止痛 藥\"", "cost": 863.01, "imp": 1872, "clk": 54}, {"term": "改源ib止痛", "match": "完全比對", "kw": "\"改源IB止痛\"", "cost": 635.51, "imp": 834, "clk": 60}, {"term": "改源ib", "match": "完全比對", "kw": "\"改源IB\"", "cost": 567.29, "imp": 975, "clk": 56}, {"term": "經痛止痛藥", "match": "完全比對", "kw": "[經痛止痛藥]", "cost": 448.52, "imp": 857, "clk": 46}, {"term": "布洛芬止痛藥", "match": "完全比對", "kw": "\"布洛芬止痛藥\"", "cost": 333.29, "imp": 706, "clk": 30}, {"term": "布洛芬", "match": "完全比對", "kw": "\"布洛芬\"", "cost": 281.38, "imp": 868, "clk": 26}, {"term": "ib止痛藥", "match": "完全比對", "kw": "\"IB止痛藥\"", "cost": 245.62, "imp": 272, "clk": 22}, {"term": "生理痛止痛藥", "match": "完全比對", "kw": "[生理痛止痛藥]", "cost": 184.61, "imp": 316, "clk": 18}, {"term": "eve", "match": "完全比對", "kw": "\"EVE\"", "cost": 148.4, "imp": 393, "clk": 9}, {"term": "改源ib哪裡買", "match": "完全比對", "kw": "\"改源ib哪裡買\"", "cost": 135.96, "imp": 250, "clk": 14}, {"term": "改元ib", "match": "詞組比對 (近似變體)", "kw": "\"改源IB\"", "cost": 114.23, "imp": 194, "clk": 10}, {"term": "ib止痛", "match": "完全比對", "kw": "\"IB止痛\"", "cost": 100.46, "imp": 81, "clk": 10}, {"term": "eve止痛藥台灣哪裡買", "match": "詞組比對", "kw": "\"止痛藥\"", "cost": 81.79, "imp": 31, "clk": 8}, {"term": "ibuprofen400mg", "match": "詞組比對 (近似變體)", "kw": "\"止痛藥ibuprofen\"", "cost": 80.3, "imp": 126, "clk": 7}, {"term": "經期止痛藥推薦", "match": "完全比對", "kw": "[經期止痛藥推薦]", "cost": 79.49, "imp": 69, "clk": 9}, {"term": "月經止痛藥", "match": "完全比對", "kw": "[月經止痛藥]", "cost": 78.91, "imp": 280, "clk": 8}, {"term": "eve止痛藥", "match": "詞組比對 (近似變體)", "kw": "\"日本 止痛 藥 eve\"", "cost": 75.02, "imp": 17, "clk": 5}, {"term": "經痛藥", "match": "完全比對", "kw": "[經痛藥]", "cost": 72.36, "imp": 250, "clk": 8}, {"term": "經痛緩解", "match": "詞組比對 (近似變體)", "kw": "\"月經止痛\"", "cost": 70.93, "imp": 438, "clk": 7}, {"term": "改源ib價錢", "match": "完全比對", "kw": "\"改源ib價錢\"", "cost": 67.84, "imp": 74, "clk": 5}, {"term": "生理止痛藥", "match": "完全比對", "kw": "[生理止痛藥]", "cost": 67.33, "imp": 67, "clk": 7}, {"term": "生理痛止痛藥推薦", "match": "完全比對", "kw": "[生理痛止痛藥推薦]", "cost": 66.36, "imp": 105, "clk": 7}, {"term": "日本eve止痛藥", "match": "完全比對", "kw": "\"日本 eve 止痛 藥\"", "cost": 63.99, "imp": 83, "clk": 4}, {"term": "改源ib止痛價錢", "match": "完全比對", "kw": "\"改源ib止痛價錢\"", "cost": 60.26, "imp": 44, "clk": 6}, {"term": "月經止痛藥推薦", "match": "完全比對", "kw": "[月經止痛藥推薦]", "cost": 60.01, "imp": 74, "clk": 6}, {"term": "含布洛芬的止痛藥", "match": "完全比對", "kw": "\"含布洛芬的止痛藥\"", "cost": 59.34, "imp": 43, "clk": 5}, {"term": "改元ib止痛", "match": "詞組比對 (近似變體)", "kw": "\"改源IB\"", "cost": 57.12, "imp": 43, "clk": 5}, {"term": "改元ib", "match": "詞組比對 (近似變體)", "kw": "\"改源止痛\"", "cost": 55.43, "imp": 138, "clk": 5}, {"term": "生理期止痛藥", "match": "完全比對", "kw": "[生理期止痛藥]", "cost": 53.15, "imp": 228, "clk": 5}, {"term": "改源ib止痛藥康是美", "match": "詞組比對", "kw": "\"改源IB\"", "cost": 53.12, "imp": 22, "clk": 5}]};
+
+let kwCostChart, kwCpcChart, kwCtrChart;
+let currentKwBrand = '胃腸錠';
+
+function renderKwTable(brand) {
+  const rows = MONTHLY_KW[brand];
+  const accentColor = brandColors[brand];
+  let html = `<table style="border-top:3px solid ${accentColor};"><thead><tr>
+    <th class="zh" style="text-align:left;">月份</th>
+    <th class="zh">曝光</th>
+    <th class="zh">點擊</th>
+    <th class="zh">CTR</th>
+    <th class="zh">花費</th>
+    <th class="zh">CPC</th>
+  </tr></thead><tbody>`;
+  rows.forEach((r, i) => {
+    const isLatest = i === rows.length - 1;
+    // replace newline in month with a note span
+    const monthDisplay = r.month + (r.note ? `<span style="font-size:10px;color:#9aa6b1;display:block;">(${r.note})</span>` : '');
+    html += `<tr ${isLatest ? 'class="subtotal"' : ''}>
+      <td class="zh" style="text-align:left; white-space:normal;"><b style="color:${accentColor}">${monthDisplay}</b></td>
+      <td>${fmtNum(r.imp)}</td>
+      <td>${fmtNum(r.clk)}</td>
+      <td>${fmtPct(r.ctr)}</td>
+      <td>${fmtMoney(r.cost)}</td>
+      <td>${fmtCurrency2(r.cpc)}</td>
+    </tr>`;
+  });
+  html += `</tbody></table>`;
+  document.getElementById('kwTableWrap').innerHTML = html;
+}
+
+let kwChart;
+const kwSeriesConfig = {
+  cost: {label:'花費', color:'#6b7f8e', type:'bar', yAxis:'y'},
+  cpc:  {label:'CPC', color:'#c4976a', type:'line', yAxis:'y1'},
+  ctr:  {label:'CTR', color:'#7aab8a', type:'line', yAxis:'y2'},
+};
+
+function renderKwCharts(brand) {
+  const rows = MONTHLY_KW[brand];
+  const labels = rows.map(r => r.note ? r.month + '(' + r.note + ')' : r.month);
+
+  const activeSeries = Array.from(document.querySelectorAll('#kwSeriesChips .chip.active')).map(c=>c.dataset.kwseries);
+
+  const datasets = activeSeries.map(key => {
+    const cfg = kwSeriesConfig[key];
+    const rawData = key === 'ctr' ? rows.map(r=>r.ctr*100) : rows.map(r=>r[key]);
+    const base = {
+      label: cfg.label,
+      data: rawData,
+      borderColor: cfg.color,
+      backgroundColor: cfg.color + 'cc',
+      yAxisID: cfg.yAxis,
+    };
+    return cfg.type === 'bar'
+      ? {...base, type:'bar', borderRadius:4, maxBarThickness:28}
+      : {...base, type:'line', tension:.35, borderWidth:2.5, pointRadius:3, pointBackgroundColor:cfg.color, backgroundColor:'transparent'};
+  });
+
+  const usedAxes = new Set(datasets.map(d=>d.yAxisID));
+
+  if(kwChart) kwChart.destroy();
+  kwChart = new Chart(document.getElementById('kwChart').getContext('2d'), {
+    data: {labels, datasets},
+    options: {
+      responsive:true,
+      interaction:{mode:'index',intersect:false},
+      plugins:{
+        legend:{position:'bottom', labels:{font:{family:'Microsoft JhengHei',size:12}}},
+        tooltip:{titleFont:{family:'Calibri'}, bodyFont:{family:'Microsoft JhengHei'},
+          callbacks:{label:ctx=>{
+            const v=ctx.raw; const key=activeSeries[ctx.datasetIndex];
+            if(key==='cost') return `花費: $${Math.round(v).toLocaleString()}`;
+            if(key==='cpc') return `CPC: $${v.toFixed(2)}`;
+            if(key==='ctr') return `CTR: ${v.toFixed(2)}%`;
+            return `${ctx.dataset.label}: ${v}`;
+          }}
+        }
+      },
+      scales:{
+        x:{ticks:{font:{family:'Calibri',size:11}}, grid:{display:false}},
+        y:{position:'left', display:usedAxes.has('y'),
+           title:{display:true, text:'花費 (NT$)', font:{family:'Microsoft JhengHei',size:12}},
+           ticks:{font:{family:'Calibri'}, callback:v=>'$'+Math.round(v).toLocaleString()}},
+        y1:{position:'right', display:usedAxes.has('y1'),
+            title:{display:true, text:'CPC', font:{family:'Microsoft JhengHei',size:12}},
+            grid:{drawOnChartArea:false}, ticks:{font:{family:'Calibri'}, callback:v=>'$'+v}},
+        y2:{position:'right', display:usedAxes.has('y2'),
+            title:{display:true, text:'CTR', font:{family:'Microsoft JhengHei',size:12}},
+            grid:{drawOnChartArea:false}, ticks:{font:{family:'Calibri'}, callback:v=>v.toFixed(1)+'%'}},
+      }
+    }
+  });
+}
+
+document.getElementById('kwSeriesChips').addEventListener('click', e=>{
+  const chip = e.target.closest('.chip');
+  if(!chip) return;
+  chip.classList.toggle('active');
+  renderKwCharts(currentKwBrand);
+});
+
+function switchKwBrand(brand) {
+  currentKwBrand = brand;
+  renderKwTable(brand);
+  renderKwCharts(brand);
+}
+
+// ===== Section 07: Campaign Execution Notes =====
+const EXEC_NOTES = {
+  '胃腸錠': {
+    campaigns: [
+      {
+        name: '關鍵字廣告（品牌字）',
+        category: '搜尋',
+        status: '執行中',
+        notes: [
+          '母親節檔期 CPC 押 $7',
+          '考量到每次廣告優化需 2 週，6 月即將進入 618 檔期，先持續押 $7',
+          '6/1–6/21 618 檔期期間限制出價 $7'
+        ]
+      },
+      {
+        name: 'Bumper 影片廣告（不老人生）',
+        category: 'Bumper',
+        status: '執行中',
+        notes: ['6/1–6/30 全月投放', '目標：品牌曝光與聲量維持']
+      },
+      {
+        name: 'CPV 影片廣告-不老人生（受眾）',
+        category: 'CPV',
+        status: '執行中',
+        notes: ['6/1–6/30 全月投放', '鎖定受眾定向']
+      },
+      {
+        name: 'CPV 影片廣告-不老人生（內容）',
+        category: 'CPV',
+        status: '暫停',
+        notes: ['已於 6/8 下午開始暫停執行', '花費達成率已達 100%（預算 $6,732 已用盡）']
+      }
+    ]
+  },
+  '益生菌': {
+    campaigns: [
+      {
+        name: '關鍵字廣告（產品字/品類字/競品字）',
+        category: '搜尋',
+        status: '執行中',
+        notes: [
+          'CPC 母親節檔期押 $10',
+          '5/14 微調 CPC $12，嘗試廣告遞送狀況',
+          '5/18 微調 CPC $14，增加廣告投遞',
+          '5/22 調整廣告出價：組合出價策略',
+          '5/26 加開 AI Max',
+          '6/1–6/21 618 檔期期間限制出價 $7'
+        ]
+      },
+      {
+        name: '6 秒 Bumper 影片廣告（順暢篇）',
+        category: 'Bumper',
+        status: '執行中',
+        notes: ['6/1–6/21 投放', '目標：品牌曝光']
+      },
+      {
+        name: 'CPV 影片廣告-瓶中菌 / 順暢篇 / 營養師品瑄',
+        category: 'CPV',
+        status: '執行中',
+        notes: ['6/1–6/21 投放', '受眾+內容雙向定向', '各素材個別追蹤觀看率與 CPV']
+      },
+      {
+        name: 'DGC 需求開發廣告',
+        category: '需求開發',
+        status: '執行中',
+        notes: ['6/1–6/21 投放', '目標：導流至電商轉換']
+      }
+    ]
+  },
+  '改源IB': {
+    campaigns: [
+      {
+        name: '關鍵字廣告（症狀字/產品字/品牌字/競品字）',
+        category: '搜尋',
+        status: '執行中',
+        notes: [
+          '5/11 競品字限制出價為 CPC $10',
+          '調整廣告活動佔比：競品字 30%→10%、症狀字 41%→51%、產品字 17%→27%'
+        ]
+      }
+    ]
+  }
+};
+
+const catTagStyle = {
+  '搜尋': 'cat-search', 'Bumper': 'cat-bumper', 'CPV': 'cat-cpv',
+  '需求開發': 'cat-other', '其他': 'cat-other'
+};
+const statusStyle = {
+  '執行中': 'background:#dff0e6; color:#5e9e7e;',
+  '暫停': 'background:#e8e6e4; color:#888;'
+};
+
+function renderExecNotes(brand) {
+  const d = EXEC_NOTES[brand];
+  const accentColor = brandColors[brand];
+  let html = `<div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:14px;">`;
+  d.campaigns.forEach(c => {
+    html += `<div class="fb-card" style="border-top:3px solid ${accentColor};">
+      <h3 style="margin-bottom:12px; font-size:14px; align-items:flex-start; flex-wrap:wrap; gap:6px;">
+        <span class="cat-pill ${catTagStyle[c.category]||'cat-other'}">${c.category}</span>
+        <span class="zh" style="font-size:13.5px;">${c.name}</span>
+        <span style="margin-left:auto; padding:2px 10px; border-radius:999px; font-size:11.5px; font-weight:700; font-family:var(--font-zh); ${statusStyle[c.status]}">${c.status}</span>
+      </h3>
+      <ul style="font-family:var(--font-zh); font-size:13px; line-height:2; padding-left:18px; color:var(--ink);">
+        ${c.notes.map(n=>`<li>${n}</li>`).join('')}
+      </ul>
+    </div>`;
+  });
+  html += `</div>`;
+  document.getElementById('execNotesWrap').innerHTML = html;
+}
+
+// Remove old separate toggle listeners; sections 05/06/07 now follow main brand toggle
+
+// ===== Brand switch (updated to include 05/06/07) =====
+function switchBrand(brand){
+  currentBrand = brand;
+  currentFormat = null;
+  renderKPI(brand);
+  renderFormatChips(brand);
+  renderChart(brand);
+  renderCampaignTable(brand);
+  renderCampaignToggle(brand);
+  renderDailyDetail(brand, 0);
+  switchKwBrand(brand);
+  renderTop30(brand);
+  renderExecNotes(brand);
+}
+
+// ===== Section 06: Top 30 Search Terms =====
+function renderTop30(brand) {
+  const rows = TOP30[brand];
+  const accentColor = brandColors[brand];
+  let html = `<table style="border-top:3px solid ${accentColor};"><thead><tr>
+    <th class="zh" style="text-align:left;">#</th>
+    <th class="zh" style="text-align:left;">搜尋字詞</th>
+    <th class="zh" style="text-align:left;">比對類型</th>
+    <th class="zh">花費</th>
+    <th class="zh">曝光</th>
+    <th class="zh">點擊</th>
+    <th class="zh">CTR</th>
+    <th class="zh">CPC</th>
+  </tr></thead><tbody>`;
+
+  rows.forEach((r, i) => {
+    const ctr = r.imp ? r.clk/r.imp : 0;
+    const cpc = r.clk ? r.cost/r.clk : 0;
+    html += `<tr>
+      <td style="color:#9aa6b1; font-family:var(--font-en); text-align:left;">${i+1}</td>
+      <td class="zh" style="text-align:left; font-weight:700;">${r.term}</td>
+      <td class="zh" style="text-align:left; font-size:12px; color:#9aa6b1;">${r.match}</td>
+      <td>${r.cost.toLocaleString()}</td>
+      <td>${fmtNum(r.imp)}</td>
+      <td>${fmtNum(r.clk)}</td>
+      <td>${fmtPct(ctr)}</td>
+      <td>${fmtCurrency2(cpc)}</td>
+    </tr>`;
+  });
+
+  html += `</tbody></table>`;
+  document.getElementById('top30Wrap').innerHTML = html;
+}
+
+// Initialize all sections
+switchBrand('胃腸錠');
+
+</script>
+
+</body>
+</html>
