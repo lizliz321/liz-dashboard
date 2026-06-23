@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>易利氣磁力 618廣告成效</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{
+    --ink:#1a2332;
+    --steel:#3a5169;
+    --field:#5c84a8;
+    --sky:#9fc5e8;
+    --mist:#eef3f7;
+    --paper:#fbfaf7;
+    --line:#dde4ea;
+    --good:#3f8f6c;
+    --warn:#c9742b;
+    --bad:#c0473c;
+    --momo:#e6007e;
+    --shopee:#ee4d2d;
+    --font-zh:"Microsoft JhengHei","PingFang TC","Noto Sans TC",sans-serif;
+    --font-en:"Calibri","Segoe UI",sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family: var(--font-en), var(--font-zh);
+    background: var(--paper);
+    color: var(--ink);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .zh{font-family: var(--font-zh);}
+
+  /* ===== Header ===== */
+  header{
+    background: linear-gradient(135deg, var(--ink) 0%, var(--steel) 60%, var(--field) 100%);
+    color:#fff;
+    padding: 36px 28px 28px;
+    position:relative;
+    overflow:hidden;
+  }
+  header::after{
+    content:"";
+    position:absolute; right:-60px; top:-60px;
+    width:240px; height:240px; border-radius:50%;
+    background: radial-gradient(circle, rgba(159,197,232,0.25), transparent 70%);
+  }
+  .eyebrow{
+    font-family: var(--font-zh);
+    font-size:12px; letter-spacing:.3em; text-transform:uppercase;
+    color: var(--sky); margin-bottom:10px; font-weight:700;
+  }
+  h1{
+    font-family: var(--font-zh);
+    font-size: clamp(24px, 4vw, 36px);
+    font-weight:700;
+    letter-spacing: .02em;
+  }
+  .meta{
+    margin-top:10px; font-size:13px; color:#cfe0ee;
+    font-family: var(--font-zh);
+  }
+  .meta b{color:#fff; font-family: var(--font-en);}
+
+  /* ===== Layout ===== */
+  main{ max-width:1240px; margin:0 auto; padding: 28px 20px 60px;}
+  section{ margin-top: 38px; }
+  .section-head{
+    display:flex; align-items:baseline; gap:12px; margin-bottom:16px;
+    border-bottom: 2px solid var(--ink); padding-bottom:10px;
+  }
+  .section-num{
+    font-family: var(--font-en); font-weight:700; font-size:13px;
+    color:#fff; background:var(--ink); border-radius:4px;
+    padding:3px 8px; letter-spacing:.05em;
+  }
+  .section-head h2{
+    font-family: var(--font-zh); font-size:19px; font-weight:700; color:var(--ink);
+  }
+  .section-head .en{
+    font-family: var(--font-en); font-size:12px; color:#8a98a8; letter-spacing:.04em;
+  }
+
+  /* ===== KPI cards ===== */
+  .kpi-grid{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap:14px;
+  }
+  .kpi-card{
+    background:#fff; border:1px solid var(--line); border-radius:10px;
+    padding:18px 18px 16px; position:relative; overflow:hidden;
+    transition: box-shadow .2s ease, transform .2s ease;
+  }
+  .kpi-card:hover{ box-shadow:0 6px 18px rgba(26,35,50,.08); transform:translateY(-2px);}
+  .kpi-card .label{
+    font-family: var(--font-zh); font-size:12px; color:#6f7e8d; font-weight:700;
+    letter-spacing:.02em;
+  }
+  .kpi-card .value{
+    font-family: var(--font-en); font-size:28px; font-weight:700; color:var(--ink);
+    margin-top:6px; letter-spacing:.01em;
+  }
+  .kpi-card .sub{
+    margin-top:6px; font-size:11.5px; color:#9aa6b1; font-family: var(--font-zh);
+  }
+  .kpi-card .accent{
+    position:absolute; left:0; top:0; bottom:0; width:4px;
+  }
+  .accent-momo{background:var(--momo);}
+  .accent-shopee{background:var(--shopee);}
+  .accent-total{background:var(--field);}
+
+  /* ===== Tab Controls (Section 2 channel) ===== */
+  /* ===== Collapsible perf detail ===== */
+  details.perf-detail{ margin-bottom:24px; }
+  details.perf-detail summary{
+    display:flex; align-items:center; gap:10px;
+    cursor:pointer; list-style:none; padding:11px 16px;
+    background:var(--mist); border:1px solid var(--line); border-radius:8px;
+    font-family:var(--font-zh); font-size:14px; font-weight:700; color:var(--steel);
+    user-select:none; transition:background .15s;
+  }
+  details.perf-detail summary:hover{ background:#e0e8f0; }
+  details.perf-detail summary::-webkit-details-marker{ display:none; }
+  details.perf-detail summary::before{
+    content:"▶"; font-size:11px; color:var(--field);
+    transition:transform .2s; display:inline-block;
+  }
+  details.perf-detail[open] summary::before{ transform:rotate(90deg); }
+  details.perf-detail[open] summary{
+    border-radius:8px 8px 0 0; border-bottom-color:transparent;
+  }
+  details.perf-detail .detail-body{
+    border:1px solid var(--line); border-top:none; border-radius:0 0 8px 8px;
+    overflow:hidden;
+  }
+  details.perf-detail .detail-body table{
+    border:none; border-radius:0;
+  }
+
+  .platform-toggle{
+    display:inline-flex; border:1px solid var(--line); border-radius:8px; overflow:hidden;
+    margin-bottom:16px; background:#fff;
+  }
+  .platform-toggle button{
+    font-family: var(--font-zh); font-size:13px; font-weight:700;
+    padding:9px 22px; border:none; background:transparent; color:#6f7e8d; cursor:pointer;
+    transition: all .15s ease;
+  }
+  .platform-toggle button.active{
+    background: var(--ink); color:#fff;
+  }
+  .platform-toggle button.active[data-platform="momo"]{ background: var(--momo); }
+  .platform-toggle button.active[data-platform="shopee"]{ background: var(--shopee); }
+  .platform-toggle button:not(.active):hover{ background:var(--mist); }
+
+  table{ width:100%; border-collapse:collapse; background:#fff; border-radius:10px; overflow:hidden; border:1px solid var(--line);}
+  thead th{
+    font-family: var(--font-zh); font-size:12.5px; font-weight:700; text-align:right;
+    background: var(--ink); color:#fff; padding:11px 14px;
+  }
+  thead th:first-child, thead th:nth-child(2){ text-align:left; }
+  tbody td{
+    font-family: var(--font-en); font-size:13.5px; text-align:right; padding:10px 14px;
+    border-bottom:1px solid var(--line); color:var(--ink);
+  }
+  tbody td:first-child, tbody td:nth-child(2){
+    text-align:left; font-family: var(--font-zh);
+  }
+  tbody tr:nth-child(even){ background: var(--mist); }
+  tbody tr.subtotal{ background:#e6edf3; font-weight:700; }
+  tbody tr.subtotal td{ border-top:2px solid var(--steel); }
+  tbody tr:hover{ background:#e9f1f7; }
+  .roas-pill{
+    display:inline-block; padding:2px 10px; border-radius:999px; font-weight:700; font-size:12.5px;
+  }
+  .roas-good{ background:#e3f3ec; color:var(--good); }
+  .roas-mid{ background:#fbf0e2; color:var(--warn); }
+  .roas-bad{ background:#fbe9e7; color:var(--bad); }
+  .roas-na{ background:#eceff2; color:#9aa6b1; }
+  tbody tr.flag-low{ background:#fff7e0; }
+  tbody tr.flag-low:hover{ background:#fdedc4; }
+  tbody tr.flag-anomaly{ background:#fde8e6; }
+  tbody tr.flag-anomaly:hover{ background:#fbd6d2; }
+  .flag-badge{
+    display:inline-block; margin-left:8px; padding:1px 8px; border-radius:999px;
+    font-family:var(--font-zh); font-size:11px; font-weight:700; color:#fff; vertical-align:middle;
+  }
+  .flag-badge.low{ background:var(--warn); }
+  .flag-badge.anomaly{ background:var(--bad); }
+
+  /* ===== Charts ===== */
+  .chart-card{
+    background:#fff; border:1px solid var(--line); border-radius:10px; padding:20px;
+  }
+  .chart-controls{
+    display:flex; flex-wrap:wrap; gap:10px; margin-bottom:14px; align-items:center;
+  }
+  .chip{
+    font-family: var(--font-zh); font-size:12.5px; font-weight:700;
+    padding:7px 16px; border-radius:999px; border:1.5px solid var(--line);
+    background:#fff; color:#6f7e8d; cursor:pointer; transition: all .15s ease;
+    display:inline-flex; align-items:center; gap:6px;
+  }
+  .chip .dot{ width:9px; height:9px; border-radius:50%; display:inline-block; }
+  .chip.active{ border-color: currentColor; }
+  .chip[data-series="momo_sales"].active{ color:var(--momo); background:#fde6f2;}
+  .chip[data-series="shopee_sales"].active{ color:var(--shopee); background:#feeae5;}
+  .chip[data-series="momo_spend"].active{ color:var(--steel); background:#eaf0f5;}
+  .chip[data-series="shopee_spend"].active{ color:var(--field); background:#eaf2f8;}
+  .chip[data-series="momo_roas"].active{ color:var(--good); background:#e6f5ee;}
+  .chip[data-series="shopee_roas"].active{ color:var(--warn); background:#fbf2e6;}
+  canvas{ max-height:380px; }
+
+  /* ===== two column grid ===== */
+  .grid-2{ display:grid; grid-template-columns: 1.4fr 1fr; gap:18px; }
+
+  /* ===== FB cards ===== */
+  .fb-grid{ display:grid; grid-template-columns: repeat(3,1fr); gap:14px; }
+  .fb-card{
+    background:#fff; border:1px solid var(--line); border-radius:10px; padding:18px;
+  }
+  .fb-card h3{
+    font-family: var(--font-zh); font-size:14px; font-weight:700; margin-bottom:12px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .fb-card h3 .tag{
+    font-family:var(--font-en); font-size:10px; font-weight:700; padding:2px 8px; border-radius:5px;
+    color:#fff;
+  }
+  .tag-momo{background:var(--momo);}
+  .tag-shopee{background:var(--shopee);}
+  .tag-shop{background:var(--steel);}
+  .fb-row{
+    display:flex; justify-content:space-between; align-items:baseline;
+    padding:6px 0; border-bottom:1px solid var(--line); font-size:13px;
+  }
+  .fb-row:last-child{ border-bottom:none; }
+  .fb-row .k{ font-family: var(--font-zh); color:#6f7e8d; }
+  .fb-row .v{ font-family: var(--font-en); font-weight:700; color:var(--ink); }
+
+  /* ===== Notes ===== */
+  .notes{
+    background:#fff; border:1px solid var(--line); border-radius:10px; padding:6px 0;
+  }
+  .note-item{
+    display:flex; gap:14px; padding:14px 20px; border-bottom:1px solid var(--line);
+    font-family: var(--font-zh); font-size:13.5px; line-height:1.7;
+  }
+  .note-item:last-child{ border-bottom:none; }
+  .note-item .badge{
+    flex:0 0 auto; font-family:var(--font-en); font-size:11px; font-weight:700;
+    color:#fff; background:var(--field); border-radius:5px; padding:3px 9px; height:fit-content;
+    white-space:nowrap;
+  }
+  .badge.warn{ background:var(--bad); }
+
+  footer{
+    text-align:center; padding:24px; font-size:11.5px; color:#9aa6b1;
+    font-family:var(--font-zh);
+  }
+
+  @media (max-width: 900px){
+    .kpi-grid{ grid-template-columns: repeat(2,1fr); }
+    .grid-2{ grid-template-columns: 1fr; }
+    .fb-grid{ grid-template-columns: 1fr; }
+  }
+  @media (max-width: 540px){
+    .kpi-grid{ grid-template-columns: 1fr; }
+    table{ font-size:12px; }
+  }
+
+  /* ===== Font unification ===== */
+  * { -webkit-font-smoothing: antialiased; }
+  body { font-family: "Calibri","Segoe UI",sans-serif; font-size:14px; }
+  .zh, .zh *, thead th, tbody td:first-child, .label, .lb, .kc .lb, .kpi-card .label,
+  .section-head h2, .sh h2, summary, .hn-body, .hn-title, .nc, .ncp, .ncf,
+  .best-tag, .dtag, .dc ul li, .diag-card ul li, .dc h3, .pkg-kpi .plb,
+  .pkg-kpi .psb, .footer, footer,
+  td.zh, th.zh { font-family: "Microsoft JhengHei","PingFang TC","Noto Sans TC",sans-serif !important; }
+  /* English: numbers, codes, en labels */
+  .value, .vl, .kc .vl, .kpi-card .value,
+  thead th:not(.zh), tbody td:not(:first-child),
+  .section-head .en, .sh .en, .eyebrow,
+  canvas + *, .chip, .chip *,
+  .pkg-kpi .pvl { font-family: "Calibri","Segoe UI",sans-serif !important; }
+  /* Table uniformity */
+  thead th { font-size:12px; padding:9px 10px; white-space:nowrap; }
+  tbody td { font-size:13px; padding:8px 10px; white-space:nowrap; }
+  tbody tr { line-height:1.4; }
+  .kc .lb, .kpi-card .label { font-size:12px; }
+  .kc .vl, .kpi-card .value { font-size:22px; }
+  .kc .sb, .kpi-card .sub { font-size:11.5px; line-height:1.7; }
+
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow zh">618 檔期成效報告　·　易利氣磁力</div>
+  <h1>易利氣磁力 618廣告成效</h1>
+  <div class="meta">
+    客戶：台灣蓓福股份有限公司　|　產品：易利氣磁力　|　報表期間：<b>2026/06</b>（主檔期 <b>6/1 – 6/21</b>，本報告涵蓋至 <b>6/14</b> 實績）
+  </div>
+</header>
+
+<main>
+
+  <!-- ============ Section 1: KPI ============ -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">01</span>
+      <h2 class="zh">核心績效指標</h2>
+      <span class="en">KPI Overview · as of 6/16</span>
+    </div>
+    <div class="kpi-grid">
+      <div class="kpi-card" style="background:#fde8f4; border-color:#e6007e;">
+        <div class="accent accent-momo"></div>
+        <div class="label zh" style="color:#b5006a;">momo 業績（6/1–6/21）</div>
+        <div class="value" style="color:#b5006a;">$400,559</div>
+        <div class="sub zh">6/1–6/21 累積訂單金額</div>
+      </div>
+      <div class="kpi-card" style="background:#fde8f4; border-color:#e6007e;">
+        <div class="accent accent-momo"></div>
+        <div class="label zh" style="color:#b5006a;">momo 廣告花費（6/1–6/21）</div>
+        <div class="value" style="color:#b5006a;">$60,959</div>
+        <div class="sub zh">
+          業績ROAS <b style="background:#fff176; padding:1px 6px; border-radius:4px; color:#5d4800;">6.49x</b>
+          <span style="margin-left:8px;">廣告花費達成率 <b style="background:#fff176; padding:1px 6px; border-radius:4px; color:#5d4800;">48.1%</b></span>
+        </div>
+      </div>
+      <div class="kpi-card" style="background:#fde8e5; border-color:#ee4d2d;">
+        <div class="accent accent-shopee"></div>
+        <div class="label zh" style="color:#c03010;">蝦皮 業績（6/1–6/21）</div>
+        <div class="value" style="color:#c03010;">$185,980</div>
+        <div class="sub zh">6/1–6/21 累積訂單金額</div>
+      </div>
+      <div class="kpi-card" style="background:#fde8e5; border-color:#ee4d2d;">
+        <div class="accent accent-shopee"></div>
+        <div class="label zh" style="color:#c03010;">蝦皮 廣告花費（6/1–6/21）</div>
+        <div class="value" style="color:#c03010;">$29,478</div>
+        <div class="sub zh">
+          業績ROAS <b style="background:#fff176; padding:1px 6px; border-radius:4px; color:#5d4800;">6.49x</b>
+          <span style="margin-left:8px;">廣告花費達成率 <b style="background:#fff176; padding:1px 6px; border-radius:4px; color:#5d4800;">64.8%</b></span>
+        </div>
+      </div>
+      <div class="kpi-card">
+        <div class="accent accent-total"></div>
+        <div class="label zh">雙平台總業績（6/1–6/21）</div>
+        <div class="value">$586,539</div>
+        <div class="sub zh">momo + 蝦皮 訂單金額加總</div>
+      </div>
+      <div class="kpi-card">
+        <div class="accent accent-total"></div>
+        <div class="label zh">雙平台總廣告花費（6/1–6/21）</div>
+        <div class="value">$90,437</div>
+        <div class="sub zh">momo + 蝦皮 廣告花費加總</div>
+      </div>
+      <div class="kpi-card">
+        <div class="accent accent-total"></div>
+        <div class="label zh">綜合 ROAS（雙平台）</div>
+        <div class="value">6.78x</div>
+        <div class="sub zh">總業績 ÷ 總廣告花費</div>
+      </div>
+      <div class="kpi-card">
+        <div class="accent accent-total"></div>
+        <div class="label zh">蝦皮廣告起跑日</div>
+        <div class="value" style="font-size:22px;">6/8</div>
+        <div class="sub zh">商品廣告自 6/8 開始有花費紀錄</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Section 2: Daily Trend (moved up) ============ -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">02</span>
+      <h2 class="zh">每日業績與廣告花費趨勢</h2>
+      <span class="en">Daily Sales vs Ad Spend · 6/1–6/21</span>
+    </div>
+
+
+<div class="yoy-table" style="margin-bottom:20px;">
+    <table style="border-top:3px solid var(--ink);width:100%;"><thead>
+      <tr><th class="zh" colspan="4" style="text-align:center;background:#1a2a45;font-size:13px;font-weight:700;color:#b8d4de;padding:10px 12px;letter-spacing:.04em;">2025 vs 2026　同期比較（6/1–6/21）</th></tr>
+      <tr><th class="zh" style="text-align:left;width:28%;">指標</th><th class="zh" style="width:22%;">2025（6/1–6/21）</th><th class="zh" style="width:22%;">2026（6/1–6/21）</th><th class="zh" style="width:14%;">YoY 變化</th></tr>
+    </thead><tbody>
+      <tr style="background:#fde8f4;"><td class="zh" style="font-weight:700;color:var(--momo);">momo 業績</td><td>$370,591</td><td>$400,559</td><td style="color:var(--bad);font-weight:700;">▲ 8.1%</td></tr>
+      <tr style="background:#fde8f4;"><td class="zh" style="color:var(--momo);">momo 廣告花費</td><td>$100,017</td><td>$60,959</td><td class="good">▼ 39.1%（節省）</td></tr>
+      <tr style="background:#fde8f4;"><td class="zh" style="color:var(--momo);">momo 業績 ROAS</td><td>3.71x</td><td>6.57x</td><td style="color:var(--bad);font-weight:700;">▲ 提升</td></tr>
+      <tr style="background:#fde8e5;border-left:4px solid var(--bad);"><td class="zh" style="font-weight:700;color:var(--shopee);">蝦皮 業績</td><td>$228,336</td><td>$185,980</td><td class="good">▼ 18.5% <span style="font-size:10px;background:#fde8e5;color:var(--bad);padding:1px 5px;border-radius:4px;font-weight:700;">⚠ 業績下滑</span></td></tr>
+      <tr style="background:#fde8e5;border-left:4px solid var(--bad);"><td class="zh" style="color:var(--shopee);">蝦皮 廣告花費</td><td>$8,432</td><td>$29,478</td><td style="color:var(--bad);font-weight:700;">▲ 249.6% <span style="font-size:10px;background:#fff0f0;border:1px solid var(--bad);color:var(--bad);padding:1px 5px;border-radius:4px;">花費大增</span></td></tr>
+      <tr style="background:#fde8e5;"><td class="zh" style="color:var(--shopee);">蝦皮 業績 ROAS</td><td>27.08x</td><td>6.31x</td><td class="good">▼ 下降</td></tr>
+      <tr style="border-top:2px solid var(--line);"><td class="zh" style="font-weight:700;">雙平台總業績</td><td>$598,927</td><td>$586,539</td><td class="good">▼ 2.1%</td></tr>
+      <tr><td class="zh">雙平台廣告花費</td><td>$108,449</td><td>$90,437</td><td class="good">▼ 16.6%（節省）</td></tr>
+      <tr><td class="zh" style="font-size:11px;color:#9aa6b1;">備註</td><td colspan="3" style="text-align:left;font-size:11.5px;color:#9aa6b1;font-family:var(--font-zh);">2025年 6/1–6/8 僅蝦皮關鍵字廣告 $500/日，RS 與 FB 廣告 6/9 才正式啟動；6/19–6/21 無廣告資料。兩年廣告規模不同，YoY 供參考。</td></tr>
+    </tbody></table>
+  </div>
+    
+    
+
+        <div class="chart-card">
+      <div class="chart-controls" id="seriesChips">
+        <span style="font-family:var(--font-zh); font-size:12px; font-weight:700; color:#9aa6b1; align-self:center; margin-right:4px;">2026：</span>
+        <span class="chip active" data-series="momo_sales" style="border-color:var(--momo); color:var(--momo); background:#fde8f4;"><span class="dot" style="background:var(--momo)"></span>momo 業績</span>
+        <span class="chip active" data-series="shopee_sales" style="border-color:var(--shopee); color:var(--shopee); background:#fde8e5;"><span class="dot" style="background:var(--shopee)"></span>蝦皮 業績</span>
+        <span class="chip active" data-series="momo_spend"><span class="dot" style="background:var(--steel)"></span>momo 廣告花費</span>
+        <span class="chip active" data-series="shopee_spend"><span class="dot" style="background:var(--field)"></span>蝦皮 廣告花費</span>
+        <span class="chip" data-series="momo_roas"><span class="dot" style="background:var(--good)"></span>momo ROAS</span>
+        <span class="chip" data-series="shopee_roas"><span class="dot" style="background:var(--warn)"></span>蝦皮 ROAS</span>
+      </div>
+      <div class="chart-controls" id="seriesChips2025">
+        <span style="font-family:var(--font-zh); font-size:12px; font-weight:700; color:#9aa6b1; align-self:center; margin-right:4px;">2025：</span>
+        <span class="chip" data-series2025="momo_sales_2025"><span class="dot" style="background:#c084b0; border:2px dashed #9d5a90;"></span>momo 業績</span>
+        <span class="chip" data-series2025="shopee_sales_2025"><span class="dot" style="background:#d4896a; border:2px dashed #b8603a;"></span>蝦皮 業績</span>
+        <span class="chip" data-series2025="momo_spend_2025"><span class="dot" style="background:#8499af; border:2px dashed #5a7390;"></span>momo 廣告花費</span>
+        <span class="chip" data-series2025="shopee_spend_2025"><span class="dot" style="background:#97b5c9; border:2px dashed #5c8aa8;"></span>蝦皮 廣告花費</span>
+        <span class="chip" data-series2025="momo_roas_2025"><span class="dot" style="background:#77b899; border:2px dashed #3f8f6c;"></span>momo ROAS</span>
+        <span class="chip" data-series2025="shopee_roas_2025"><span class="dot" style="background:#d9a87c; border:2px dashed #c9742b;"></span>蝦皮 ROAS</span>
+      </div>
+      <canvas id="trendChart"></canvas>
+    </div>
+  </section>
+
+
+  <!-- ============ Section 03: 2026每月業績 ============ -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">03</span>
+      <h2 class="zh">2026 每月業績</h2>
+      <span class="en">Monthly Sales Performance · Jan – Jun 2026</span>
+    </div>
+
+    <table style="border-top:3px solid var(--ink); margin-bottom:20px; table-layout:fixed; width:100%;">
+      <thead>
+        <tr>
+          <th class="zh" style="text-align:left; width:22%;">月份</th>
+          <th class="zh" style="width:13%;">momo 業績</th>
+          <th class="zh" style="width:13%;">momo 日均</th>
+          <th class="zh" style="width:13%;">蝦皮 業績</th>
+          <th class="zh" style="width:13%;">蝦皮 日均</th>
+          <th class="zh" style="width:13%;">雙平台總計</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="zh" style="text-align:left;">1 月</td>
+          <td style="text-align:right;">$461,299</td>
+          <td style="text-align:right;color:#9aa6b1;">$14,881</td>
+          <td style="text-align:right;color:var(--shopee);">$184,443</td>
+          <td style="text-align:right;color:#9aa6b1;">$6,148</td>
+          <td style="text-align:right;font-weight:700;">$645,742</td>
+        </tr>
+        <tr style="background:var(--mist);">
+          <td class="zh" style="text-align:left;">2 月
+            <span style="display:block;font-size:11px;color:#c4976a;margin-top:2px;">🧧 農曆年檔期｜買8萬包套・有限搶</span>
+          </td>
+          <td style="text-align:right;">$680,695</td>
+          <td style="text-align:right;color:#9aa6b1;">$24,311</td>
+          <td style="text-align:right;color:var(--shopee);">$262,230</td>
+          <td style="text-align:right;color:#9aa6b1;">$9,365</td>
+          <td style="text-align:right;font-weight:700;">$942,925</td>
+        </tr>
+        <tr>
+          <td class="zh" style="text-align:left;">3 月</td>
+          <td style="text-align:right;">$473,906</td>
+          <td style="text-align:right;color:#9aa6b1;">$15,287</td>
+          <td style="text-align:right;color:var(--shopee);">$277,492</td>
+          <td style="text-align:right;color:#9aa6b1;">$8,951</td>
+          <td style="text-align:right;font-weight:700;">$751,398</td>
+        </tr>
+        <tr style="background:var(--mist);">
+          <td class="zh" style="text-align:left;">4 月</td>
+          <td style="text-align:right;">$469,153</td>
+          <td style="text-align:right;color:#9aa6b1;">$15,638</td>
+          <td style="text-align:right;color:var(--shopee);">$205,596</td>
+          <td style="text-align:right;color:#9aa6b1;">$7,615</td>
+          <td style="text-align:right;font-weight:700;">$674,749</td>
+        </tr>
+        <tr>
+          <td class="zh" style="text-align:left;">5 月
+            <span style="display:block;font-size:11px;color:#6a8eb8;margin-top:2px;">🌷 母親節檔期</span>
+          </td>
+          <td style="text-align:right;">$635,926</td>
+          <td style="text-align:right;color:#9aa6b1;">$20,514</td>
+          <td style="text-align:right;color:var(--shopee);">$292,486</td>
+          <td style="text-align:right;color:#9aa6b1;">$9,435</td>
+          <td style="text-align:right;font-weight:700;">$928,412</td>
+        </tr>
+        <tr style="background:#fde8f4;">
+          <td class="zh" style="text-align:left;font-weight:700;">6 月
+            <span style="display:block;font-size:11px;color:#9aa6b1;font-weight:400;">截至 6/21</span>
+          </td>
+          <td style="text-align:right;font-weight:700;color:var(--momo);">$400,559</td>
+          <td style="text-align:right;color:#9aa6b1;">$17,187</td>
+          <td style="text-align:right;font-weight:700;color:var(--shopee);">$185,980</td>
+          <td style="text-align:right;color:#9aa6b1;">$7,674</td>
+          <td style="text-align:right;font-weight:700;">$586,539</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="chart-card">
+      <div class="chart-controls" id="monthlyChips">
+        <span class="chip active" data-mseries="momo_total"><span class="dot" style="background:var(--momo)"></span>momo 業績</span>
+        <span class="chip active" data-mseries="shopee_total"><span class="dot" style="background:var(--shopee)"></span>蝦皮 業績</span>
+        <span class="chip" data-mseries="momo_avg"><span class="dot" style="background:#c084a0"></span>momo 日均</span>
+        <span class="chip" data-mseries="shopee_avg"><span class="dot" style="background:#d4a07a"></span>蝦皮 日均</span>
+      </div>
+      <canvas id="monthlyChart" style="max-height:340px;"></canvas>
+    </div>
+  </section>
+
+  <!-- ============ Section 3: Channel Performance (moved down) ============ -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">04</span>
+      <h2 class="zh">各廣告管道成效彙整</h2>
+      <span class="en">Channel Performance Summary</span>
+    </div>
+
+    <div class="platform-toggle" id="platformToggle">
+      <button class="active" data-platform="momo">momo</button>
+      <button data-platform="shopee">蝦皮</button>
+    </div>
+
+    <div id="channelTableWrap"></div>
+  </section>
+
+  <!-- ============ Section 4: Daily Detail Tables ============ -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">05</span>
+      <h2 class="zh">每日數據明細</h2>
+      <span class="en">Daily Performance Detail · 6/1–6/21</span>
+    </div>
+
+    <div class="platform-toggle" id="dailyPlatformToggle">
+      <button class="active" data-platform="momo">momo</button>
+      <button data-platform="shopee">蝦皮</button>
+    </div>
+
+    <div id="dailyDetailWrap"></div>
+  </section>
+
+  <!-- ============ Section 5: Notes ============ -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">06</span>
+      <h2 class="zh">蝦皮 FB CPA 再行銷　廣告花費異常說明</h2>
+      <span class="en">Shopee FB CPA Remarketing · Budget Anomaly Timeline</span>
+    </div>
+
+    <div style="background:#fff9f0;border:1px solid #f5c842;border-radius:10px;padding:16px 20px;margin-bottom:18px;">
+      <div class="zh" style="font-size:13px;color:#7a5500;font-weight:700;margin-bottom:6px;">⚠ 事件說明</div>
+      <div class="zh" style="font-size:13px;color:#5a3e00;line-height:1.8;">本次蝦皮 FB CPA 購物車再行銷廣告於執行過程中發生多次預算異常超支，廣告執行方持續與蝦皮官方客服交涉，歷時逾 3 週，最終爭取到兩筆廣告抵用金共 USD $190（約 NT$6,000）。</div>
+    </div>
+
+    <!-- Timeline -->
+    <div style="position:relative;padding-left:28px;border-left:2px solid var(--line);">
+
+      <div style="position:relative;margin-bottom:20px;">
+        <div style="position:absolute;left:-35px;top:2px;width:14px;height:14px;border-radius:50%;background:var(--bad);border:2px solid #fff;box-shadow:0 0 0 2px var(--bad);"></div>
+        <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:4px;">
+          <span style="font-family:var(--font-en);font-weight:700;font-size:13px;color:var(--bad);">6/1</span>
+          <span class="zh" style="font-size:12px;font-weight:700;color:var(--ink);">廣告首日花費異常</span>
+        </div>
+        <div class="zh" style="font-size:13px;color:#5a5a6a;line-height:1.8;">發現廣告執行首日就花費 72%，立刻聯繫蝦皮客服詢問。</div>
+      </div>
+
+      <div style="position:relative;margin-bottom:20px;">
+        <div style="position:absolute;left:-35px;top:2px;width:14px;height:14px;border-radius:50%;background:var(--steel);border:2px solid #fff;box-shadow:0 0 0 2px var(--steel);"></div>
+        <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:4px;">
+          <span style="font-family:var(--font-en);font-weight:700;font-size:13px;color:var(--steel);">6/2</span>
+          <span class="zh" style="font-size:12px;font-weight:700;color:var(--ink);">官方首次回覆</span>
+        </div>
+        <div class="zh" style="font-size:13px;color:#5a5a6a;line-height:1.8;">官方回覆廣告設定無誤，屬廣告優化之特殊狀況，隨即進一步提出賠償需求。</div>
+      </div>
+
+      <div style="position:relative;margin-bottom:20px;">
+        <div style="position:absolute;left:-35px;top:2px;width:14px;height:14px;border-radius:50%;background:var(--bad);border:2px solid #fff;box-shadow:0 0 0 2px var(--bad);"></div>
+        <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:4px;">
+          <span style="font-family:var(--font-en);font-weight:700;font-size:13px;color:var(--bad);">6/5</span>
+          <span class="zh" style="font-size:12px;font-weight:700;color:var(--ink);">抵用金核發後再次異常</span>
+        </div>
+        <div class="zh" style="font-size:13px;color:#5a5a6a;line-height:1.8;">爭取到 USD $100 廣告抵用金，重新設定廣告後發現抵用金於設定當天即消耗殆盡。</div>
+      </div>
+
+      <div style="position:relative;margin-bottom:20px;">
+        <div style="position:absolute;left:-35px;top:2px;width:14px;height:14px;border-radius:50%;background:var(--steel);border:2px solid #fff;box-shadow:0 0 0 2px var(--steel);"></div>
+        <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:4px;">
+          <span style="font-family:var(--font-en);font-weight:700;font-size:13px;color:var(--steel);">6/8</span>
+          <span class="zh" style="font-size:12px;font-weight:700;color:var(--ink);">再次申訴</span>
+        </div>
+        <div class="zh" style="font-size:13px;color:#5a5a6a;line-height:1.8;">針對 6/5 異常情況再次向官方提出申訴。</div>
+      </div>
+
+      <div style="position:relative;margin-bottom:20px;">
+        <div style="position:absolute;left:-35px;top:2px;width:14px;height:14px;border-radius:50%;background:#9aa6b1;border:2px solid #fff;box-shadow:0 0 0 2px #9aa6b1;"></div>
+        <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:4px;">
+          <span style="font-family:var(--font-en);font-weight:700;font-size:13px;color:#9aa6b1;">6/10</span>
+          <span class="zh" style="font-size:12px;font-weight:700;color:var(--ink);">官方關閉案件</span>
+        </div>
+        <div class="zh" style="font-size:13px;color:#5a5a6a;line-height:1.8;">官方回覆為系統偶發狀況，並直接關閉案件，未提供進一步處理方案。</div>
+      </div>
+
+      <div style="position:relative;margin-bottom:20px;">
+        <div style="position:absolute;left:-35px;top:2px;width:14px;height:14px;border-radius:50%;background:var(--steel);border:2px solid #fff;box-shadow:0 0 0 2px var(--steel);"></div>
+        <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:4px;">
+          <span style="font-family:var(--font-en);font-weight:700;font-size:13px;color:var(--steel);">6/11</span>
+          <span class="zh" style="font-size:12px;font-weight:700;color:var(--ink);">第三次申訴（無回應）</span>
+        </div>
+        <div class="zh" style="font-size:13px;color:#5a5a6a;line-height:1.8;">再次申訴，此後官方完全沒有任何回應。</div>
+      </div>
+
+      <div style="position:relative;margin-bottom:20px;">
+        <div style="position:absolute;left:-35px;top:2px;width:14px;height:14px;border-radius:50%;background:var(--steel);border:2px solid #fff;box-shadow:0 0 0 2px var(--steel);"></div>
+        <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:4px;">
+          <span style="font-family:var(--font-en);font-weight:700;font-size:13px;color:var(--steel);">6/17</span>
+          <span class="zh" style="font-size:12px;font-weight:700;color:var(--ink);">第四次申訴＋客服客訴</span>
+        </div>
+        <div class="zh" style="font-size:13px;color:#5a5a6a;line-height:1.8;">再次申訴，同時對前次置之不理的客服人員提出客訴。</div>
+      </div>
+
+      <div style="position:relative;margin-bottom:4px;">
+        <div style="position:absolute;left:-35px;top:2px;width:14px;height:14px;border-radius:50%;background:var(--good);border:2px solid #fff;box-shadow:0 0 0 2px var(--good);"></div>
+        <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:4px;">
+          <span style="font-family:var(--font-en);font-weight:700;font-size:13px;color:var(--good);">6/19</span>
+          <span class="zh" style="font-size:12px;font-weight:700;color:var(--ink);">第二筆抵用金核發</span>
+        </div>
+        <div class="zh" style="font-size:13px;color:#5a5a6a;line-height:1.8;">爭取到 USD $90 廣告抵用金。因 618 檔期已結束，預計 7 月重新啟用。<br>
+          <span style="display:inline-block;margin-top:6px;background:#e8f5ec;color:var(--good);font-weight:700;padding:3px 10px;border-radius:4px;font-size:12px;">累計爭取廣告抵用金：USD $190（約 NT$6,000）</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ Section 6: Findings & Discussion ============ -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">07</span>
+      <h2 class="zh">執行發現與討論</h2>
+      <span class="en">Findings &amp; Discussion</span>
+    </div>
+    <div class="grid-2" style="grid-template-columns: 1fr 1fr;">
+      <div class="fb-card">
+        <h3><span class="tag tag-shop">發現</span> <span class="zh">搜尋型版位花費不如預期</span></h3>
+        <p class="zh" style="font-size:13.5px; line-height:1.9; color:var(--ink);">
+          針對蝦皮<b>品牌搜尋廣告</b>、momo<b>黃金置頂廣告</b>的觀察，廣告花費皆出現不如預期、花不出去的現象。
+          推測若品牌沒有一定聲量，主動搜尋版位就會面臨花費不出去的狀況：
+        </p>
+        <div style="margin:14px 0; padding:12px 16px; background:var(--mist); border-radius:8px; font-family:var(--font-zh); font-size:13.5px; color:var(--steel); font-weight:700; text-align:center;">
+          品牌聲量低　→　消費者主動搜尋的機會逐漸變低
+        </div>
+        <p class="zh" style="font-size:13.5px; line-height:1.9; color:var(--ink);">
+          這類版位仰賴消費者「主動搜尋」品牌或商品關鍵字，當品牌曝光與認知度不足時，搜尋量本身就有限，導致廣告即使設定預算也難以實際曝光與花費。
+        </p>
+      </div>
+
+      <div class="fb-card">
+        <h3><span class="tag tag-momo">討論</span> <span class="zh">站內廣告轉換瓶頸</span></h3>
+        <p class="zh" style="font-size:13.5px; line-height:1.9; color:var(--ink);">
+          目前廣告遇到的瓶頸，在於本次磁力品牌希望以<b>站內廣告為主</b>，且廣告希望能帶來<b>轉換價值</b>。
+        </p>
+        <p class="zh" style="font-size:13.5px; line-height:1.9; color:var(--ink); margin-top:10px;">
+          但在<b>品牌聲量不足</b>的狀況下，實際執行就會面臨廣告投遞不出去的狀況——以搜尋型/置頂型版位為主的策略，其成效高度依賴既有品牌認知，若聲量基礎不夠，預算將難以有效執行，進而影響整體轉換表現。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Section 7: 核心診斷與小結建議 ============ -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">08</span>
+      <h2 class="zh">核心診斷與小結建議</h2>
+      <span class="en">Strategic Diagnosis &amp; Recommendations</span>
+    </div>
+
+    <!-- 核心診斷 -->
+    <div class="fb-card" style="margin-bottom:18px;">
+      <h3 style="margin-bottom:14px;"><span class="tag" style="background:#c0473c;">核心診斷</span> <span class="zh">問題不在廣告操作，在品牌漏斗的上層</span></h3>
+
+      <div style="background:#fdf2f2; border-left:4px solid #c0473c; border-radius:0 8px 8px 0; padding:14px 18px; margin-bottom:16px; font-family:var(--font-zh); font-size:13.5px; line-height:1.9;">
+        <b>惡性循環結構：</b><br>
+        業績下滑　→　廣告預算縮減　→　Branding停止　→　品牌聲量流失<br>
+        →　消費者不主動搜尋　→　站內搜尋廣告失效　→　業績繼續下滑
+      </div>
+
+      <ul style="font-family:var(--font-zh); font-size:13.5px; line-height:2; padding-left:20px; color:var(--ink);">
+        <li>本次 618 站內廣告的核心問題是<b>需求端缺失</b>——消費者沒有主動搜尋易利氣的行為，搜尋型版位自然花不出去</li>
+        <li>momo 黃金置頂廣告（花費達成率僅 3.94%）、蝦皮品牌搜尋廣告（達成率 20%）均印證此問題</li>
+        <li>momo 廣告花費較 2025 年減少 39.1%（$100,017 → $60,959），momo 業績持平微升 8.1%（$370,591 → $400,559），顯示 2026 年廣告效率大幅提升，以更少預算達成相近業績</li>
+        <li>站內廣告只能「轉換已存在的需求」，無法「創造需求」——在品牌聲量不足的前提下，這是策略邊界</li>
+      </ul>
+    </div>
+
+    <!-- 中長期建議 -->
+    <div class="fb-card" style="margin-bottom:18px;">
+      <h3 style="margin-bottom:14px;"><span class="tag" style="background:#3a5169;">中長期建議</span> <span class="zh">重建品牌聲量的低成本路徑（3–6 個月）</span></h3>
+      <ul style="font-family:var(--font-zh); font-size:13.5px; line-height:2; padding-left:20px; color:var(--ink);">
+        <li><b>微型 KOL / 素人開箱合作：</b>磁力產品有具體的使用感受（痠痛改善），真實體驗分享在 Instagram、YouTube Shorts、TikTok 上容易獲得有機觸及，成本遠低於傳統廣告</li>
+        <li><b>SEO 內容布局：</b>針對「肩頸痠痛怎麼辦」、「磁力貼片推薦」等症狀型關鍵字做內容，讓消費者在搜尋解決方案時自然找到易利氣，而不是等他們搜尋品牌名稱</li>
+        <li><b>電商平台口碑累積：</b>鼓勵現有顧客留下評價與使用心得，平台評論數量直接影響新客轉換率，且完全免費</li>
+        <li><b>重新檢視目標受眾：</b>核心族群是否在縮減？建議評估是否有新的潛在族群（運動族群、久坐上班族、年輕族群的姿勢問題），不同族群需要不同的溝通切角</li>
+      </ul>
+    </div>
+
+    <!-- 核心結論 -->
+    <div style="background:var(--ink); border-radius:10px; padding:22px 24px;">
+      <div class="zh" style="font-size:13px; font-weight:700; color:var(--sky); margin-bottom:12px; letter-spacing:.05em;">▌ 核心結論</div>
+      <ul style="font-family:var(--font-zh); font-size:13.5px; line-height:2.1; padding-left:20px; color:#e8edf2; margin:0;">
+        <li>廣告預算的最低效益閾值存在：當品牌聲量低到一定程度，純靠電商站內廣告已很難扭轉業績</li>
+        <li>短期務實策略：<b style="color:#fff176;">瀏覽型版位 + 既有客戶再行銷</b>，集中有限資源在轉換機率最高的受眾</li>
+        <li>中長期關鍵：投入<b style="color:#fff176;">低成本口碑建立</b>（KOL 合作、SEO、評論累積），為下次大檔期（雙11）重建搜尋需求基礎</li>
+        <li>最重要的一件事：<b style="color:#fff176;">廣告只能放大已存在的需求，品牌要負責創造需求</b>——這是本次困境的根本解答</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer class="zh">磁力品牌 618 儀表板　·　資料來源：Liz的報表0602.xlsx　·　業績資料截至 6/21</footer>
+
+<script>
+const dailyData = [
+  {date:"6/1", momo_sales:14376, shopee_sales:13161,  momo_spend:731.23, shopee_spend:3246.0, momo_roas:19.66,  shopee_roas:4.05},
+  {date:"6/2", momo_sales:13480, shopee_sales:3737,  momo_spend:1833.21, shopee_spend:490.0, momo_roas:7.35,  shopee_roas:7.63},
+  {date:"6/3", momo_sales:13184, shopee_sales:2047,  momo_spend:2125.83, shopee_spend:691.0, momo_roas:6.2,  shopee_roas:2.96},
+  {date:"6/4", momo_sales:11280, shopee_sales:10438,  momo_spend:2094.11, shopee_spend:9.0, momo_roas:5.39,  shopee_roas:1159.78},
+  {date:"6/5", momo_sales:14886, shopee_sales:5913,  momo_spend:2346.07, shopee_spend:2822.0, momo_roas:6.35,  shopee_roas:2.1},
+  {date:"6/6", momo_sales:22574, shopee_sales:14530,  momo_spend:2360.78, shopee_spend:100.0, momo_roas:9.56,  shopee_roas:145.3},
+  {date:"6/7", momo_sales:17578, shopee_sales:3200,  momo_spend:2438.3, shopee_spend:11.0, momo_roas:7.21,  shopee_roas:290.91},
+  {date:"6/8", momo_sales:10276, shopee_sales:8247,  momo_spend:1795.86, shopee_spend:1254.0, momo_roas:5.72,  shopee_roas:6.58},
+  {date:"6/9", momo_sales:18646, shopee_sales:4506,  momo_spend:1983.05, shopee_spend:1371.0, momo_roas:9.4,  shopee_roas:3.29},
+  {date:"6/10", momo_sales:16608, shopee_sales:5686,  momo_spend:2068.59, shopee_spend:1405.0, momo_roas:8.03,  shopee_roas:4.05},
+  {date:"6/11", momo_sales:14992, shopee_sales:8887,  momo_spend:2437.93, shopee_spend:1402.0, momo_roas:6.15,  shopee_roas:6.34},
+  {date:"6/12", momo_sales:26090, shopee_sales:4686,  momo_spend:2130.83, shopee_spend:910.0, momo_roas:12.24,  shopee_roas:5.15},
+  {date:"6/13", momo_sales:13968, shopee_sales:5657,  momo_spend:2562.85, shopee_spend:1486.0, momo_roas:5.45,  shopee_roas:3.81},
+  {date:"6/14", momo_sales:27578, shopee_sales:9051,  momo_spend:2598.49, shopee_spend:1405.0, momo_roas:10.61,  shopee_roas:6.44},
+  {date:"6/15", momo_sales:20220, shopee_sales:14434,  momo_spend:2645.79, shopee_spend:1469.0, momo_roas:7.64,  shopee_roas:9.83},
+  {date:"6/16", momo_sales:19252, shopee_sales:8602,  momo_spend:4616.08, shopee_spend:1980.0, momo_roas:4.17,  shopee_roas:4.34},
+  {date:"6/17", momo_sales:23838, shopee_sales:9004,  momo_spend:4443.44, shopee_spend:2227.0, momo_roas:5.36,  shopee_roas:4.04},
+  {date:"6/18", momo_sales:36391, shopee_sales:36077,  momo_spend:5677.19, shopee_spend:2597.0, momo_roas:6.41,  shopee_roas:13.89},
+  {date:"6/19", momo_sales:32703, shopee_sales:3978,  momo_spend:4755.0, shopee_spend:1559.0, momo_roas:6.88,  shopee_roas:2.55},
+  {date:"6/20", momo_sales:14286, shopee_sales:7559,  momo_spend:4588.38, shopee_spend:1579.0, momo_roas:3.11,  shopee_roas:4.79},
+  {date:"6/21", momo_sales:18353, shopee_sales:6580,  momo_spend:4726.28, shopee_spend:1465.0, momo_roas:3.88,  shopee_roas:4.49},
+];
+
+const channelData = {
+  momo: {
+    rows: [
+      {name:"展示型廣告", plan:14000, actual:13067.58, pct:0.9334, impressions:51531, clicks:81, conv:0, cpm:253.6, cpc:161.33, ctr:0.0016, roas:null},
+      {name:"黃金置頂廣告", plan:14000, actual:1166, pct:0.0833, impressions:985, clicks:78, conv:15936, cpm:1183.25, cpc:14.95, ctr:0.0792, roas:13.67, flag:"花費過低"},
+      {name:"商品廣告", plan:52500, actual:43192.71, pct:0.8227, impressions:631799, clicks:12445, conv:187365, cpm:68.36, cpc:3.47, ctr:0.0197, roas:4.34},
+      {name:"FB CPA購物車再行銷", plan:5197.5, actual:3533, pct:0.6797, impressions:23662, clicks:362, conv:12942, cpm:149.28, cpc:9.76, ctr:0.0153, roas:3.66},
+    ],
+    subtotal: {name:"momo 小計", plan:85697.5, actual:60959.29, pct:0.7113, impressions:707977, clicks:12966, conv:216243, cpm:86.10, cpc:4.70, ctr:0.0183, roas:3.55}
+  },
+  shopee: {
+    rows: [
+      {name:"品牌搜尋廣告", plan:13300, actual:6543, pct:0.4921, impressions:758, clicks:59, conv:3450, cpm:8631.26, cpc:110.9, ctr:0.0778, roas:0.53, flag:"花費過低"},
+      {name:"商品廣告", plan:15275, actual:14798, pct:0.9687, impressions:97214, clicks:1921, conv:85007, cpm:152.22, cpc:7.70, ctr:0.0198, roas:5.74},
+      {name:"FB CPA購物車再行銷", plan:5197.5, actual:7521, pct:1.4470, impressions:53429, clicks:588, conv:8190, cpm:140.82, cpc:12.79, ctr:0.0110, roas:1.09, flag:"異常"},
+      {name:"磁力日- FB CPC", plan:627, actual:616, pct:0.9824, impressions:15373, clicks:83, conv:950, cpm:40.07, cpc:7.42, ctr:0.0054, roas:1.54},
+    ],
+    subtotal: {name:"蝦皮 小計", plan:34399.5, actual:29478, pct:0.8569, impressions:166774, clicks:2651, conv:97597, cpm:176.76, cpc:11.12, ctr:0.0159, roas:3.31}
+  }
+};
+
+const fmtMoney = v => v==null ? "–" : "$" + Math.round(v).toLocaleString();
+const fmtNum = v => v==null ? "–" : Math.round(v).toLocaleString();
+const fmtPct = v => v==null ? "–" : (v*100).toFixed(1) + "%";
+function roasPill(v){
+  if(v == null) return '<span class="roas-pill roas-na">–</span>';
+  let cls = v >= 3 ? "roas-good" : v >= 1 ? "roas-mid" : "roas-bad";
+  return `<span class="roas-pill ${cls}">${v.toFixed(2)}x</span>`;
+}
+
+function fmtCurrency2(v){ return v==null ? "–" : "$" + Math.round(v).toLocaleString(); }
+
+function renderChannelTable(platform){
+  const d = channelData[platform];
+  const accentColor = platform==='momo' ? 'var(--momo)' : 'var(--shopee)';
+  let html = `<table style="border-top:3px solid ${accentColor};"><thead><tr>
+    <th class="zh">平台</th><th class="zh">廣告版位</th>
+    <th class="zh">Plan金額</th><th class="zh">實際花費</th><th class="zh">花費%</th>
+    <th class="zh">曝光</th><th class="zh">點擊</th>
+    <th class="zh">CPM</th><th class="zh">CPC</th><th class="zh">CTR</th>
+    <th class="zh">廣告帶來轉換</th>
+    <th class="zh">廣告ROAS</th>
+  </tr></thead><tbody>`;
+  d.rows.forEach(r=>{
+    const flagClass = r.flag === '花費過低' ? 'flag-low' : r.flag === '異常' ? 'flag-anomaly' : '';
+    const flagBadge = r.flag === '花費過低' ? '<span class="flag-badge low">花費過低</span>'
+                    : r.flag === '異常' ? '<span class="flag-badge anomaly">異常</span>' : '';
+    const convCell = r.conv ? '$'+Math.round(r.conv).toLocaleString() : '–';
+    html += `<tr class="${flagClass}">
+      <td class="zh">${platform==='momo' ? 'momo' : '蝦皮'}</td>
+      <td class="zh">${r.name}${flagBadge}</td>
+      <td>${fmtMoney(r.plan)}</td>
+      <td>${fmtMoney(r.actual)}</td>
+      <td>${fmtPct(r.pct)}</td>
+      <td>${fmtNum(r.impressions)}</td>
+      <td>${fmtNum(r.clicks)}</td>
+      <td>${fmtCurrency2(r.cpm)}</td>
+      <td>${fmtCurrency2(r.cpc)}</td>
+      <td>${fmtPct(r.ctr)}</td>
+      <td>${convCell}</td>
+      <td>${roasPill(r.roas)}</td>
+    </tr>`;
+  });
+  const s = d.subtotal;
+  const subConv = s.conv ? '$'+Math.round(s.conv).toLocaleString() : '–';
+  html += `<tr class="subtotal">
+      <td class="zh">${s.name}</td><td></td>
+      <td>${fmtMoney(s.plan)}</td>
+      <td>${fmtMoney(s.actual)}</td>
+      <td>${fmtPct(s.pct)}</td>
+      <td>${fmtNum(s.impressions)}</td>
+      <td>${fmtNum(s.clicks)}</td>
+      <td>${fmtCurrency2(s.cpm)}</td>
+      <td>${fmtCurrency2(s.cpc)}</td>
+      <td>${fmtPct(s.ctr)}</td>
+      <td>${subConv}</td>
+      <td>${roasPill(s.roas)}</td>
+    </tr>`;
+  html += `</tbody></table>`;
+  document.getElementById('channelTableWrap').innerHTML = html;
+}
+renderChannelTable('momo');
+
+document.getElementById('platformToggle').addEventListener('click', e=>{
+  if(e.target.tagName !== 'BUTTON') return;
+  document.querySelectorAll('#platformToggle button').forEach(b=>b.classList.remove('active'));
+  e.target.classList.add('active');
+  renderChannelTable(e.target.dataset.platform);
+});
+
+// ===== 2025 data (6/1-6/21) =====
+const dailyData2025 = [
+  {date:"6/1", momo_sales_2025:14384, shopee_sales_2025:7987, momo_spend_2025:0, shopee_spend_2025:0, momo_roas_2025:null, shopee_roas_2025:null},
+  {date:"6/2", momo_sales_2025:30945, shopee_sales_2025:4936, momo_spend_2025:434, shopee_spend_2025:0, momo_roas_2025:82.68, shopee_roas_2025:null},
+  {date:"6/3", momo_sales_2025:21133, shopee_sales_2025:9035, momo_spend_2025:500, shopee_spend_2025:0, momo_roas_2025:60.34, shopee_roas_2025:null},
+  {date:"6/4", momo_sales_2025:11340, shopee_sales_2025:7885, momo_spend_2025:500, shopee_spend_2025:0, momo_roas_2025:38.45, shopee_roas_2025:null},
+  {date:"6/5", momo_sales_2025:19270, shopee_sales_2025:5221, momo_spend_2025:3702, shopee_spend_2025:0, momo_roas_2025:6.62, shopee_roas_2025:null},
+  {date:"6/6", momo_sales_2025:11884, shopee_sales_2025:17474, momo_spend_2025:8058, shopee_spend_2025:0, momo_roas_2025:3.64, shopee_roas_2025:null},
+  {date:"6/7", momo_sales_2025:20231, shopee_sales_2025:7864, momo_spend_2025:6175, shopee_spend_2025:0, momo_roas_2025:4.55, shopee_roas_2025:null},
+  {date:"6/8", momo_sales_2025:15367, shopee_sales_2025:14093, momo_spend_2025:6255, shopee_spend_2025:0, momo_roas_2025:4.71, shopee_roas_2025:null},
+  {date:"6/9", momo_sales_2025:24486, shopee_sales_2025:17775, momo_spend_2025:5287, shopee_spend_2025:0, momo_roas_2025:7.99, shopee_roas_2025:null},
+  {date:"6/10", momo_sales_2025:21970, shopee_sales_2025:7425, momo_spend_2025:7384, shopee_spend_2025:0, momo_roas_2025:3.98, shopee_roas_2025:null},
+  {date:"6/11", momo_sales_2025:20474, shopee_sales_2025:14759, momo_spend_2025:6806, shopee_spend_2025:0, momo_roas_2025:5.18, shopee_roas_2025:null},
+  {date:"6/12", momo_sales_2025:16804, shopee_sales_2025:12590, momo_spend_2025:6657, shopee_spend_2025:0, momo_roas_2025:4.42, shopee_roas_2025:null},
+  {date:"6/13", momo_sales_2025:11802, shopee_sales_2025:13905, momo_spend_2025:6003, shopee_spend_2025:0, momo_roas_2025:4.28, shopee_roas_2025:null},
+  {date:"6/14", momo_sales_2025:10683, shopee_sales_2025:10523, momo_spend_2025:6352, shopee_spend_2025:0, momo_roas_2025:3.34, shopee_roas_2025:null},
+  {date:"6/15", momo_sales_2025:26333, shopee_sales_2025:7927, momo_spend_2025:7331, shopee_spend_2025:0, momo_roas_2025:4.67, shopee_roas_2025:null},
+  {date:"6/16", momo_sales_2025:13085, shopee_sales_2025:15220, momo_spend_2025:7326, shopee_spend_2025:0, momo_roas_2025:3.86, shopee_roas_2025:null},
+  {date:"6/17", momo_sales_2025:7746, shopee_sales_2025:8691, momo_spend_2025:8538, shopee_spend_2025:0, momo_roas_2025:1.93, shopee_roas_2025:null},
+  {date:"6/18", momo_sales_2025:40572, shopee_sales_2025:23450, momo_spend_2025:21140, shopee_spend_2025:0, momo_roas_2025:3.03, shopee_roas_2025:null},
+  {date:"6/19", momo_sales_2025:14119, shopee_sales_2025:6333, momo_spend_2025:0, shopee_spend_2025:0, momo_roas_2025:null, shopee_roas_2025:null},
+  {date:"6/20", momo_sales_2025:15322, shopee_sales_2025:13503, momo_spend_2025:0, shopee_spend_2025:0, momo_roas_2025:null, shopee_roas_2025:null},
+  {date:"6/21", momo_sales_2025:17025, shopee_sales_2025:9727, momo_spend_2025:0, shopee_spend_2025:0, momo_roas_2025:null, shopee_roas_2025:null}
+];
+
+// ===== Trend chart =====
+const seriesConfig = {
+  momo_sales:   {label:'2026 momo 業績', color:'#e6007e', type:'bar', yAxis:'y'},
+  shopee_sales: {label:'2026 蝦皮 業績', color:'#ee4d2d', type:'bar', yAxis:'y'},
+  momo_spend:   {label:'2026 momo 廣告花費', color:'#3a5169', type:'bar', yAxis:'y'},
+  shopee_spend: {label:'2026 蝦皮 廣告花費', color:'#5c84a8', type:'bar', yAxis:'y'},
+  momo_roas:    {label:'2026 momo ROAS', color:'#3f8f6c', type:'line', yAxis:'y1'},
+  shopee_roas:  {label:'2026 蝦皮 ROAS', color:'#c9742b', type:'line', yAxis:'y1'},
+};
+const seriesConfig2025 = {
+  momo_sales_2025:   {label:'2025 momo 業績', color:'#c084b0', type:'line', yAxis:'y'},
+  shopee_sales_2025: {label:'2025 蝦皮 業績', color:'#d4896a', type:'line', yAxis:'y'},
+  momo_spend_2025:   {label:'2025 momo 廣告花費', color:'#8499af', type:'line', yAxis:'y'},
+  shopee_spend_2025: {label:'2025 蝦皮 廣告花費', color:'#97b5c9', type:'line', yAxis:'y'},
+  momo_roas_2025:    {label:'2025 momo ROAS', color:'#77b899', type:'line', yAxis:'y1'},
+  shopee_roas_2025:  {label:'2025 蝦皮 ROAS', color:'#d9a87c', type:'line', yAxis:'y1'},
+};
+
+const ctx = document.getElementById('trendChart').getContext('2d');
+let trendChart;
+
+function renderChart(){
+  const active2026 = Array.from(document.querySelectorAll('#seriesChips .chip.active')).map(c=>c.dataset.series).filter(Boolean);
+  const active2025 = Array.from(document.querySelectorAll('#seriesChips2025 .chip.active')).map(c=>c.dataset['series2025']).filter(Boolean);
+
+  const datasets = [];
+  // 2026 datasets (bars)
+  active2026.forEach(key=>{
+    const cfg = seriesConfig[key];
+    const base = {
+      label: cfg.label,
+      data: dailyData.map(d=> d[key] !== undefined ? d[key] : null),
+      backgroundColor: cfg.type==='bar' ? cfg.color + 'cc' : 'transparent',
+      borderColor: cfg.color,
+      yAxisID: cfg.yAxis,
+    };
+    if(cfg.type==='line'){
+      datasets.push({...base, type:'line', tension:.35, borderWidth:2.5, pointRadius:4, pointBackgroundColor:cfg.color});
+    } else {
+      datasets.push({...base, type:'bar', borderRadius:4, maxBarThickness:18});
+    }
+  });
+  // 2025 datasets (dashed lines)
+  active2025.forEach(key=>{
+    const cfg = seriesConfig2025[key];
+    datasets.push({
+      label: cfg.label,
+      data: dailyData2025.map(d=> d[key] !== undefined ? d[key] : null),
+      type: 'line',
+      tension:.35,
+      borderWidth:2,
+      borderDash:[6,4],
+      borderColor: cfg.color,
+      backgroundColor: 'transparent',
+      pointRadius:3,
+      pointBackgroundColor: cfg.color,
+      yAxisID: cfg.yAxis,
+    });
+  });
+
+  if(trendChart) trendChart.destroy();
+  trendChart = new Chart(ctx, {
+    data: { labels: dailyData.map(d=>d.date), datasets },
+    options: {
+      responsive:true,
+      interaction:{ mode:'index', intersect:false },
+      plugins:{
+        legend:{ position:'bottom', labels:{ font:{family:'Microsoft JhengHei', size:12} } },
+        tooltip:{
+          titleFont:{family:'Calibri'}, bodyFont:{family:'Microsoft JhengHei'},
+          callbacks:{
+            label: ctx => {
+              const v = ctx.raw;
+              if(v == null) return `${ctx.dataset.label}: –`;
+              if(ctx.dataset.label.includes('ROAS')) return `${ctx.dataset.label}: ${v.toFixed(2)}x`;
+              return `${ctx.dataset.label}: $${Math.round(v).toLocaleString()}`;
+            }
+          }
+        }
+      },
+      scales:{
+        x:{ ticks:{ font:{family:'Calibri'} }, grid:{ display:false } },
+        y:{ position:'left', title:{display:true, text:'金額 (NT$)', font:{family:'Microsoft JhengHei', size:12}},
+            ticks:{ font:{family:'Calibri'}, callback:v=>'$'+v.toLocaleString() } },
+        y1:{ position:'right', title:{display:true, text:'ROAS', font:{family:'Microsoft JhengHei', size:12}},
+             grid:{drawOnChartArea:false}, ticks:{font:{family:'Calibri'}, callback:v=>v+'x'} }
+      }
+    }
+  });
+}
+
+document.getElementById('seriesChips').addEventListener('click', e=>{
+  const chip = e.target.closest('.chip');
+  if(!chip) return;
+  chip.classList.toggle('active');
+  renderChart();
+});
+
+document.getElementById('seriesChips2025').addEventListener('click', e=>{
+  const chip = e.target.closest('.chip');
+  if(!chip) return;
+  chip.classList.toggle('active');
+  renderChart();
+});
+
+renderChart();
+
+// ===== Section 4: Daily Detail Tables =====
+const dailyDetail = {
+  momo: {
+    platform: 'momo',
+    sales: [14376, 13480, 13184, 11280, 14886, 22574, 17578, 10276, 18646, 16608, 14992, 26090, 13968, 27578, 20220, 19252, 23838, 36391, 32703, 14286, 18353],
+    perf: [{"label": "商品廣告", "period": "6/1–6/21", "daily_budget": 2500, "highlight_col": "CPC", "impressions": [945, 18487, 22555, 25709, 31245, 19833, 24104, 22567, 22605, 26209, 28035, 27044, 37403, 38248, 34616, 38995, 40545, 40160, 47272, 41488, 43734], "clicks": [36, 319, 443, 441, 487, 507, 600, 513, 557, 617, 722, 578, 729, 774, 698, 730, 711, 605, 825, 764, 789], "spend": [505.23, 1634.21, 1935.83, 1943.11, 2154.07, 2158.78, 2255.3, 1569.86, 1629.05, 1941.59, 2179.93, 1923.83, 2266.85, 2376.49, 2400.29, 2411.65, 2249.29, 2410.31, 2522.13, 2325.48, 2399.43], "conv": [3625.0, 5307.0, 8340.0, 4362.0, 10558.0, 10550.0, 12092.0, 3134.0, 8349.0, 8869.0, 4882.0, 17787.0, 8281.0, 12995.0, 10640.0, 7523.0, 8886.0, 8677.0, 18740.0, 8923.0, 4845.0], "roas": [7.17, 3.25, 4.31, 2.24, 4.9, 4.89, 5.36, 2.0, 5.13, 4.57, 2.24, 9.25, 3.65, 5.47, 4.43, 3.12, 3.95, 3.6, 7.43, 3.84, 2.02]}, {"label": "黃金置頂廣告", "period": "6/8–6/21", "daily_budget": 1000, "highlight_col": "CPC", "impressions": [0, 0, 0, 0, 0, 0, 0, 47, 60, 65, 84, 73, 79, 58, 77, 52, 74, 49, 95, 75, 97], "clicks": [0, 0, 0, 0, 0, 0, 0, 3, 14, 0, 8, 3, 6, 3, 3, 1, 3, 9, 6, 6, 13], "spend": [0, 0, 0, 0, 0, 0, 0, 39.0, 210.0, 0.0, 122.0, 45.0, 90.0, 45.0, 45.0, 15.0, 45.0, 135.0, 90.0, 90.0, 195.0], "conv": [null, null, null, null, null, null, null, 843.0, 1688.0, null, null, null, 1943.0, null, null, 3117.0, 544.0, 4787.0, 2266.0, null, 748.0], "roas": [null, null, null, null, null, null, null, 21.62, 8.04, null, null, null, 21.59, null, null, 207.8, 12.09, 35.46, 25.18, null, 3.84]}, {"label": "展示型廣告", "period": "6/15–6/21", "daily_budget": 2000, "highlight_col": "CPM", "impressions": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 180, 8719, 8231, 7835, 8251, 8730, 9585], "clicks": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 20, 18, 7, 9, 18], "spend": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 31.5, 2003.43, 2001.15, 3008.88, 2001.87, 2007.9, 2012.85], "conv": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "roas": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]}, {"label": "FB CPA再行銷", "period": "6/1–6/30", "daily_budget": 150, "highlight_col": "CPC", "impressions": [1614, 990, 763, 1708, 1139, 852, 721, 802, 1389, 1417, 1550, 1539, 1484, 884, 844, 728, 790, 890, 1326, 1099, 1133], "clicks": [21, 9, 12, 36, 13, 17, 11, 17, 8, 17, 30, 30, 25, 19, 5, 17, 11, 7, 21, 19, 17], "spend": [226.0, 199.0, 190.0, 151.0, 192.0, 202.0, 183.0, 187.0, 144.0, 127.0, 136.0, 162.0, 206.0, 177.0, 169.0, 186.0, 148.0, 123.0, 141.0, 165.0, 119.0], "conv": [0.0, 0.0, 0.0, 0.0, 196.0, 0.0, 843.0, 625.0, 1316.0, 0.0, 1706.0, 1518.0, 658.0, 888.0, 658.0, 0.0, 568.0, 3185.0, 781.0, 0.0, 0.0], "roas": [null, null, null, null, 1.02, null, 4.61, 3.34, 9.14, null, 12.54, 9.37, 3.19, 5.02, 3.89, null, 3.84, 25.89, 5.54, null, null]}],
+    spendByChannel: {
+      "商品廣告": [505.23, 1634.21, 1935.83, 1943.11, 2154.07, 2158.78, 2255.3, 1569.86, 1629.05, 1941.59, 2179.93, 1923.83, 2266.85, 2376.49, 2400.29, 2411.65, 2249.29, 2410.31, 2522.13, 2325.48, 2399.43],
+      "黃金置頂廣告": [0, 0, 0, 0, 0, 0, 0, 39.0, 210.0, 0.0, 122.0, 45.0, 90.0, 45.0, 45.0, 15.0, 45.0, 135.0, 90.0, 90.0, 195.0],
+      "展示型廣告": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 31.5, 2003.43, 2001.15, 3008.88, 2001.87, 2007.9, 2012.85],
+      "FB CPA再行銷": [226.0, 199.0, 190.0, 151.0, 192.0, 202.0, 183.0, 187.0, 144.0, 127.0, 136.0, 162.0, 206.0, 177.0, 169.0, 186.0, 148.0, 123.0, 141.0, 165.0, 119.0],
+    },
+    noDailyChannels: [], channels: []
+  },
+  shopee: {
+    platform: 'shopee',
+    sales: [13161, 3737, 2047, 10438, 5913, 14530, 3200, 8247, 4506, 5686, 8887, 4686, 5657, 9051, 14434, 8602, 9004, 36077, 3978, 7559, 6580],
+    perf: [{"label": "商品廣告", "period": "6/8–6/21", "daily_budget": 1000, "highlight_col": "CPC", "impressions": [0, 0, 0, 0, 0, 0, 0, 7900, 9570, 6882, 10459, 8767, 9471, 9790, 4575, 7600, 13300, 1100, 1600, 4600, 1600], "clicks": [0, 0, 0, 0, 0, 0, 0, 152, 165, 139, 195, 183, 226, 173, 69, 184, 248, 18, 29, 105, 35], "spend": [0, 0, 0, 0, 0, 0, 0, 1000.0, 1000.0, 1000.0, 1000.0, 523.0, 1000.0, 1000.0, 1000.0, 1425.0, 1425.0, 1425.0, 1000.0, 1000.0, 1000.0], "conv": [0, 0, 0, 0, 0, 0, 0, 2847, 2778, 2628, 6700, 3207, 5258, 8261, 10725, 6894, 6398, 22425, 3188, 2369, 1329], "roas": [null, null, null, null, null, null, null, 2.85, 2.78, 2.63, 6.7, 6.13, 5.26, 8.26, 10.72, 4.84, 4.49, 15.74, 3.19, 2.37, 1.33]}, {"label": "品牌搜尋廣告", "period": "6/8–6/21", "daily_budget": 950, "highlight_col": "CPM", "impressions": [0, 0, 0, 0, 0, 0, 0, 39, 60, 68, 68, 45, 56, 47, 55, 42, 60, 30, 61, 70, 57], "clicks": [0, 0, 0, 0, 0, 0, 0, 4, 7, 4, 3, 4, 6, 5, 5, 3, 3, 3, 2, 5, 5], "spend": [0, 0, 0, 0, 0, 0, 0, 244.0, 366.0, 401.0, 400.0, 377.0, 475.0, 393.0, 466.0, 357.0, 589.0, 950.0, 532.0, 546.0, 447.0], "conv": [0, 0, 0, 0, 0, 0, 0, 0, 1329, 0, 0, 790, 399, 0, 0, 0, 932, 0, 0, 0, 0], "roas": [null, null, null, null, null, null, null, null, 3.63, null, null, 2.1, 0.84, null, null, null, 1.58, null, null, null, null]}, {"label": "FB CPA再行銷", "period": "6/1–6/21", "daily_budget": 150, "highlight_col": "CPC", "anomalyDates": ["6/1", "6/5"], "impressions": [22952, 3616, 5122, 57, 19097, 1047, 176, 81, 103, 47, 12, 79, 117, 104, 30, 77, 95, 34, 196, 198, 189], "clicks": [263, 32, 61, 0, 194, 10, 5, 1, 1, 1, 0, 1, 3, 3, 0, 1, 1, 0, 1, 6, 4], "spend": [3246.0, 490.0, 691.0, 9.0, 2822.0, 100.0, 11.0, 10.0, 5.0, 4.0, 2.0, 10.0, 11.0, 12.0, 3.0, 8.0, 7.0, 2.0, 27.0, 33.0, 18.0], "conv": [6480.0, 0.0, 0.0, 0.0, 1380.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 330.0, 0.0, 0.0, 0.0, 0.0], "roas": [2.0, null, null, null, 0.49, null, null, null, null, null, null, null, null, null, null, null, 47.14, null, null, null, null]}, {"label": "磁力日- FB CPC", "period": "6/16–6/18", "daily_budget": 200, "highlight_col": "CPC", "impressions": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4784, 5991, 4598, 0, 0, 0], "clicks": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 83, 79, 94, 0, 0, 0], "spend": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 190.0, 206.0, 220.0, 0, 0, 0], "conv": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 950.0, 0.0, 0.0, 0, 0, 0], "roas": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 5.0, null, null, null, null, null]}],
+    spendByChannel: {
+      "商品廣告": [0, 0, 0, 0, 0, 0, 0, 1000.0, 1000.0, 1000.0, 1000.0, 523.0, 1000.0, 1000.0, 1000.0, 1425.0, 1425.0, 1425.0, 1000.0, 1000.0, 1000.0],
+      "品牌搜尋廣告": [0, 0, 0, 0, 0, 0, 0, 244.0, 366.0, 401.0, 400.0, 377.0, 475.0, 393.0, 466.0, 357.0, 589.0, 950.0, 532.0, 546.0, 447.0],
+      "FB CPA再行銷": [3246.0, 490.0, 691.0, 9.0, 2822.0, 100.0, 11.0, 10.0, 5.0, 4.0, 2.0, 10.0, 11.0, 12.0, 3.0, 8.0, 7.0, 2.0, 27.0, 33.0, 18.0],
+      "磁力日FBCPC": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 190.0, 206.0, 220.0, 0, 0, 0],
+    },
+    noDailyChannels: [], channels: []
+  }
+};
+
+
+const dates = ["6/1","6/2","6/3","6/4","6/5","6/6","6/7","6/8","6/9","6/10","6/11","6/12","6/13","6/14","6/15","6/16","6/17","6/18","6/19","6/20","6/21"];
+
+function renderDailyDetail(platform){
+  const d = dailyDetail[platform];
+  const platformName = platform==='momo' ? 'momo' : '蝦皮';
+  const accentColor = platform==='momo' ? 'var(--momo)' : 'var(--shopee)';
+  const channelNames = Object.keys(d.spendByChannel);
+
+  // ===== Table 1: 每日業績與各廣告版位花費 =====
+  let html = `<h3 class="zh" style="font-size:14px; margin-bottom:10px; color:var(--steel);">每日業績與各廣告版位花費</h3>`;
+  html += `<table style="margin-bottom:8px; border-top:3px solid ${accentColor};"><thead>`;
+  html += `<tr>
+    <th class="zh" rowspan="2" style="vertical-align:middle; text-align:left;">日期</th>
+    <th class="zh" style="background:${accentColor}; text-align:center;">業績</th>
+    <th class="zh" colspan="${channelNames.length + 1}" style="background:var(--steel); text-align:center;">廣告花費</th>
+  </tr><tr>
+    <th class="zh">業績</th>`;
+  channelNames.forEach(ch => {
+    html += `<th class="zh">${ch}</th>`;
+  });
+  html += `<th class="zh">合計</th></tr></thead><tbody>`;
+
+  dates.forEach((dt, i) => {
+    const rowSales = d.sales[i];
+    const chSpends = channelNames.map(ch => d.spendByChannel[ch][i] || 0);
+    const totalSpend = chSpends.reduce((a,b)=>a+b,0);
+    html += `<tr>
+      <td class="zh" style="text-align:left;">${dt}</td>
+      <td style="font-family:var(--font-en); text-align:right;">$${rowSales.toLocaleString()}</td>`;
+    chSpends.forEach(sp => {
+      html += `<td style="font-family:var(--font-en); text-align:right;">${sp ? '$'+Math.round(sp).toLocaleString() : '–'}</td>`;
+    });
+    html += `<td style="font-family:var(--font-en); text-align:right; font-weight:700;">${totalSpend ? '$'+Math.round(totalSpend).toLocaleString() : '–'}</td>
+    </tr>`;
+  });
+
+  const totSales = d.sales.reduce((a,b)=>a+b,0);
+  html += `<tr class="subtotal">
+    <td class="zh" style="text-align:left;">合計</td>
+    <td style="font-family:var(--font-en); text-align:right;"><b>$${totSales.toLocaleString()}</b></td>`;
+  channelNames.forEach(ch => {
+    const tot = d.spendByChannel[ch].reduce((a,b)=>a+b,0);
+    html += `<td style="font-family:var(--font-en); text-align:right;"><b>${tot ? '$'+Math.round(tot).toLocaleString() : '–'}</b></td>`;
+  });
+  const grandTotal = channelNames.reduce((a,ch) => a + d.spendByChannel[ch].reduce((x,y)=>x+y,0), 0);
+  html += `<td style="font-family:var(--font-en); text-align:right; font-weight:700;"><b>$${Math.round(grandTotal).toLocaleString()}</b></td></tr>`;
+  html += `</tbody></table>`;
+
+  // ===== Table 2: Per-channel detail tables =====
+  d.perf.forEach(ch => {
+    const HL_CPC = ch.highlight_col === 'CPC';
+    const HL_CPM = ch.highlight_col === 'CPM';
+    const HL_STYLE_CPC = HL_CPC ? ' background:#fff9e0; color:#5a3e00; font-weight:700;' : '';
+    const HL_STYLE_CPM = HL_CPM ? ' background:#fff9e0; color:#5a3e00; font-weight:700;' : '';
+    const HAS_CONV = ch.conv && ch.conv.some(v => v);
+
+    const periodBadge = ch.period
+      ? `<span style="font-size:11px;font-weight:400;color:#9aa6b1;margin-left:8px;">走期 ${ch.period}　日預算 $${(ch.daily_budget||0).toLocaleString()}</span>`
+      : '';
+
+    let tableHtml = `<table style="border-top:3px solid ${accentColor}; table-layout:auto; width:100%;"><thead><tr>
+      <th class="zh" style="text-align:left; min-width:52px;">日期</th>
+      <th class="zh" style="text-align:right;">曝光</th>
+      <th class="zh" style="text-align:right;">點擊</th>
+      <th class="zh" style="text-align:right;">CTR</th>
+      <th class="zh" style="text-align:right;${HL_STYLE_CPC}">CPC</th>
+      <th class="zh" style="text-align:right;${HL_STYLE_CPM}">CPM</th>
+      <th class="zh" style="text-align:right;">花費</th>
+      <th class="zh" style="text-align:right;">廣告帶來轉換</th>
+      <th class="zh" style="text-align:right;">廣告ROAS</th>
+    </tr></thead><tbody>`;
+
+    dates.forEach((dt, i) => {
+      // Skip days outside the channel's active period (no spend and no impressions)
+      if (!ch.spend[i] && !ch.impressions[i]) return;
+      const isAnomaly = ch.anomalyDates && ch.anomalyDates.includes(dt);
+      const imp = ch.impressions[i] || 0;
+      const clk = ch.clicks[i] || 0;
+      const sp  = ch.spend[i] || 0;
+      const cv  = ch.conv  ? (ch.conv[i]  || null) : null;
+      const rv  = ch.roas  ? (ch.roas[i]  || null) : null;
+      const ctr = imp ? (clk/imp*100).toFixed(2)+'%' : '–';
+      const cpc = clk && sp ? '$'+Math.round(sp/clk).toLocaleString() : '–';
+      const cpm = imp && sp ? '$'+Math.round((sp/imp)*1000).toLocaleString() : '–';
+      const rowStyle = isAnomaly ? 'background:#fff3cd;' : (!sp ? 'color:#bbb;' : '');
+      const anomalyBadge = isAnomaly ? '<span style="font-size:10px;color:#b07d00;font-weight:700;margin-left:3px;">⚠異常</span>' : '';
+      tableHtml += `<tr style="${rowStyle}">
+        <td class="zh" style="text-align:left;">${dt}${anomalyBadge}</td>
+        <td style="text-align:right;">${imp ? imp.toLocaleString() : '–'}</td>
+        <td style="text-align:right;">${clk ? clk.toLocaleString() : '–'}</td>
+        <td style="text-align:right;">${ctr}</td>
+        <td style="text-align:right;${HL_STYLE_CPC}">${cpc}</td>
+        <td style="text-align:right;${HL_STYLE_CPM}">${cpm}</td>
+        <td style="text-align:right;">${sp ? '$'+Math.round(sp).toLocaleString() : '–'}</td>
+        <td style="text-align:right;">${cv ? '$'+Math.round(cv).toLocaleString() : '–'}</td>
+        <td style="text-align:right;">${rv ? rv+'x' : '–'}</td>
+      </tr>`;
+    });
+
+    // Only sum days that were active (had spend or impressions)
+    const activeDays = dates.map((dt,i)=>i).filter(i=>ch.spend[i]||ch.impressions[i]);
+    const totImp = activeDays.reduce((a,i)=>a+(ch.impressions[i]||0),0);
+    const totClk = activeDays.reduce((a,i)=>a+(ch.clicks[i]||0),0);
+    const totSpd = activeDays.reduce((a,i)=>a+(ch.spend[i]||0),0);
+    const totCv  = ch.conv ? activeDays.reduce((a,i)=>a+(ch.conv[i]||0),0) : 0;
+    const avgRoas = totCv && totSpd ? (totCv/totSpd).toFixed(2) : null;
+    tableHtml += `<tr class="subtotal">
+      <td class="zh" style="text-align:left;">合計</td>
+      <td style="text-align:right;"><b>${totImp.toLocaleString()}</b></td>
+      <td style="text-align:right;"><b>${totClk.toLocaleString()}</b></td>
+      <td style="text-align:right;"><b>${totImp ? (totClk/totImp*100).toFixed(2)+'%' : '–'}</b></td>
+      <td style="text-align:right;${HL_STYLE_CPC}"><b>${totClk && totSpd ? '$'+Math.round(totSpd/totClk).toLocaleString() : '–'}</b></td>
+      <td style="text-align:right;${HL_STYLE_CPM}"><b>${totImp && totSpd ? '$'+Math.round((totSpd/totImp)*1000).toLocaleString() : '–'}</b></td>
+      <td style="text-align:right;"><b>$${Math.round(totSpd).toLocaleString()}</b></td>
+      <td style="text-align:right;"><b>${totCv ? '$'+Math.round(totCv).toLocaleString() : '–'}</b></td>
+      <td style="text-align:right;"><b>${avgRoas ? avgRoas+'x' : '–'}</b></td>
+    </tr></tbody></table>`;
+
+    html += `<details class="perf-detail" open>
+      <summary>${ch.label}${periodBadge}　每日成效明細<span style="font-family:var(--font-en); font-size:12px; color:#9aa6b1; font-weight:400; margin-left:10px;">點擊展開</span></summary>
+      <div class="detail-body">${tableHtml}</div>
+    </details>`;
+  });
+
+  document.getElementById('dailyDetailWrap').innerHTML = html;
+}
+renderDailyDetail('momo');
+
+document.getElementById('dailyPlatformToggle').addEventListener('click', e=>{
+  if(e.target.tagName !== 'BUTTON') return;
+  document.querySelectorAll('#dailyPlatformToggle button').forEach(b=>b.classList.remove('active'));
+  e.target.classList.add('active');
+  renderDailyDetail(e.target.dataset.platform);
+});
+
+// ===== Section 03: Monthly Sales Chart =====
+const MONTHLY_SALES = {
+  labels: ['1月','2月','3月','4月','5月','6月\n截至6/21'],
+  momo_total:   [461299, 680695, 473906, 469153, 635926, 400559],
+  shopee_total: [184443, 262230, 277492, 205596, 292486, 185980],
+  momo_avg:     [14881, 24311, 15287, 15638, 20514, 19074],
+  shopee_avg:   [6148, 9365, 8951, 7615, 9435, 8856],
+};
+const monthlySeriesCfg = {
+  momo_total:   {label:'momo 業績',  color:'#e6007e', type:'bar',  yAxis:'y'},
+  shopee_total: {label:'蝦皮 業績',  color:'#ee4d2d', type:'bar',  yAxis:'y'},
+  momo_avg:     {label:'momo 日均',  color:'#c084a0', type:'line', yAxis:'y1'},
+  shopee_avg:   {label:'蝦皮 日均',  color:'#d4a07a', type:'line', yAxis:'y1'},
+};
+let monthlyChart;
+function renderMonthlyChart() {
+  const active = Array.from(document.querySelectorAll('#monthlyChips .chip.active')).map(c=>c.dataset.mseries);
+  const datasets = active.map(key => {
+    const cfg = monthlySeriesCfg[key];
+    const base = {label:cfg.label, data:MONTHLY_SALES[key], borderColor:cfg.color, backgroundColor:cfg.color+'cc', yAxisID:cfg.yAxis};
+    return cfg.type==='bar'
+      ? {...base, type:'bar', borderRadius:6, maxBarThickness:36}
+      : {...base, type:'line', tension:.35, borderWidth:2.5, pointRadius:4, pointBackgroundColor:cfg.color, backgroundColor:'transparent'};
+  });
+  const usedAxes = new Set(datasets.map(d=>d.yAxisID));
+  if(monthlyChart) monthlyChart.destroy();
+  monthlyChart = new Chart(document.getElementById('monthlyChart').getContext('2d'), {
+    data: {labels: MONTHLY_SALES.labels, datasets},
+    options: {
+      responsive:true, interaction:{mode:'index',intersect:false},
+      plugins:{
+        legend:{position:'bottom', labels:{font:{family:'Microsoft JhengHei',size:12}}},
+        tooltip:{titleFont:{family:'Calibri'}, bodyFont:{family:'Microsoft JhengHei'},
+          callbacks:{label: ctx=>`${ctx.dataset.label}: $${Math.round(ctx.raw).toLocaleString()}`}}
+      },
+      scales:{
+        x:{ticks:{font:{family:'Calibri'}}, grid:{display:false}},
+        y:{position:'left', display:usedAxes.has('y'),
+           title:{display:true, text:'業績 (NT$)', font:{family:'Microsoft JhengHei',size:12}},
+           ticks:{font:{family:'Calibri'}, callback:v=>'$'+Math.round(v).toLocaleString()}},
+        y1:{position:'right', display:usedAxes.has('y1'),
+            title:{display:true, text:'日均 (NT$)', font:{family:'Microsoft JhengHei',size:12}},
+            grid:{drawOnChartArea:false},
+            ticks:{font:{family:'Calibri'}, callback:v=>'$'+Math.round(v).toLocaleString()}},
+      }
+    }
+  });
+}
+document.getElementById('monthlyChips').addEventListener('click', e=>{
+  const chip = e.target.closest('.chip');
+  if(!chip) return;
+  chip.classList.toggle('active');
+  renderMonthlyChart();
+});
+renderMonthlyChart();
+
+function initAll(){
+  if(typeof Chart==='undefined'){ if(!window._cr)window._cr=0; if(++window._cr<100)setTimeout(initAll,100); return; }
+  try{renderChart();}catch(e){console.error('RC:',e.message);}
+  try{renderDailyDetail('momo');}catch(e){console.error('RD:',e.message);}
+  try{renderMonthlyChart();}catch(e){console.error('RM:',e.message);}
+  window._chartsReady=true;
+}
+window.addEventListener('load',function(){setTimeout(initAll,200);});
+initAll();
+</script>
+
+  >
