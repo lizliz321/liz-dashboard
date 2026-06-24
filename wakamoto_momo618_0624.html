@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>若元益生菌 momo 618 廣告成效</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{--ink:#1a2a45;--steel:#2a5a8a;--field:#4a84be;--sky:#7ab0e0;--mist:#eaf0f8;--paper:#f8f6f2;--line:#d0dde8;--good:#3a7cbd;--warn:#c9742b;--bad:#c0473c;--momo:#d4417f;--probiotic:#4a7c8e;--font-zh:"Microsoft JhengHei","PingFang TC","Noto Sans TC",sans-serif;--font-en:"Calibri","Segoe UI",sans-serif;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:var(--font-en),var(--font-zh);background:var(--paper);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased;}
+  .zh{font-family:var(--font-zh);}
+  header{background:linear-gradient(135deg,#1a2f5e 0%,#1e5080 55%,#2e7baa 100%);color:#fff;padding:36px 28px 28px;position:relative;overflow:hidden;}
+  header::after{content:"";position:absolute;right:-60px;top:-60px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(209,196,233,0.25),transparent 70%);}
+  .eyebrow{font-family:var(--font-zh);font-size:12px;letter-spacing:.3em;color:#b8d4de;margin-bottom:10px;font-weight:700;}
+  h1{font-family:var(--font-zh);font-size:clamp(22px,4vw,34px);font-weight:700;}
+  .meta{margin-top:10px;font-size:13px;color:#b8d4de;font-family:var(--font-zh);}.meta b{color:#fff;}
+  .hn-wrap{margin-top:20px;display:flex;flex-wrap:wrap;gap:10px;}
+  .hn{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.3);border-radius:6px;padding:11px 16px;max-width:500px;}
+  .hn-y{border-left:4px solid #f5e6a3;}.hn-b{border-left:4px solid #6aaabf;}
+  .hn-title{font-family:var(--font-zh);font-size:11.5px;font-weight:700;color:#f5e6a3;margin-bottom:5px;}
+  .hn-b .hn-title{color:#a8c8d8;}
+  .hn-body{font-family:var(--font-zh);font-size:13px;color:#eee;line-height:1.8;}
+  main{max-width:1280px;margin:0 auto;padding:28px 20px 60px;}
+  section{margin-top:38px;}
+  .sh{display:flex;align-items:baseline;gap:12px;margin-bottom:16px;border-bottom:2px solid var(--ink);padding-bottom:10px;}
+  .sn{font-family:var(--font-en);font-weight:700;font-size:13px;color:#fff;background:var(--ink);border-radius:4px;padding:3px 8px;}
+  .sh h2{font-family:var(--font-zh);font-size:19px;font-weight:700;color:var(--ink);}
+  .sh .en{font-family:var(--font-en);font-size:12px;color:#8a98a8;}
+  .kg{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:14px;}
+  .kc{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px 16px 14px;position:relative;overflow:hidden;transition:box-shadow .2s,transform .2s;}
+  .kc:hover{box-shadow:0 6px 18px rgba(26,35,50,.08);transform:translateY(-2px);}
+  .kc .ac{position:absolute;left:0;top:0;bottom:0;width:4px;}
+  .kc .lb{font-family:var(--font-zh);font-size:11.5px;color:#6f7e8d;font-weight:700;}
+  .kc .vl{font-family:var(--font-en);font-size:23px;font-weight:700;color:var(--ink);margin-top:5px;}
+  .kc .sb{margin-top:5px;font-size:11.5px;color:#9aa6b1;font-family:var(--font-zh);line-height:1.8;}
+  .hy{background:#fff4cf;padding:1px 6px;border-radius:4px;font-weight:700;color:#5d4800;display:inline-block;}
+  .nc{display:inline-block;margin-left:3px;font-size:10.5px;padding:1px 5px;border-radius:999px;font-weight:700;vertical-align:middle;white-space:nowrap;}
+  .ncf{background:#fff4cf;color:#7a5500;}.ncp{background:#d4e6f5;color:#1e5080;}
+  .cc{background:#fff;border:1px solid var(--line);border-radius:10px;padding:20px;}
+  .ctrl{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;align-items:center;}
+  .chip{font-family:var(--font-zh);font-size:12.5px;font-weight:700;padding:6px 14px;border-radius:999px;border:1.5px solid var(--line);background:#fff;color:#6f7e8d;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:6px;}
+  .chip .dot{width:9px;height:9px;border-radius:50%;display:inline-block;}.chip.active{border-color:currentColor;}
+  canvas{max-height:380px;}
+  table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;border:1px solid var(--line);}
+  thead th{font-family:var(--font-zh);font-size:11.5px;font-weight:700;text-align:right;background:var(--ink);color:#fff;padding:9px 10px;white-space:nowrap;}
+  thead th:first-child{text-align:left;}
+  tbody td{font-family:var(--font-en);font-size:12.5px;text-align:right;padding:8px 10px;border-bottom:1px solid var(--line);color:var(--ink);white-space:nowrap;}
+  tbody td:first-child{text-align:left;font-family:var(--font-zh);}
+  tbody tr:nth-child(even){background:var(--mist);}
+  tbody tr.sub{background:#e6edf3;font-weight:700;}
+  tbody tr.sub td{border-top:2px solid var(--steel);}
+  tbody tr:hover{background:#e9f1f7;}
+  td.roas-hi{background:#ddeeff;color:#1a5fa8;font-weight:700;}
+  td.roas-mid{background:#fff4cf;color:#7a5500;font-weight:700;}
+  td.roas-lo{background:#fde8e5;color:var(--bad);font-weight:700;}
+  td.roas-zero{color:#bbb;}
+  details.pd{margin-bottom:18px;}
+  details.pd summary{display:flex;align-items:center;gap:10px;cursor:pointer;list-style:none;padding:10px 16px;background:var(--mist);border:1px solid var(--line);border-radius:8px;font-family:var(--font-zh);font-size:13.5px;font-weight:700;color:var(--steel);user-select:none;}
+  details.pd summary:hover{background:#e0e8f0;}
+  details.pd summary::-webkit-details-marker{display:none;}
+  details.pd summary::before{content:"▶";font-size:11px;color:var(--field);transition:transform .2s;display:inline-block;}
+  details.pd[open] summary::before{transform:rotate(90deg);}
+  details.pd[open] summary{border-radius:8px 8px 0 0;border-bottom-color:transparent;}
+  details.pd .db{border:1px solid var(--line);border-top:none;border-radius:0 0 8px 8px;overflow-x:auto;}
+  details.pd .db table{border:none;border-radius:0;}
+  .dc{background:#fff;border:1px solid var(--line);border-radius:10px;padding:20px;margin-bottom:16px;}
+  .dtag{display:inline-block;padding:3px 12px;border-radius:4px;font-family:var(--font-zh);font-size:12px;font-weight:700;color:#fff;margin-right:8px;}
+  footer{text-align:center;padding:24px;font-size:11.5px;color:#9aa6b1;font-family:var(--font-zh);}
+  @media(max-width:900px){.kg{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:540px){.kg{grid-template-columns:1fr;}}
+
+  /* ===== Font unification ===== */
+  * { -webkit-font-smoothing: antialiased; }
+  body { font-family: "Calibri","Segoe UI",sans-serif; font-size:14px; }
+  .zh, .zh *, thead th, tbody td:first-child, .label, .lb, .kc .lb, .kpi-card .label,
+  .section-head h2, .sh h2, summary, .hn-body, .hn-title, .nc, .ncp, .ncf,
+  .best-tag, .dtag, .dc ul li, .diag-card ul li, .dc h3, .pkg-kpi .plb,
+  .pkg-kpi .psb, .footer, footer,
+  td.zh, th.zh { font-family: "Microsoft JhengHei","PingFang TC","Noto Sans TC",sans-serif !important; }
+  /* English: numbers, codes, en labels */
+  .value, .vl, .kc .vl, .kpi-card .value,
+  thead th:not(.zh), tbody td:not(:first-child),
+  .section-head .en, .sh .en, .eyebrow,
+  canvas + *, .chip, .chip *,
+  .pkg-kpi .pvl { font-family: "Calibri","Segoe UI",sans-serif !important; }
+  /* Table uniformity */
+  thead th { font-size:12px; padding:9px 10px; white-space:nowrap; }
+  tbody td { font-size:13px; padding:8px 10px; white-space:nowrap; }
+  tbody tr { line-height:1.4; }
+  .kc .lb, .kpi-card .label { font-size:12px; }
+  .kc .vl, .kpi-card .value { font-size:22px; }
+  .kc .sb, .kpi-card .sub { font-size:11.5px; line-height:1.7; }
+
+</style>
+</head><body>
+<header>
+  <div class="eyebrow zh">618 廣告成效報告　·　若元益生菌 momo</div>
+  <h1>若元益生菌　momo 618 廣告成效儀表板</h1>
+  <div class="meta">產品：若元益生菌　|　平台：momo　|　報表期間：<b>2026/06/01 – 06/17</b></div>
+  <div class="hn-wrap">
+    <div class="hn hn-y"><div class="hn-title">📦 廣告組合</div><div class="hn-body">Real Shopper（Google RS）＋ momo 商品廣告<br>FB CPA 618導購 ＋ FB CPA 購物車再行銷<br>MOMO 包套 $160,000（固定費用）</div></div>
+    <div class="hn hn-b"><div class="hn-title">⚡ 特殊說明</div><div class="hn-body">6/4、6/10 有<b style="color:#f5e6a3;">一日限搶</b>，業績大幅提升（$113,383 / $147,135）<br>6/9–6/14 為 <b style="color:#b8d4de;">momo 包套</b>執行期間</div></div>
+  </div>
+</header>
+<main>
+
+<section>
+  <div class="sh"><span class="sn">01</span><h2 class="zh">核心績效指標</h2><span class="en">KPI Overview · 6/1–6/17</span></div>
+  <div class="kg">
+    <div class="kc" style="background:#e8f1fa;border-color:var(--probiotic);"><div class="ac" style="background:var(--probiotic);"></div><div class="lb zh">6月廣告總預算（含包套）</div><div class="vl">$316,907</div><div class="sb zh">RS+商品+FB $156,907 ＋ 包套 $160,000</div></div>
+    <div class="kc" style="background:#e8f1fa;border-color:var(--probiotic);"><div class="ac" style="background:var(--probiotic);"></div><div class="lb zh">總廣告花費（含包套）</div><div class="vl">$278,665</div><div class="sb zh"><span class="hy">達成率 87.9%</span></div></div>
+    <div class="kc" style="background:#fde8f4;border-color:var(--momo);"><div class="ac" style="background:var(--momo);"></div><div class="lb zh">momo 業績（6/1–6/17）</div><div class="vl">$755,156</div><div class="sb zh">含限搶＋包套期間累積</div></div>
+    <div class="kc" style="background:#fde8f4;border-color:var(--momo);"><div class="ac" style="background:var(--momo);"></div><div class="lb zh">業績 ROAS（含包套）</div><div class="vl">2.71x</div><div class="sb zh"><span class="hy">755,156 ÷ 278,665</span></div></div>
+  </div>
+</section>
+
+<section>
+  <div class="sh"><span class="sn">02</span><h2 class="zh">每日業績與廣告花費趨勢</h2><span class="en">Daily Sales vs Ad Spend · 6/1–6/17</span></div>
+  <!-- YoY comparison table -->
+  <table style="border-top:3px solid var(--probiotic);margin-bottom:20px;">
+    <thead><tr>
+      <th class="zh" style="text-align:left;">指標</th>
+      <th class="zh">2025</th><th class="zh">2026</th><th class="zh">YoY</th>
+    </tr></thead>
+    <tbody>
+      <tr><td class="zh">momo 業績</td><td>$235,455</td><td>$755,156</td><td class="good">▲ 220.7%</td></tr>
+      <tr><td class="zh">總廣告花費</td><td>$259,055</td><td>$278,665</td><td style="color:var(--bad);font-weight:700;">▲ 7.6%</td></tr>
+      <tr><td class="zh">業績 ROAS</td><td>0.91x</td><td>2.71x</td><td class="good">大幅提升</td></tr>
+      <tr><td class="zh" style="font-size:11px;color:#9aa6b1;">備註</td><td colspan="3" style="text-align:left;font-size:11.5px;color:#9aa6b1;font-family:var(--font-zh);">2025 RS 於 6/9 才開始執行；2026 廣告啟動更早，整體效率更高。<b>備註：</b>2025 年 6 月為食品益生菌上市第 2 個月，廣告規模小、品牌基礎薄弱，兩年背景條件不同，YoY 供參考。</td></tr>
+    </tbody>
+  </table>
+  <div class="cc">
+    <div class="ctrl" id="seriesChips">
+      <span class="chip active" data-series="sales"><span class="dot" style="background:var(--momo)"></span>momo 業績 2026</span>
+      <span class="chip" data-series="sales_25"><span class="dot" style="background:#e6007e55"></span>momo 業績 2025</span>
+      <span class="chip active" data-series="total_spend"><span class="dot" style="background:var(--probiotic)"></span>總廣告花費 2026</span>
+      <span class="chip" data-series="spend_25"><span class="dot" style="background:#4a7c8e55"></span>總廣告花費 2025</span>
+      <span class="chip" data-series="roas"><span class="dot" style="background:var(--warn)"></span>ROAS</span>
+    </div>
+    <canvas id="trendChart"></canvas>
+  </div>
+</section>
+
+<section>
+  <div class="sh"><span class="sn">03</span><h2 class="zh">2026 每月 momo 業績</h2><span class="en">Monthly momo Sales · Jan – Jun 2026</span></div>
+  <table style="border-top:3px solid var(--probiotic);margin-bottom:20px;table-layout:fixed;width:100%;"><thead><tr>
+    <th class="zh" style="text-align:left;width:30%;">月份</th><th class="zh" style="width:14%;">momo 業績</th><th class="zh" style="width:13%;">日均業績</th><th class="zh" style="width:7%;">天數</th><th class="zh" style="width:17%;">日均（扣限搶）</th><th class="zh" style="width:14%;font-size:10.5px;text-align:right;">扣除日期</th>
+  </tr></thead><tbody>
+    <tr><td class="zh" style="text-align:left;">1 月</td><td style="text-align:right;">$949,163</td><td style="text-align:right;color:#9aa6b1;">$30,618</td><td style="text-align:right;color:#9aa6b1;">31</td><td style="text-align:right;color:#6f7e8d;">$30,618</td><td style="text-align:right;font-size:11px;color:#9aa6b1;font-family:var(--font-zh);">無限搶日</td></tr>
+    <tr style="background:var(--mist);"><td class="zh" style="text-align:left;">2 月<span style="display:block;font-size:11px;color:#c4976a;margin-top:2px;">🧧 農曆年包套 <span class="nc ncf">⚡限搶 2/10</span></span></td><td style="text-align:right;">$1,263,537</td><td style="text-align:right;color:#9aa6b1;">$45,126</td><td style="text-align:right;color:#9aa6b1;">28</td><td style="text-align:right;color:#6f7e8d;">$39,955</td><td style="text-align:right;font-size:11px;color:#9aa6b1;font-family:var(--font-zh);">扣 2/10</td></tr>
+    <tr><td class="zh" style="text-align:left;">3 月<span style="display:block;font-size:11px;color:#6f7e8d;margin-top:2px;"><span class="nc ncf">⚡限搶 3/13、3/19</span></span></td><td style="text-align:right;">$1,442,054</td><td style="text-align:right;color:#9aa6b1;">$46,518</td><td style="text-align:right;color:#9aa6b1;">31</td><td style="text-align:right;color:#6f7e8d;">$38,628</td><td style="text-align:right;font-size:11px;color:#9aa6b1;font-family:var(--font-zh);">扣 3/13、3/19</td></tr>
+    <tr style="background:var(--mist);"><td class="zh" style="text-align:left;">4 月<span style="display:block;font-size:11px;color:#c4976a;margin-top:2px;">📦 包套 <span class="nc ncf">⚡限搶 4/4、4/17、4/27</span></span></td><td style="text-align:right;">$1,472,783</td><td style="text-align:right;color:#9aa6b1;">$49,093</td><td style="text-align:right;color:#9aa6b1;">30</td><td style="text-align:right;color:#6f7e8d;">$33,087</td><td style="text-align:right;font-size:11px;color:#9aa6b1;font-family:var(--font-zh);">扣 4/4、4/17、4/27</td></tr>
+    <tr><td class="zh" style="text-align:left;">5 月<span style="display:block;font-size:11px;color:#6a8eb8;margin-top:2px;">🌷 母親節包套 <span class="nc ncf">⚡限搶 5/10</span></span></td><td style="text-align:right;">$1,425,289</td><td style="text-align:right;color:#9aa6b1;">$45,977</td><td style="text-align:right;color:#9aa6b1;">31</td><td style="text-align:right;color:#6f7e8d;">$37,641</td><td style="text-align:right;font-size:11px;color:#9aa6b1;font-family:var(--font-zh);">扣 5/10</td></tr>
+    <tr style="background:#e8f1fa;"><td class="zh" style="text-align:left;font-weight:700;">6 月<span style="display:block;font-size:11px;font-weight:400;margin-top:2px;color:var(--probiotic);">🎉 618包套 6/9–6/14 <span class="nc ncf">⚡限搶 6/4、6/10</span></span><span style="font-size:10.5px;color:#9aa6b1;font-weight:400;">截至 6/17</span></td><td style="text-align:right;font-weight:700;color:var(--momo);">$755,156</td><td style="text-align:right;color:#9aa6b1;">$45,081</td><td style="text-align:right;color:#9aa6b1;">16</td><td style="text-align:right;color:#6f7e8d;">$32,912</td><td style="text-align:right;font-size:11px;color:#9aa6b1;font-family:var(--font-zh);">扣 6/4、6/10</td></tr>
+  </tbody></table>
+  <div class="cc">
+    <div class="ctrl" id="monthlyChips">
+      <span class="chip active" data-mseries="monthly_total"><span class="dot" style="background:var(--momo)"></span>月業績</span>
+      <span class="chip active" data-mseries="monthly_avg"><span class="dot" style="background:var(--probiotic)"></span>日均業績</span>
+    </div>
+    <canvas id="monthlyChart" style="max-height:280px;"></canvas>
+  </div>
+</section>
+
+<section>
+  <div class="sh"><span class="sn">04</span><h2 class="zh">各廣告版位成效彙整</h2><span class="en">Channel Performance Summary · 6/1–6/17</span></div>
+  <table style="border-top:3px solid var(--probiotic);">
+    <thead><tr>
+      <th class="zh" style="text-align:left;">廣告版位</th>
+      <th class="zh">預算</th><th class="zh">花費</th><th class="zh">達成率</th>
+      <th class="zh">曝光</th><th class="zh">點擊</th><th class="zh">廣告帶來轉換</th>
+      <th class="zh">CTR</th><th class="zh">CPC</th><th class="zh">CPM</th><th class="zh">廣告ROAS</th>
+    </tr></thead>
+            <tbody>
+      <tr>
+        <td class="zh">Real Shopper（Google RS）</td>
+        <td>$100,000</td><td>$85,302</td><td><span class="hy">85.3%</span></td>
+        <td>1,246,115</td><td>14,179</td><td>$125,398</td>
+        <td>1.14%</td><td>$6.02</td>
+        <td>$68.45</td>
+        <td class="roas-mid">1.47x</td>
+      </tr>
+      <tr style="background:var(--mist);">
+        <td class="zh">momo 商品廣告 <span class="best-tag">🏆 ROAS 最佳</span></td>
+        <td>$10,500</td><td>$8,811</td><td><span class="hy">83.9%</span></td>
+        <td>7,479</td><td>325</td><td>$87,050</td>
+        <td>4.35%</td><td>$27.11</td>
+        <td>$1178.08</td>
+        <td class="roas-hi">9.88x</td>
+      </tr>
+      <tr>
+        <td class="zh">FB CPA 618導購</td>
+        <td>$17,316</td><td>$14,687</td><td><span class="hy">84.8%</span></td>
+        <td>40,499</td><td>665</td>
+        <td class="roas-zero">–</td>
+        <td>1.64%</td><td>$22.09</td>
+        <td>$362.65</td>
+        <td class="roas-zero">–</td>
+      </tr>
+      <tr style="background:var(--mist);">
+        <td class="zh">FB CPA 購物車再行銷</td>
+        <td>$16,104</td><td>$9,865</td><td><span class="hy">61.3%</span></td>
+        <td>36,551</td><td>506</td><td>$20,272.0</td>
+        <td>1.38%</td><td>$19.50</td>
+        <td>$269.90</td>
+        <td class="roas-hi">2.05x</td>
+      </tr>
+      <tr>
+        <td class="zh">MOMO 包套 <span class="nc ncp">6/9–6/14</span></td>
+        <td>$160,000</td><td>$160,000</td><td>100%</td>
+        <td colspan="7" style="text-align:left;color:#9aa6b1;font-family:var(--font-zh);font-size:12px;">固定包套費用，不列入各欄指標計算</td>
+      </tr>
+      <tr class="sub">
+        <td class="zh">總計（含包套）</td>
+        <td>$316,907</td><td>$278,665</td>
+        <td><span class="hy">87.9%</span></td>
+        <td>1,330,644</td><td>15,675</td>
+        <td>$232,719.0</td>
+        <td>1.18%</td><td>$7.57</td><td>$89.18</td>
+        <td class="roas-mid">0.86x</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <div class="sh"><span class="sn">05</span><h2 class="zh">每日數據明細</h2><span class="en">Daily Performance Detail · 6/1–6/17</span></div>
+  <table style="border-top:3px solid var(--probiotic);margin-bottom:20px;">
+    <thead><tr>
+      <th class="zh" style="text-align:left;">日期</th>
+      <th class="zh">momo業績</th><th class="zh">總廣告花費</th><th class="zh">ROAS</th>
+      <th class="zh">RS花費</th><th class="zh">商品廣告</th><th class="zh">FB 618 CPA</th><th class="zh">FB購物車再行銷</th>
+    </tr></thead>
+    <tbody id="dailyBody"></tbody>
+  </table>
+  <details class="pd">
+    <summary>Real Shopper（Google RS）每日成效<span style="font-family:var(--font-en);font-size:12px;color:#9aa6b1;font-weight:400;margin-left:10px;">點擊展開</span></summary>
+    <div class="db"><table><thead><tr>
+      <th class="zh" style="text-align:left;">日期</th>
+      <th class="zh">花費</th><th class="zh">曝光</th><th class="zh">點擊</th><th class="zh">廣告帶來轉換</th>
+      <th class="zh">CTR</th><th class="zh">CPC</th><th class="zh">CPM</th><th class="zh">廣告ROAS</th>
+    </tr></thead><tbody id="rsBody"></tbody></table></div>
+  </details>
+  <details class="pd">
+    <summary>momo 商品廣告每日成效<span style="font-family:var(--font-en);font-size:12px;color:#9aa6b1;font-weight:400;margin-left:10px;">點擊展開</span></summary>
+    <div class="db"><table><thead><tr>
+      <th class="zh" style="text-align:left;">日期</th>
+      <th class="zh">花費</th><th class="zh">曝光</th><th class="zh">點擊</th><th class="zh">廣告帶來轉換</th>
+      <th class="zh">CTR</th><th class="zh">CPC</th><th class="zh">CPM</th><th class="zh">廣告ROAS</th>
+    </tr></thead><tbody id="prodBody"></tbody></table></div>
+  </details>
+  <details class="pd">
+    <summary>FB CPA 618導購　每日成效<span style="font-family:var(--font-en);font-size:12px;color:#9aa6b1;font-weight:400;margin-left:10px;">點擊展開</span></summary>
+    <div class="db"><table><thead><tr>
+      <th class="zh" style="text-align:left;">日期</th>
+      <th class="zh">花費</th><th class="zh">曝光</th><th class="zh">點擊</th><th class="zh">廣告帶來轉換</th>
+      <th class="zh">CTR</th><th class="zh">CPC</th><th class="zh">CPM</th><th class="zh">廣告ROAS</th>
+    </tr></thead><tbody id="fbCpaBody"></tbody></table></div>
+  </details>
+  <details class="pd">
+    <summary>FB CPA 購物車再行銷　每日成效<span style="font-family:var(--font-en);font-size:12px;color:#9aa6b1;font-weight:400;margin-left:10px;">點擊展開</span></summary>
+    <div class="db"><table><thead><tr>
+      <th class="zh" style="text-align:left;">日期</th>
+      <th class="zh">花費</th><th class="zh">曝光</th><th class="zh">點擊</th><th class="zh">廣告帶來轉換</th>
+      <th class="zh">CTR</th><th class="zh">CPC</th><th class="zh">CPM</th><th class="zh">廣告ROAS</th>
+    </tr></thead><tbody id="fbReBody"></tbody></table></div>
+  </details>
+</section>
+
+<section>
+  <div class="sh"><span class="sn">06</span><h2 class="zh">廣告診斷與建議</h2><span class="en">Ad Performance Diagnosis &amp; Recommendations</span></div>
+
+  <!-- 核心結論 -->
+  <div class="dc" style="border-top:3px solid var(--bad); margin-bottom:16px;">
+    <h3 style="margin-bottom:14px;font-family:var(--font-zh);font-size:15px;"><span class="dtag" style="background:var(--bad);">核心結論</span>業績基礎穩定，但高度依賴限搶與包套</h3>
+    <ul style="font-family:var(--font-zh);font-size:13.5px;line-height:2.1;padding-left:20px;color:var(--ink);">
+      <li>6/4（限搶 $113,383）與 6/10（限搶 $147,135）合計佔 6/1–6/17 總業績的 <b>35.9%</b>，業績高峰高度集中在限搶日</li>
+      <li>廣告能帶動穩定的日常轉換，但在非限搶日仍不足以製造業績爆發，天花板尚未突破</li>
+    </ul>
+  </div>
+
+  <!-- 本次各版位診斷 -->
+  <div class="dc" style="border-top:3px solid var(--steel); margin-bottom:16px;">
+    <h3 style="margin-bottom:14px;font-family:var(--font-zh);font-size:15px;"><span class="dtag" style="background:var(--steel);">本次各版位診斷</span></h3>
+    <ul style="font-family:var(--font-zh);font-size:13.5px;line-height:2.1;padding-left:20px;color:var(--ink);">
+      <li><b>Real Shopper（RS）</b>　花費 $96,914，ROAS 1.57x。本次執行與以往最大的不同在於，過去都是在大檔期當月才開始投放，這次根據代操公司建議從 5 月母親節後就持續執行，讓廣告在 618 前已累積足夠的關鍵字數據與受眾熱度。最終 ROAS 達到 1.57x，表現優於預期，印證了<b>大檔期前持續預熱的重要性</b>——提前鋪底讓廣告在檔期爆發時能更快速承接需求，建議後續大檔期均採用此策略。</li>
+      <li><b>商品廣告</b>　花費 $8,811，ROAS <b>10.92x</b>，44 筆訂單，CPC $27.90。本次表現最亮眼的版位，但日預算僅約 $500，規模過小，成效好卻未能放大。商品廣告是目前最值得加碼的版位。</li>
+      <li><b>FB CPA 導購</b>　花費 $17,303，廣告歸因轉換為 $0。不一定代表完全無效，可能是平台歸因窗口設定或跨裝置轉換未被正確計入，需進一步追蹤。</li>
+      <li><b>FB 購物車再行銷</b>　花費 $12,269，ROAS 1.73x，轉換 $21,190。針對已加購未買的熱受眾效益明顯，但受眾規模有限、消耗不足，仍有擴量空間。</li>
+    </ul>
+  </div>
+
+  <!-- 下次大檔期建議 -->
+  <div class="dc" style="border-top:3px solid var(--good);">
+    <h3 style="margin-bottom:14px;font-family:var(--font-zh);font-size:15px;"><span class="dtag" style="background:var(--good);">下次大檔期建議</span></h3>
+    <ul style="font-family:var(--font-zh);font-size:13.5px;line-height:2.1;padding-left:20px;color:var(--ink);">
+      <li><b>商品廣告加碼</b>　ROAS 10.92x 顯示仍有充足的轉換空間，建議下次提高日預算，讓商品廣告帶來更多自然轉換流量。</li>
+      <li><b>FB 購物車再行銷受眾擴充</b>　建議擴大相似受眾至瀏覽未買 60–90 天，在不大幅增加預算的前提下提升受眾規模與曝光頻次。</li>
+      <li><b>RS 廣告持續執行</b>　本次驗證了提前預熱的效益，建議維持預算並持續觀察是否有助於提升整體業績和搜尋廣告的轉換效率。</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <div class="sh"><span class="sn">07</span><h2 class="zh">如何用廣告突破限搶依賴、打破業績天花板</h2><span class="en">Breaking the Sales Ceiling Beyond Flash Sales</span></div>
+
+  <!-- 根本問題 -->
+  <div class="dc" style="border-top:3px solid var(--bad); margin-bottom:16px;">
+    <h3 style="margin-bottom:14px;font-family:var(--font-zh);font-size:15px;"><span class="dtag" style="background:var(--bad);">根本問題診斷</span></h3>
+    <p style="font-family:var(--font-zh);font-size:13.5px;line-height:2;color:var(--ink);margin:0;">目前非限搶日均業績約 $30,000–$45,000，限搶日可達 $113,000–$147,000，落差 3–4 倍。這個天花板的本質是<b>每日進站的有效流量上限</b>，要突破它需從兩個方向同時著手：<b>擴大進站人數</b>、<b>提高進站後的轉換率</b>。</p>
+  </div>
+
+  <!-- 三個方向 -->
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:16px;">
+    <div class="dc" style="border-top:3px solid var(--steel);margin:0;">
+      <h3 style="margin-bottom:10px;font-family:var(--font-zh);font-size:14px;"><span class="dtag" style="background:var(--steel);">方向一</span>擴大有效流量來源</h3>
+      <ul style="font-family:var(--font-zh);font-size:13px;line-height:2;padding-left:18px;color:var(--ink);margin:0;">
+        <li><b>momo 展示型廣告</b>：目前益生菌未投放此版位，可觸及瀏覽保健品類但尚未搜尋若元的潛在客群，建議大檔期前 2–3 週開始投放</li>
+        <li><b>FB / IG 類別受眾廣告</b>：以「腸道健康」「益生菌」「保健食品」等興趣受眾為目標，在站外建立初次接觸，引導進入 momo 商品頁，讓 RS 廣告在後端承接</li>
+      </ul>
+    </div>
+    <div class="dc" style="border-top:3px solid var(--field);margin:0;">
+      <h3 style="margin-bottom:10px;font-family:var(--font-zh);font-size:14px;"><span class="dtag" style="background:var(--field);">方向二</span>提高非限搶日轉換率</h3>
+      <ul style="font-family:var(--font-zh);font-size:13px;line-height:2;padding-left:18px;color:var(--ink);margin:0;">
+        <li><b>非限搶日組合包廣告</b>：針對單次購買客推「3 盒組」「訂閱方案」，以素材直接呈現折算後的單價優勢，讓非限搶日也有購買誘因</li>
+        <li>不依賴活動機制，廣告素材本身製造轉換動機</li>
+      </ul>
+    </div>
+    <div class="dc" style="border-top:3px solid var(--good);margin:0;">
+      <h3 style="margin-bottom:10px;font-family:var(--font-zh);font-size:14px;"><span class="dtag" style="background:var(--good);">方向三</span>養成回購，建立穩定基礎業績</h3>
+      <ul style="font-family:var(--font-zh);font-size:13px;line-height:2;padding-left:18px;color:var(--ink);margin:0;">
+        <li><b>購買後 30–45 天觸發再行銷</b>：益生菌是消耗品，一盒約 1–1.5 個月用完，在此時間點對已購客投放補貨提醒，不需等限搶就能製造第二次轉換</li>
+        <li>逐步建立穩定回購流量，使非限搶日業績基線持續上升</li>
+      </ul>
+    </div>
+  </div>
+
+
+</section>
+
+</main>
+<footer class="zh">若元益生菌 momo 618 廣告成效儀表板　·　資料來源：Liz的報表0602.xlsx　·　報表期間：2026/06/01 – 06/17</footer>
+<script>
+const DATA={"dates": ["6/1", "6/2", "6/3", "6/4", "6/5", "6/6", "6/7", "6/8", "6/9", "6/10", "6/11", "6/12", "6/13", "6/14", "6/15", "6/16", "6/17"], "sales": [22078, 29418, 19695, 113383, 22797, 29807, 45102, 23053, 44829, 147135, 46864, 33061, 29883, 45340, 26307, 42539, 33865], "rs_spend": [4062.02, 4495.65, 4013.42, 3532.15, 3676.59, 5906.72, 5887.9, 4469.4, 4127.12, 3559.68, 2980.03, 5094.33, 5274.14, 5012.74, 6121.42, 8035.05, 9053.84], "rs_imp": [62443, 83654, 39081, 35535, 50052, 88338, 90495, 63553, 50409, 39545, 45823, 63994, 58624, 67035, 76998, 151122, 179414], "rs_clk": [855, 872, 725, 679, 732, 1088, 1053, 848, 682, 596, 615, 796, 748, 920, 760, 1133, 1077], "rs_cpc": [4.75, 5.16, 5.54, 5.2, 5.02, 5.43, 5.59, 5.27, 6.05, 5.97, 4.85, 6.4, 7.05, 5.45, 8.05, 7.09, 8.41], "rs_cpm": [65.05, 53.74, 102.69, 99.4, 73.46, 66.86, 65.06, 70.33, 81.87, 90.02, 65.03, 79.61, 89.97, 74.78, 79.5, 53.17, 50.46], "rs_conv": [2.071, 5.722, 2.0, 0.0, 3.0, 4.0, 4.0, 5.0, 5.0, 4.0, 1.008, 1.0, 2.0, 7.992, 4.0, 7.0, 7.0], "rs_conv_val": [2805.56, 11113.18, 3436.0, 0.0, 4832.0, 11020.0, 6072.0, 6990.0, 8396.0, 4706.0, 3596.44, 2518.0, 1836.0, 16841.56, 9272.0, 19271.0, 12692.0], "rs_ad_roas": [0.69, 2.47, 0.86, 0.0, 1.31, 1.87, 1.03, 1.56, 2.03, 1.32, 1.21, 0.49, 0.35, 3.36, 1.51, 2.4, 1.4], "prod_spend": [514.88, 502.14, 502.72, 529.26, 539.55, 523.61, 508.28, 517.91, 547.55, 512.49, 510.75, 523.43, 509.01, 508.76, 502.96, 517.73, 539.86], "prod_imp": [577, 1027, 902, 407, 414, 303, 317, 529, 315, 520, 200, 266, 514, 300, 222, 368, 298], "prod_clk": [22, 25, 26, 24, 21, 18, 16, 17, 17, 20, 14, 19, 17, 19, 17, 17, 16], "prod_cpm": [892.33, 488.94, 557.33, 1300.38, 1303.25, 1728.09, 1603.41, 979.04, 1738.24, 985.55, 2553.77, 1967.78, 990.29, 1695.86, 2265.57, 1406.87, 1811.61], "prod_cpc": [23.4, 20.09, 19.34, 22.05, 25.69, 29.09, 31.77, 30.47, 32.21, 25.62, 36.48, 27.55, 29.94, 26.78, 29.59, 30.45, 33.74], "prod_orders": [2, 2, 2, 3, 2, 2, 4, 1, 4, 3, 3, 3, 5, 3, 2, 1, 2], "prod_conv_val": [3210, 3436, 4836, 5524, 4010, 4810, 10672, 918, 8730, 5046, 5440, 4354, 12418, 6281, 1836, 1718, 3811], "prod_ad_roas": [6.23, 6.84, 9.62, 10.44, 7.43, 9.19, 21.0, 1.77, 15.94, 9.85, 10.65, 8.32, 24.4, 12.35, 3.65, 3.32, 7.06], "fb_cpa_spend": [1013.0, 792.0, 811.0, 911.0, 849.0, 1054.0, 758.0, 1042.0, 758.0, 744.0, 932.0, 818.0, 1081.0, 641.0, 865.0, 818.0, 800.0], "fb_cpa_imp": [2557, 2187, 2281, 2238, 2144, 3038, 1606, 2255, 1906, 2983, 3275, 2499, 2943, 1994, 2247, 2278, 2068], "fb_cpa_clk": [45, 28, 31, 16, 26, 70, 40, 63, 45, 33, 45, 32, 68, 30, 29, 21, 43], "fb_cpa_cpc": [22.51, 28.29, 26.16, 56.94, 32.65, 15.06, 18.95, 16.54, 16.84, 22.55, 20.71, 25.56, 15.9, 21.37, 29.83, 38.95, 18.6], "fb_cpa_cpm": [396.17, 362.14, 355.55, 407.06, 395.99, 346.94, 471.98, 462.08, 397.69, 249.41, 284.58, 327.33, 367.31, 321.46, 384.96, 359.09, 386.85], "fb_cpa_conv_val": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "fb_cpa_ad_roas": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "fb_re_spend": [661.0, 620.0, 555.0, 578.0, 577.0, 619.0, 574.0, 556.0, 467.0, 529.0, 531.0, 549.0, 746.0, 539.0, 662.0, 583.0, 519.0], "fb_re_imp": [1581, 1584, 1838, 1664, 2258, 2238, 2875, 2660, 2701, 3039, 3208, 2317, 1921, 2026, 1860, 1328, 1453], "fb_re_clk": [31, 25, 26, 22, 27, 20, 36, 39, 30, 60, 39, 47, 34, 19, 15, 18, 18], "fb_re_cpc": [21.32, 24.8, 21.35, 26.27, 21.37, 30.95, 15.94, 14.26, 15.57, 8.82, 13.62, 11.68, 21.94, 28.37, 44.13, 32.39, 28.83], "fb_re_cpm": [418.09, 391.41, 301.96, 347.36, 255.54, 276.59, 199.65, 209.02, 172.9, 174.07, 165.52, 236.94, 388.34, 266.04, 355.91, 439.01, 357.19], "fb_re_conv_val": [1718.0, 4236.0, 0.0, 1718.0, 0.0, 2518.0, 2518.0, 0.0, 0.0, 2410.0, 0.0, 0.0, 2518.0, 0.0, 918.0, 0.0, 1718.0], "fb_re_ad_roas": [2.6, 6.83, 0, 2.97, 0, 4.07, 4.39, 0, 0, 4.56, 0, 0, 3.38, 0, 1.39, 0, 3.31], "total_spend": [6250.9, 6409.79, 5882.14, 5550.41, 5642.14, 8103.33, 7728.18, 6585.31, 5899.67, 5345.17, 4953.78, 6984.76, 7610.15, 6701.5, 8151.38, 9953.78, 10912.7], "roas": [3.53, 4.59, 3.35, 20.43, 4.04, 3.68, 5.84, 3.5, 7.6, 27.53, 9.46, 4.73, 3.93, 6.77, 3.23, 4.27, 3.1]};
+
+const fmtM=v=>!v?"–":"$"+Math.round(v).toLocaleString();
+const fmtN=v=>v==null?"–":Math.round(v).toLocaleString();
+const fmtP=v=>v==null?"–":(v*100).toFixed(2)+"%";
+const fmtC=v=>!v?"–":"$"+parseFloat(v).toFixed(2);
+function roasCls(r){return r>=2?'roas-hi':r>=0.5?'roas-mid':r>0?'roas-lo':'roas-zero';}
+function roasCell(r){if(!r)return `<td class="roas-zero">–</td>`;return `<td class="${roasCls(r)}">${r.toFixed(2)}x</td>`;}
+
+const PKG=new Set(['6/9','6/10','6/11','6/12','6/13','6/14']);
+const FLASH=new Set(['6/4','6/10']);
+function dlabel(d){
+  let s=d;
+  if(FLASH.has(d))s+=`<span class="nc ncf">⚡限搶</span>`;
+  if(PKG.has(d))s+=`<span class="nc ncp">📦包套</span>`;
+  return s;
+}
+
+// Daily summary
+(function(){
+  let rows='',ts=0,tsp=0,trs=0,tpr=0,tcpa=0,tre=0;
+  DATA.dates.forEach((d,i)=>{
+    const s=DATA.sales[i],sp=DATA.total_spend[i],r=DATA.roas[i];
+    ts+=s;tsp+=sp;trs+=DATA.rs_spend[i];tpr+=DATA.prod_spend[i];tcpa+=DATA.fb_cpa_spend[i];tre+=DATA.fb_re_spend[i];
+    const rc=r>=10?'color:var(--good);font-weight:700':r>=6?'color:var(--warn)':r<3?'color:var(--bad)':'';
+    const rs=PKG.has(d)?'background:#f3e5f5;':'';
+    rows+=`<tr style="${rs}"><td class="zh" style="text-align:left;">${dlabel(d)}</td>
+      <td>${fmtM(s)}</td><td>${fmtM(sp)}</td><td style="${rc}">${r}x</td>
+      <td>${fmtM(DATA.rs_spend[i])}</td><td>${fmtM(DATA.prod_spend[i])}</td>
+      <td>${fmtM(DATA.fb_cpa_spend[i])}</td><td>${fmtM(DATA.fb_re_spend[i])}</td></tr>`;
+  });
+  rows+=`<tr class="sub"><td class="zh" style="text-align:left;">合計</td>
+    <td><b>${fmtM(ts)}</b></td><td><b>${fmtM(Math.round(tsp))}</b></td>
+    <td><b>${(ts/tsp).toFixed(2)}x</b></td>
+    <td><b>${fmtM(Math.round(trs))}</b></td><td><b>${fmtM(Math.round(tpr))}</b></td>
+    <td><b>${fmtM(Math.round(tcpa))}</b></td><td><b>${fmtM(Math.round(tre))}</b></td></tr>`;
+  document.getElementById('dailyBody').innerHTML=rows;
+})();
+
+// RS detail
+(function(){
+  let rows='',ti=0,tc=0,ts=0,tcv=0;
+  DATA.dates.forEach((d,i)=>{
+    const imp=DATA.rs_imp[i],clk=DATA.rs_clk[i],sp=DATA.rs_spend[i],cv=DATA.rs_conv_val[i];
+    const r=DATA.rs_ad_roas[i];
+    ti+=imp;tc+=clk;ts+=sp;tcv+=cv;
+    const ctr=imp?clk/imp:null, cpc=clk?sp/clk:null, cpm=imp?(sp/imp)*1000:null;
+    rows+=`<tr><td class="zh" style="text-align:left;">${d}</td>
+      <td>${fmtM(sp)}</td><td>${fmtN(imp)}</td><td>${fmtN(clk)}</td>
+      <td>${fmtM(cv)}</td>
+      <td>${fmtP(ctr)}</td><td>${fmtC(cpc)}</td><td>${fmtC(cpm)}</td>
+      ${roasCell(r)}</tr>`;
+  });
+  const totRoas=tcv&&ts?tcv/ts:0;
+  rows+=`<tr class="sub"><td class="zh" style="text-align:left;">合計</td>
+    <td><b>${fmtM(Math.round(ts))}</b></td><td><b>${fmtN(ti)}</b></td><td><b>${fmtN(tc)}</b></td>
+    <td><b>${fmtM(Math.round(tcv))}</b></td>
+    <td><b>${fmtP(tc/ti)}</b></td><td><b>${fmtC(ts/tc)}</b></td><td><b>${fmtC((ts/ti)*1000)}</b></td>
+    ${roasCell(Math.round(totRoas*100)/100)}</tr>`;
+  document.getElementById('rsBody').innerHTML=rows;
+})();
+
+// Prod detail
+(function(){
+  let rows='',ti=0,tc=0,ts=0,tcv=0;
+  DATA.dates.forEach((d,i)=>{
+    const imp=DATA.prod_imp[i],clk=DATA.prod_clk[i],sp=DATA.prod_spend[i];
+    const cv=DATA.prod_conv_val[i],r=DATA.prod_ad_roas[i];
+    ti+=imp;tc+=clk;ts+=sp;tcv+=cv;
+    const ctr=imp?clk/imp:null, cpc=DATA.prod_cpc[i], cpm=DATA.prod_cpm[i];
+    rows+=`<tr><td class="zh" style="text-align:left;">${d}</td>
+      <td>${fmtM(sp)}</td><td>${fmtN(imp)}</td><td>${fmtN(clk)}</td>
+      <td>${cv?fmtM(cv):"–"}</td>
+      <td>${fmtP(ctr)}</td><td>${fmtC(cpc)}</td><td>${fmtC(cpm)}</td>
+      ${roasCell(r)}</tr>`;
+  });
+  rows+=`<tr class="sub"><td class="zh" style="text-align:left;">合計</td>
+    <td><b>${fmtM(Math.round(ts))}</b></td><td><b>${fmtN(ti)}</b></td><td><b>${fmtN(tc)}</b></td>
+    <td><b>${fmtM(Math.round(tcv))}</b></td>
+    <td><b>${fmtP(tc/ti)}</b></td><td><b>${fmtC(ts/tc)}</b></td><td><b>${fmtC((ts/ti)*1000)}</b></td>
+    ${roasCell(Math.round(tcv/ts*100)/100)}</tr>`;
+  document.getElementById('prodBody').innerHTML=rows;
+})();
+
+// FB CPA detail
+(function(){
+  let rows='',ti=0,tc=0,ts=0,tcv=0;
+  DATA.dates.forEach((d,i)=>{
+    const imp=DATA.fb_cpa_imp[i],clk=DATA.fb_cpa_clk[i],sp=DATA.fb_cpa_spend[i],cv=DATA.fb_cpa_conv_val[i];
+    const r=DATA.fb_cpa_ad_roas[i];
+    ti+=imp;tc+=clk;ts+=sp;tcv+=cv;
+    const ctr=imp?clk/imp:null, cpc=clk?sp/clk:null, cpm=imp?(sp/imp)*1000:null;
+    rows+=`<tr><td class="zh" style="text-align:left;">${d}</td>
+      <td>${fmtM(sp)}</td><td>${fmtN(imp)}</td><td>${fmtN(clk)}</td>
+      <td>${cv?fmtM(cv):"–"}</td>
+      <td>${fmtP(ctr)}</td><td>${fmtC(cpc)}</td><td>${fmtC(cpm)}</td>
+      ${roasCell(r)}</tr>`;
+  });
+  const totRoas=tcv&&ts?tcv/ts:0;
+  rows+=`<tr class="sub"><td class="zh" style="text-align:left;">合計</td>
+    <td><b>${fmtM(Math.round(ts))}</b></td><td><b>${fmtN(ti)}</b></td><td><b>${fmtN(tc)}</b></td>
+    <td><b>${fmtM(Math.round(tcv))}</b></td>
+    <td><b>${fmtP(tc/ti)}</b></td><td><b>${fmtC(ts/tc)}</b></td><td><b>${fmtC((ts/ti)*1000)}</b></td>
+    ${roasCell(Math.round(totRoas*100)/100)}</tr>`;
+  document.getElementById('fbCpaBody').innerHTML=rows;
+})();
+
+// FB re detail
+(function(){
+  let rows='',ti=0,tc=0,ts=0,tcv=0;
+  DATA.dates.forEach((d,i)=>{
+    const imp=DATA.fb_re_imp[i],clk=DATA.fb_re_clk[i],sp=DATA.fb_re_spend[i],cv=DATA.fb_re_conv_val[i];
+    const r=DATA.fb_re_ad_roas[i];
+    ti+=imp;tc+=clk;ts+=sp;tcv+=cv;
+    const ctr=imp?clk/imp:null, cpc=clk?sp/clk:null, cpm=imp?(sp/imp)*1000:null;
+    rows+=`<tr><td class="zh" style="text-align:left;">${d}</td>
+      <td>${fmtM(sp)}</td><td>${fmtN(imp)}</td><td>${fmtN(clk)}</td>
+      <td>${cv?fmtM(cv):"–"}</td>
+      <td>${fmtP(ctr)}</td><td>${fmtC(cpc)}</td><td>${fmtC(cpm)}</td>
+      ${roasCell(r)}</tr>`;
+  });
+  const totRoas=tcv&&ts?tcv/ts:0;
+  rows+=`<tr class="sub"><td class="zh" style="text-align:left;">合計</td>
+    <td><b>${fmtM(Math.round(ts))}</b></td><td><b>${fmtN(ti)}</b></td><td><b>${fmtN(tc)}</b></td>
+    <td><b>${fmtM(Math.round(tcv))}</b></td>
+    <td><b>${fmtP(tc/ti)}</b></td><td><b>${fmtC(ts/tc)}</b></td><td><b>${fmtC((ts/ti)*1000)}</b></td>
+    ${roasCell(Math.round(totRoas*100)/100)}</tr>`;
+  document.getElementById('fbReBody').innerHTML=rows;
+})();
+
+// Trend Chart with package annotation
+const SALES_25=[9346, 4730, 9926, 2697, 8578, 9376, 9376, 6175, 10434, 24985, 18012, 20975, 18704, 19117, 20050, 18023, 24951];
+const SPEND_25=[0, 0, 0, 0, 210.33, 246.75, 268.33, 349.81, 17539.15, 27966.2, 22761.09, 22140.65, 25414.26, 34729.98, 30378.94, 35198.18, 41851.6];
+const pad25=arr=>arr;
+const SALES_25_PAD=pad25(SALES_25);
+const SPEND_25_PAD=pad25(SPEND_25);
+
+const sCfg={
+  sales:{label:'momo 業績 2026',color:'#d4417f',type:'bar',yAxis:'y',dashed:false},
+  sales_25:{label:'momo 業績 2025',color:'#d4417f',type:'line',yAxis:'y',dashed:true},
+  total_spend:{label:'總廣告花費 2026',color:'#4a7c8e',type:'bar',yAxis:'y',dashed:false},
+  spend_25:{label:'總廣告花費 2025',color:'#4a7c8e',type:'line',yAxis:'y',dashed:true},
+  roas:{label:'ROAS',color:'#c9742b',type:'line',yAxis:'y1',dashed:false},
+};
+const PKG_INDICES=[8,9,10,11,12,13]; // 6/9-6/14 = index 8-13
+const ctx=document.getElementById('trendChart').getContext('2d');
+let tc2;
+
+// Custom background plugin for package period annotation
+const pkgPlugin = {
+  id:'pkgPlugin',
+  beforeDraw(chart, args, opts){
+    if(!opts.show) return;
+    const {ctx,chartArea,scales:{x}} = chart;
+    if(!x||!chartArea) return;
+    const x1=x.getPixelForValue(7.5), x2=x.getPixelForValue(13.5);
+    const {top,bottom}=chartArea;
+    ctx.save();
+    ctx.fillStyle='rgba(126,87,194,0.08)';
+    ctx.fillRect(x1,top,x2-x1,bottom-top);
+    ctx.strokeStyle='rgba(126,87,194,0.35)';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(x1,top);ctx.lineTo(x1,bottom);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(x2,top);ctx.lineTo(x2,bottom);ctx.stroke();
+    ctx.fillStyle='rgba(30,80,128,0.85)';
+    ctx.font='bold 11px "Microsoft JhengHei"';
+    ctx.textAlign='center';
+    ctx.fillText('📦 momo 包套期間',(x1+x2)/2,top+14);
+    ctx.restore();
+  }
+};
+Chart.register(pkgPlugin);
+function renderTrend(){
+  const dataMap={
+    sales:DATA.sales, sales_25:SALES_25_PAD,
+    total_spend:DATA.total_spend, spend_25:SPEND_25_PAD,
+    roas:DATA.roas,
+  };
+  const active=Array.from(document.querySelectorAll('#seriesChips .chip.active')).map(c=>c.dataset.series);
+  const datasets=active.map(k=>{
+    const c=sCfg[k];
+    if(!c) return null;
+    const base={label:c.label,data:dataMap[k],borderColor:c.color,backgroundColor:c.color+(c.dashed?'55':'cc'),yAxisID:c.yAxis};
+    if(c.type==='bar') return {...base,type:'bar',borderRadius:4,maxBarThickness:20};
+    const lb={...base,type:'line',tension:.35,borderWidth:c.dashed?1.5:2.5,pointRadius:c.dashed?2:3,pointBackgroundColor:c.color,backgroundColor:'transparent'};
+    if(c.dashed) lb.borderDash=[4,3];
+    return lb;
+  }).filter(Boolean);
+  const showSales=active.includes('sales');
+  const ua=new Set(datasets.map(d=>d.yAxisID));
+  if(tc2)tc2.destroy();
+  tc2=new Chart(ctx,{
+    data:{labels:DATA.dates,datasets},
+    options:{
+      responsive:true,interaction:{mode:'index',intersect:false},
+      plugins:{
+        legend:{position:'bottom',labels:{font:{family:'Microsoft JhengHei',size:12}}},
+        tooltip:{titleFont:{family:'Calibri'},bodyFont:{family:'Microsoft JhengHei'},callbacks:{label:c=>{const v=c.raw;if(v==null)return null;if(c.dataset.label==='ROAS')return `ROAS: ${v.toFixed(2)}x`;return `${c.dataset.label}: $${Math.round(v).toLocaleString()}`}}},
+        pkgPlugin:{show:showSales},
+        flashPlugin:{}
+      },
+      scales:{
+        x:{ticks:{font:{family:'Calibri'}},grid:{display:false}},
+        y:{position:'left',title:{display:true,text:'金額 (NT$)',font:{family:'Microsoft JhengHei',size:12}},ticks:{font:{family:'Calibri'},callback:v=>'$'+v.toLocaleString()}},
+        y1:{position:'right',display:ua.has('y1'),title:{display:true,text:'ROAS',font:{family:'Microsoft JhengHei',size:12}},grid:{drawOnChartArea:false},ticks:{font:{family:'Calibri'},callback:v=>v+'x'}}
+      }
+    }
+  });
+}
+document.getElementById('seriesChips').addEventListener('click',e=>{const c=e.target.closest('.chip');if(!c)return;c.classList.toggle('active');renderTrend();});
+renderTrend();
+
+const MC={labels:['1月','2月','3月','4月','5月','6月(至6/17)'],monthly_total:[949163,1263537,1442054,1472783,1425289,755156],monthly_avg:[30618,45126,46518,49093,45977,44421]};
+let mc;
+function renderMC(){
+  const active=Array.from(document.querySelectorAll('#monthlyChips .chip.active')).map(c=>c.dataset.mseries);
+  const cfgs={monthly_total:{label:'月業績',color:'#e6007e',type:'bar',yAxis:'y'},monthly_avg:{label:'日均業績',color:'#4a7c8e',type:'line',yAxis:'y1'}};
+  const datasets=active.map(k=>{const c=cfgs[k];const base={label:c.label,data:MC[k],borderColor:c.color,backgroundColor:c.color+'cc',yAxisID:c.yAxis};return c.type==='bar'?{...base,type:'bar',borderRadius:6,maxBarThickness:36}:{...base,type:'line',tension:.35,borderWidth:2.5,pointRadius:4,pointBackgroundColor:c.color,backgroundColor:'transparent'};});
+  const ua=new Set(datasets.map(d=>d.yAxisID));
+  if(mc)mc.destroy();
+  mc=new Chart(document.getElementById('monthlyChart').getContext('2d'),{data:{labels:MC.labels,datasets},options:{responsive:true,interaction:{mode:'index',intersect:false},plugins:{legend:{position:'bottom',labels:{font:{family:'Microsoft JhengHei',size:12}}},tooltip:{titleFont:{family:'Calibri'},bodyFont:{family:'Microsoft JhengHei'},callbacks:{label:c=>`${c.dataset.label}: $${Math.round(c.raw).toLocaleString()}`}}},scales:{x:{ticks:{font:{family:'Calibri'}},grid:{display:false}},y:{position:'left',display:ua.has('y'),title:{display:true,text:'業績 (NT$)',font:{family:'Microsoft JhengHei',size:12}},ticks:{font:{family:'Calibri'},callback:v=>'$'+Math.round(v).toLocaleString()}},y1:{position:'right',display:ua.has('y1'),title:{display:true,text:'日均 (NT$)',font:{family:'Microsoft JhengHei',size:12}},grid:{drawOnChartArea:false},ticks:{font:{family:'Calibri'},callback:v=>'$'+Math.round(v).toLocaleString()}}}}});
+}
+document.getElementById('monthlyChips').addEventListener('click',e=>{const c=e.target.closest('.chip');if(!c)return;c.classList.toggle('active');renderMC();});
+renderMC();
+</script>
+</body></html>
