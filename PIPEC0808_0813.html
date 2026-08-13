@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>易利氣磁力 父親節廣告成效</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{
+    --ink:#1a2332;
+    --steel:#3a5169;
+    --field:#5c84a8;
+    --sky:#9fc5e8;
+    --mist:#eef3f7;
+    --paper:#fbfaf7;
+    --line:#dde4ea;
+    --good:#3f8f6c;
+    --warn:#c9742b;
+    --bad:#c0473c;
+    --momo:#e6007e;
+    --shopee:#ee4d2d;
+    --font-zh:"Microsoft JhengHei","PingFang TC","Noto Sans TC",sans-serif;
+    --font-en:"Calibri","Segoe UI",sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family: var(--font-en), var(--font-zh);
+    background: var(--paper);
+    color: var(--ink);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .zh{font-family: var(--font-zh);}
+
+  /* ===== Header ===== */
+  header{
+    background: linear-gradient(135deg, var(--ink) 0%, var(--steel) 60%, var(--field) 100%);
+    color:#fff;
+    padding: 36px 28px 28px;
+    position:relative;
+    overflow:hidden;
+  }
+  header::after{
+    content:"";
+    position:absolute; right:-60px; top:-60px;
+    width:240px; height:240px; border-radius:50%;
+    background: radial-gradient(circle, rgba(159,197,232,0.25), transparent 70%);
+  }
+  .eyebrow{
+    font-family: var(--font-zh);
+    font-size:12px; letter-spacing:.3em; text-transform:uppercase;
+    color: var(--sky); margin-bottom:10px; font-weight:700;
+  }
+  h1{
+    font-family: var(--font-zh);
+    font-size: clamp(24px, 4vw, 36px);
+    font-weight:700;
+    letter-spacing: .02em;
+  }
+  .meta{
+    margin-top:10px; font-size:13px; color:#cfe0ee;
+    font-family: var(--font-zh);
+  }
+  .meta b{color:#fff; font-family: var(--font-en);}
+
+  /* ===== Layout ===== */
+  main{ max-width:1240px; margin:0 auto; padding: 28px 20px 60px;}
+  section{ scroll-margin-top: 52px;  margin-top: 38px; }
+  .section-head{
+    display:flex; align-items:baseline; gap:12px; margin-bottom:16px;
+    border-bottom: 2px solid var(--ink); padding-bottom:10px;
+  }
+  .section-num{
+    font-family: var(--font-en); font-weight:700; font-size:16px;
+    color:#fff; background:var(--ink); border-radius:4px;
+    padding:4px 10px; letter-spacing:.05em;
+  }
+  .section-head h2{
+    font-family: var(--font-zh); font-size:19px; font-weight:700; color:var(--ink);
+  }
+  .section-head .en{
+    font-family: var(--font-en); font-size:12px; color:#8a98a8; letter-spacing:.04em;
+  }
+
+  /* ===== KPI cards ===== */
+  .kpi-grid{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap:14px;
+  }
+  .kpi-card{
+    background:#fff; border:1px solid var(--line); border-radius:10px;
+    padding:18px 18px 16px; position:relative; overflow:hidden;
+    transition: box-shadow .2s ease, transform .2s ease;
+  }
+  .kpi-card:hover{ box-shadow:0 6px 18px rgba(26,35,50,.08); transform:translateY(-2px);}
+  .kpi-card .label{
+    font-family: var(--font-zh); font-size:12px; color:#6f7e8d; font-weight:700;
+    letter-spacing:.02em;
+  }
+  .kpi-card .value{
+    font-family: var(--font-en); font-size:28px; font-weight:700; color:var(--ink);
+    margin-top:6px; letter-spacing:.01em;
+  }
+  .kpi-card .sub{
+    margin-top:6px; font-size:11.5px; color:#9aa6b1; font-family: var(--font-zh);
+  }
+  .kpi-card .accent{
+    position:absolute; left:0; top:0; bottom:0; width:4px;
+  }
+  .accent-momo{background:var(--momo);}
+  .accent-shopee{background:var(--shopee);}
+  .accent-total{background:var(--field);}
+
+  /* ===== Tab Controls (Section 2 channel) ===== */
+  /* ===== Collapsible perf detail ===== */
+  details.perf-detail{ margin-bottom:24px; }
+  details.perf-detail summary{
+    display:flex; align-items:center; gap:10px;
+    cursor:pointer; list-style:none; padding:11px 16px;
+    background:var(--mist); border:1px solid var(--line); border-radius:8px;
+    font-family:var(--font-zh); font-size:14px; font-weight:700; color:var(--steel);
+    user-select:none; transition:background .15s;
+  }
+  details.perf-detail summary:hover{ background:#e0e8f0; }
+  details.perf-detail summary::-webkit-details-marker{ display:none; }
+  details.perf-detail summary::before{
+    content:"▶"; font-size:11px; color:var(--field);
+    transition:transform .2s; display:inline-block;
+  }
+  details.perf-detail[open] summary::before{ transform:rotate(90deg); }
+  details.perf-detail[open] summary{
+    border-radius:8px 8px 0 0; border-bottom-color:transparent;
+  }
+  details.perf-detail .detail-body{
+    border:1px solid var(--line); border-top:none; border-radius:0 0 8px 8px;
+    overflow:hidden;
+  }
+  details.perf-detail .detail-body table{
+    border:none; border-radius:0;
+  }
+
+  .platform-toggle{
+    display:inline-flex; border:1px solid var(--line); border-radius:8px; overflow:hidden;
+    margin-bottom:16px; background:#fff;
+  }
+  .platform-toggle button{
+    font-family: var(--font-zh); font-size:13px; font-weight:700;
+    padding:9px 22px; border:none; background:transparent; color:#6f7e8d; cursor:pointer;
+    transition: all .15s ease;
+  }
+  .platform-toggle button.active{
+    background: var(--ink); color:#fff;
+  }
+  .platform-toggle button.active[data-platform="momo"]{ background: var(--momo); }
+  .platform-toggle button.active[data-platform="shopee"]{ background: var(--shopee); }
+  .platform-toggle button:not(.active):hover{ background:var(--mist); }
+
+  table{ width:100%; border-collapse:collapse;font-size:13.5px; background:#fff; border-radius:10px; overflow:hidden; border:1px solid var(--line);}
+  thead th{
+    font-family: var(--font-zh); font-size:12.5px; font-weight:700; text-align:right;
+    background: var(--ink); color:#fff; padding:11px 14px;
+  }
+  thead th:first-child, thead th:nth-child(2){ text-align:left; }
+  tbody td{
+    font-family: var(--font-en); font-size:13.5px; text-align:right; padding:10px 14px;
+    border-bottom:1px solid var(--line); color:var(--ink);
+  }
+  tbody td:first-child, tbody td:nth-child(2){
+    text-align:left; font-family: var(--font-zh);
+  }
+  tbody tr:nth-child(even){ background: var(--mist); }
+  tbody tr.subtotal{ background:#e6edf3; font-weight:700; }
+  tbody tr.subtotal td{ border-top:2px solid var(--steel); }
+  tbody tr:hover{ background:#e9f1f7; }
+  .roas-pill{
+    display:inline-block; padding:2px 10px; border-radius:999px; font-weight:700; font-size:12.5px;
+  }
+  .roas-good{ background:#e3f3ec; color:var(--good); }
+  .roas-mid{ background:#fbf0e2; color:var(--warn); }
+  .roas-bad{ background:#fbe9e7; color:var(--bad); }
+  .roas-na{ background:#eceff2; color:#9aa6b1; }
+  tbody tr.flag-low{ background:#fff7e0; }
+  tbody tr.flag-low:hover{ background:#fdedc4; }
+  tbody tr.flag-anomaly{ background:#fde8e6; }
+  tbody tr.flag-anomaly:hover{ background:#fbd6d2; }
+  .flag-badge{
+    display:inline-block; margin-left:8px; padding:1px 8px; border-radius:999px;
+    font-family:var(--font-zh); font-size:11px; font-weight:700; color:#fff; vertical-align:middle;
+  }
+  .flag-badge.low{ background:var(--warn); }
+  .flag-badge.anomaly{ background:var(--bad); }
+
+  /* ===== Charts ===== */
+  .chart-card{
+    background:#fff; border:1px solid var(--line); border-radius:10px; padding:20px;
+  }
+  .chart-controls{
+    display:flex; flex-wrap:wrap; gap:10px; margin-bottom:14px; align-items:center;
+  }
+  .chip{
+    font-family: var(--font-zh); font-size:12.5px; font-weight:700;
+    padding:7px 16px; border-radius:999px; border:1.5px solid var(--line);
+    background:#fff; color:#6f7e8d; cursor:pointer; transition: all .15s ease;
+    display:inline-flex; align-items:center; gap:6px;
+  }
+  .chip .dot{ width:9px; height:9px; border-radius:50%; display:inline-block; }
+  .chip.active{
+    background: var(--chip-color, var(--ink));
+    border-color: var(--chip-color, var(--ink));
+    color:#fff !important;
+    box-shadow: 0 2px 8px rgba(26,35,50,.25);
+  }
+  .chip.active .dot{ background:#fff !important; box-shadow:0 0 0 2px rgba(255,255,255,.55); }
+  .chip:not(.active):hover{ border-color: var(--chip-color, var(--line)); }
+  canvas{ max-height:380px; }
+
+  /* ===== two column grid ===== */
+  .grid-2{ display:grid; grid-template-columns: 1.4fr 1fr; gap:18px; }
+
+  /* ===== FB cards ===== */
+  .fb-grid{ display:grid; grid-template-columns: repeat(3,1fr); gap:14px; }
+  .fb-card{
+    background:#fff; border:1px solid var(--line); border-radius:10px; padding:18px;
+  }
+  .fb-card h3{
+    font-family: var(--font-zh); font-size:14px; font-weight:700; margin-bottom:12px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .fb-card h3 .tag{
+    font-family:var(--font-en); font-size:10px; font-weight:700; padding:2px 8px; border-radius:5px;
+    color:#fff;
+  }
+  .tag-momo{background:var(--momo);}
+  .tag-shopee{background:var(--shopee);}
+  .tag-shop{background:var(--steel);}
+  .fb-row{
+    display:flex; justify-content:space-between; align-items:baseline;
+    padding:6px 0; border-bottom:1px solid var(--line); font-size:13px;
+  }
+  .fb-row:last-child{ border-bottom:none; }
+  .fb-row .k{ font-family: var(--font-zh); color:#6f7e8d; }
+  .fb-row .v{ font-family: var(--font-en); font-weight:700; color:var(--ink); }
+
+  /* ===== Notes ===== */
+  .notes{
+    background:#fff; border:1px solid var(--line); border-radius:10px; padding:6px 0;
+  }
+  .note-item{
+    display:flex; gap:14px; padding:14px 20px; border-bottom:1px solid var(--line);
+    font-family: var(--font-zh); font-size:13.5px; line-height:1.7;
+  }
+  .note-item:last-child{ border-bottom:none; }
+  .note-item .badge{
+    flex:0 0 auto; font-family:var(--font-en); font-size:11px; font-weight:700;
+    color:#fff; background:var(--field); border-radius:5px; padding:3px 9px; height:fit-content;
+    white-space:nowrap;
+  }
+  .badge.warn{ background:var(--bad); }
+
+  footer{
+    text-align:center; padding:24px; font-size:11.5px; color:#9aa6b1;
+    font-family:var(--font-zh);
+  }
+
+  @media (max-width: 900px){
+    .kpi-grid{ grid-template-columns: repeat(2,1fr); }
+    .grid-2{ grid-template-columns: 1fr; }
+    .fb-grid{ grid-template-columns: 1fr; }
+  }
+  @media (max-width: 540px){
+    .kpi-grid{ grid-template-columns: 1fr; }
+    table{ font-size:12px; }
+  }
+
+  /* ===== Font unification ===== */
+  * { -webkit-font-smoothing: antialiased; }
+  body { font-family: "Calibri","Segoe UI",sans-serif; font-size:14px; }
+  .zh, .zh *, thead th, tbody td:first-child, .label, .lb, .kc .lb, .kpi-card .label,
+  .section-head h2, .sh h2, summary, .hn-body, .hn-title, .nc, .ncp, .ncf,
+  .best-tag, .dtag, .dc ul li, .diag-card ul li, .dc h3, .pkg-kpi .plb,
+  .pkg-kpi .psb, .footer, footer,
+  td.zh, th.zh { font-family: "Microsoft JhengHei","PingFang TC","Noto Sans TC",sans-serif !important; }
+  /* English: numbers, codes, en labels */
+  .value, .vl, .kc .vl, .kpi-card .value,
+  thead th:not(.zh), tbody td:not(:first-child),
+  .section-head .en, .sh .en, .eyebrow,
+  canvas + *, .chip, .chip *,
+  .pkg-kpi .pvl { font-family: "Calibri","Segoe UI",sans-serif !important; }
+  /* Table uniformity */
+  thead th { font-size:12px; padding:9px 10px; white-space:nowrap; }
+  tbody td { font-size:13px; padding:8px 10px; white-space:nowrap; }
+  tbody tr { line-height:1.4; }
+  .kc .lb, .kpi-card .label { font-size:12px; }
+  .kc .vl, .kpi-card .value { font-size:22px; }
+  .kc .sb, .kpi-card .sub { font-size:11.5px; line-height:1.7; }
+
+</style>
+<style>.tab-nav{display:flex;gap:8px;padding:16px 0 20px;}.tab-btn{font-family:var(--font-zh);font-size:13px;font-weight:700;padding:9px 22px;border-radius:8px;cursor:pointer;white-space:nowrap;border:2px solid #cdd6de;background:#f0f4f7;color:#5a6a7a;transition:all .15s;display:flex;align-items:center;gap:7px;}.tab-btn:hover{background:#dde6ee;color:var(--ink);}.tab-btn[data-tab='momo'].active{background:var(--momo);color:#fff;border-color:var(--momo);}.tab-btn[data-tab='shopee'].active{background:var(--shopee);color:#fff;border-color:var(--shopee);}.tab-page{display:none;}.tab-page.active{display:block;}</style></head>
+<body>
+<header>
+  <div class="eyebrow zh">父親節檔期成效報告　·　易利氣磁力</div>
+  <h1>易利氣磁力 父親節廣告成效</h1>
+  <div class="meta">客戶：台灣蓓福股份有限公司　|　產品：易利氣磁力　|　報表期間：<b>2026/08</b>（主檔期 <b>8/1 – 8/31</b>，本次更新至 <b>8/9</b>）</div>
+</header>
+<main style="max-width:1280px;margin:0 auto;padding:0 20px 40px;">
+<div class="tab-page active" data-page="momo">
+<div class="tab-nav"><button class="tab-btn active" data-tab="momo" onclick="switchTab('momo')"><span>●</span> momo</button><button class="tab-btn" data-tab="shopee" onclick="switchTab('shopee')"><span style="color:var(--shopee);">●</span> 蝦皮</button></div>
+<section><div class="section-head"><span class="section-num">01</span><h2 class="zh">核心績效指標</h2><span class="en">KPI Overview · as of 8/9</span></div><div class="kpi-grid">
+<div class="kpi-card" style="background:#fde8f4; border-color:#e6007e;">
+  <div class="accent accent-momo"></div>
+  <div class="label zh" style="color:#b5006a;">momo 業績（8/1–8/9）</div>
+  <div class="value" style="color:#b5006a;">$178,919</div>
+  <div class="sub zh">8/1–8/9 累積訂單金額</div>
+</div>
+<div class="kpi-card" style="background:#fde8f4; border-color:#e6007e;">
+  <div class="accent accent-momo"></div>
+  <div class="label zh" style="color:#b5006a;">momo 廣告花費（8/1–8/9）</div>
+  <div class="value" style="color:#b5006a;">$20,013</div>
+  <div class="sub zh">廣告花費達成率 <b style="background:#fff176; padding:1px 6px; border-radius:4px; color:#5d4800;">73%</b></div>
+</div>
+<div class="kpi-card">
+  <div class="accent accent-total"></div>
+  <div class="label zh">momo 業績 ROAS</div>
+  <div class="value">8.94x</div>
+  <div class="sub zh">總業績 ÷ 總廣告花費</div>
+</div>
+</div></section>
+<section><div class="section-head"><span class="section-num">02</span><h2 class="zh">每日業績與廣告花費趨勢</h2><span class="en">Daily Sales vs Ad Spend · 8/1–8/9</span></div>
+<div class="yoy-table" style="margin-bottom:20px;"><table style="border-top:3px solid var(--ink);width:100%;"><thead><tr><th class="zh" colspan="5" style="text-align:center;background:#1a2a45;font-size:13px;font-weight:700;color:#b8d4de;padding:10px 12px;">2025 vs 2026　同期比較（8/1–8/9）</th></tr><tr><th class="zh" style="text-align:left;width:24%;">指標</th><th class="zh" style="width:18%;">2025</th><th class="zh" style="width:18%;">2026</th><th class="zh" style="width:18%;">差額</th><th class="zh" style="width:22%;">YoY</th></tr></thead><tbody>
+<tr style="background:#fde8f4;"><td class="zh" style="font-weight:700;color:var(--momo);">momo 業績</td><td>$268,213</td><td>$178,919</td><td style="font-weight:700;color:var(--good);">-$89,294</td><td><span style="display:inline-block;padding:3px 12px;border-radius:999px;font-weight:700;font-size:13px;background:#e3f3ec;color:var(--good);">▼ 33.3%</span></td></tr>
+<tr style="background:#fde8f4;"><td class="zh" style="color:var(--momo);">momo 廣告花費</td><td>$224,951</td><td>$20,013</td><td style="font-weight:700;color:var(--good);">-$204,938</td><td><span style="display:inline-block;padding:3px 12px;border-radius:999px;font-weight:700;font-size:13px;background:#e3f3ec;color:var(--good);">▼ 91.1%（節省）</span></td></tr>
+<tr style="background:#fde8f4;"><td class="zh" style="color:var(--momo);">momo ROAS</td><td>1.19x</td><td>8.94x</td><td style="font-weight:700;color:var(--bad);">+7.75x</td><td><span style="display:inline-block;padding:3px 12px;border-radius:999px;font-weight:700;font-size:13px;background:#fbe9e7;color:var(--bad);">▲ 大幅提升</span></td></tr>
+</tbody></table><div class="zh" style="font-size:12px;color:#9aa6b1;margin-top:6px;line-height:1.7;">＊2025年同期（8/5–8/8）有 momo 父親節包套$20萬，包含一檔一日限搶，推升去年花費基期。</div>
+</div>
+<div class="chart-card"><div class="chart-controls" id="seriesChips_mm"><span style="font-family:var(--font-zh);font-size:12px;font-weight:700;color:#9aa6b1;align-self:center;margin-right:4px;">2026：</span><span class="chip active" data-series="momo_sales" style="--chip-color:var(--momo);"><span class="dot" style="background:var(--momo)"></span>momo 業績</span><span class="chip active" data-series="momo_spend" style="--chip-color:var(--steel);"><span class="dot" style="background:var(--steel)"></span>momo 廣告花費</span><span class="chip" data-series="momo_roas" style="--chip-color:var(--good);"><span class="dot" style="background:var(--good)"></span>momo ROAS</span></div><div class="chart-controls" id="seriesChips2025_mm" style="margin-top:4px;"><span style="font-family:var(--font-zh);font-size:12px;font-weight:700;color:#9aa6b1;align-self:center;margin-right:4px;">2025同期：</span><span class="chip" data-series2025="momo_sales_2025" style="--chip-color:var(--momo);"><span class="dot" style="background:var(--momo);opacity:.5"></span>momo 業績</span><span class="chip" data-series2025="momo_spend_2025" style="--chip-color:var(--steel);"><span class="dot" style="background:var(--steel);opacity:.5"></span>momo 廣告花費</span><span class="chip" data-series2025="momo_roas_2025" style="--chip-color:var(--good);"><span class="dot" style="background:var(--good);opacity:.5"></span>momo ROAS</span></div><div style="position:relative;width:100%;"><canvas id="trendChart_mm"></canvas></div></div></section>
+<section><div class="section-head"><span class="section-num">03</span><h2 class="zh">2026 每月業績</h2><span class="en">Monthly Sales Performance · Jan – Aug 2026</span></div><table style="width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;border:1px solid var(--line);"><thead><tr style="background:var(--ink);"><th class="zh" style="padding:11px 14px;text-align:left;color:#fff;font-size:12.5px;width:34%;">月份</th><th class="zh" style="padding:11px 14px;text-align:right;color:#fff;font-size:12.5px;width:34%;">momo 業績</th><th class="zh" style="padding:11px 14px;text-align:right;color:#fff;font-size:12.5px;width:32%;">日均</th></tr></thead><tbody><tr><td class="zh" style="padding:9px 14px;">1月</td><td style="padding:9px 14px;text-align:right;color:var(--momo);font-weight:700;">$461,299</td><td style="padding:9px 14px;text-align:right;color:#9aa6b1;">$14,881</td></tr><tr><td class="zh" style="padding:9px 14px;">2月<div style="font-size:11px;color:var(--momo);margin-top:2px;">農曆年檔期</div></td><td style="padding:9px 14px;text-align:right;color:var(--momo);font-weight:700;">$680,695</td><td style="padding:9px 14px;text-align:right;color:#9aa6b1;">$24,311</td></tr><tr><td class="zh" style="padding:9px 14px;">3月</td><td style="padding:9px 14px;text-align:right;color:var(--momo);font-weight:700;">$473,906</td><td style="padding:9px 14px;text-align:right;color:#9aa6b1;">$15,287</td></tr><tr><td class="zh" style="padding:9px 14px;">4月</td><td style="padding:9px 14px;text-align:right;color:var(--momo);font-weight:700;">$469,153</td><td style="padding:9px 14px;text-align:right;color:#9aa6b1;">$15,638</td></tr><tr><td class="zh" style="padding:9px 14px;">5月<div style="font-size:11px;color:var(--momo);margin-top:2px;">母親節檔期</div></td><td style="padding:9px 14px;text-align:right;color:var(--momo);font-weight:700;">$635,926</td><td style="padding:9px 14px;text-align:right;color:#9aa6b1;">$20,514</td></tr><tr><td class="zh" style="padding:9px 14px;">6月</td><td style="padding:9px 14px;text-align:right;color:var(--momo);font-weight:700;">$509,448</td><td style="padding:9px 14px;text-align:right;color:#9aa6b1;">$16,982</td></tr><tr><td class="zh" style="padding:9px 14px;">7月</td><td style="padding:9px 14px;text-align:right;color:var(--momo);font-weight:700;">$402,616</td><td style="padding:9px 14px;text-align:right;color:#9aa6b1;">$12,988</td></tr><tr style="background:#fde8f4;"><td class="zh" style="padding:9px 14px;">8月<div style="font-size:11px;color:var(--momo);margin-top:2px;">父親節檔期・截至 8/9</div></td><td style="padding:9px 14px;text-align:right;color:var(--momo);font-weight:700;">$178,919</td><td style="padding:9px 14px;text-align:right;color:#9aa6b1;">$19,880</td></tr></tbody></table><div style="background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px 20px;margin-top:12px;"><div class="chart-controls" id="monthlyChips_mm" style="margin-bottom:12px;"><span class="chip active" data-mseries="momo_total" style="--chip-color:var(--momo);"><span class="dot" style="background:var(--momo)"></span>月業績</span><span class="chip active" data-mseries="momo_avg" style="--chip-color:var(--steel);"><span class="dot" style="background:var(--steel)"></span>日均業績</span></div><div style="position:relative;width:100%;"><canvas id="monthlyChart_mm"></canvas></div></div></section>
+<section><div class="section-head"><span class="section-num">04</span><h2 class="zh">各廣告管道成效彙整</h2><span class="en">Channel Performance Summary</span></div><div id="channelTableWrap_mm" style="overflow-x:auto;"></div></section>
+<section><div class="section-head"><span class="section-num">05</span><h2 class="zh">每日數據明細</h2><span class="en">Daily Performance Detail · 8/1–8/9</span></div><div id="dailyDetailWrap_mm" style="overflow-x:auto;"></div></section>
+<section id="sec-findings-momo">
+    <div class="section-head">
+      <span class="section-num">06</span>
+      <h2 class="zh">執行發現與診斷建議</h2>
+      <span class="en">Findings &amp; Diagnosis · momo</span>
+    </div>
+
+    <div class="fb-card">
+      <h3 style="margin-bottom:14px;"><span class="tag" style="background:#5c84a8;">YoY 觀察</span></h3>
+      <ul style="font-family:var(--font-zh); font-size:13.5px; line-height:2; padding-left:20px; color:var(--ink);">
+        <li>花費從 2025 同期 $224,951 大幅收斂至 $20,013（▼91.1%），ROAS 由 1.19x 躍升至 8.94x，今年策略更精實</li>
+        <li>業績 YoY 下滑 33.3%，主因是 2025 年 8/5–8/8 有 momo 父親節包套 $20 萬（含一檔一日限搶），限搶當日（8/5）業績約 $6.4 萬，是主要的業績落差來源；排除包套期間後，兩年常態業績差距明顯收斂，屬合理的基期落差，並非今年廣告成效變差</li>
+      </ul>
+    </div>
+
+    <div class="fb-card" style="margin-top:18px;">
+      <h3 style="margin-bottom:14px;"><span class="tag" style="background:#3a5169;">各版位成效說明</span></h3>
+      <ul style="font-family:var(--font-zh); font-size:13.5px; line-height:2; padding-left:20px; color:var(--ink);">
+        <li><b>momo 站內-商品廣告：</b>如同先前執行的狀況，ROAS 8.62x 為 momo 陣營表現最佳的版位</li>
+        <li><b>FB CPA 購物車再行銷：</b>7 月起嘗試擴大受眾觸及，將受眾範圍從「60 天內加入購物車」調整為「180 天內加入購物車」，截至 8/9 觀察 ROAS 反應良好（4.40x）</li>
+        <li><b>父親節檔期 FB CPA 導購：</b>此版位本次成效也不錯（購買 ROAS 2.47x、購物車 ROAS 3.46x），不排除有受到購物車再行銷廣告擴大受眾的間接助益</li>
+      </ul>
+    </div>
+
+    <div class="fb-card" style="margin-top:18px;">
+      <h3 style="margin-bottom:14px;"><span class="tag" style="background:#c9742b;">核心診斷</span> <span class="zh">轉換型版位撐住成效，曝光型版位本檔期整體缺席</span></h3>
+
+      <div style="background:#f0f4f8; border-left:4px solid #3a5169; border-radius:0 8px 8px 0; padding:14px 18px; margin-bottom:16px; font-family:var(--font-zh); font-size:13.5px; line-height:1.9;">
+        <b>本檔期預算結構：</b><br>
+        FB CPA 導購（99% 花完）＋ 商品廣告（71% 花完）＋ FB CPA 購物車再行銷（月度維運廣告，本檔期進度 30%）<br>
+        momo 展示型廣告、黃金置頂廣告：<b>本檔期完全未編列預算</b>
+      </div>
+
+      <ul style="font-family:var(--font-zh); font-size:13.5px; line-height:2; padding-left:20px; color:var(--ink);">
+        <li>雖廣告安排合理但規模保守（YoY 花費 ▼91.1%，差異幅度大），預算幾乎全數集中在轉換型（CPA）廣告，曝光型版位缺席</li>
+        <li><b>曝光型廣告建議重新編列預算：</b>momo 展示型廣告／黃金置頂廣告即使小額預算也建議重啟，累積品牌基礎聲量，呼應 618 檔期「聲量不足→搜尋型版位花不出去」的長期診斷</li>
+      </ul>
+    </div>
+  </section>
+</div>
+<div class="tab-page" data-page="shopee">
+<div class="tab-nav"><button class="tab-btn active" data-tab="momo" onclick="switchTab('momo')"><span>●</span> momo</button><button class="tab-btn" data-tab="shopee" onclick="switchTab('shopee')"><span style="color:var(--shopee);">●</span> 蝦皮</button></div>
+<section><div class="section-head"><span class="section-num">01</span><h2 class="zh">核心績效指標</h2><span class="en">KPI Overview · as of 8/9</span></div><div class="kpi-grid">
+<div class="kpi-card" style="background:#fde8e5; border-color:#ee4d2d;">
+  <div class="accent accent-shopee"></div>
+  <div class="label zh" style="color:#c03010;">蝦皮 業績（8/1–8/9）</div>
+  <div class="value" style="color:#c03010;">$118,343</div>
+  <div class="sub zh">8/1–8/9 累積訂單金額</div>
+</div>
+<div class="kpi-card" style="background:#fde8e5; border-color:#ee4d2d;">
+  <div class="accent accent-shopee"></div>
+  <div class="label zh" style="color:#c03010;">蝦皮 廣告花費（8/1–8/9）</div>
+  <div class="value" style="color:#c03010;">$15,525</div>
+  <div class="sub zh">廣告花費達成率 <b style="background:#fff176; padding:1px 6px; border-radius:4px; color:#5d4800;">83%</b></div>
+</div>
+<div class="kpi-card">
+  <div class="accent accent-total"></div>
+  <div class="label zh">蝦皮 業績 ROAS</div>
+  <div class="value">7.62x</div>
+  <div class="sub zh">總業績 ÷ 總廣告花費</div>
+</div>
+</div></section>
+<section><div class="section-head"><span class="section-num">02</span><h2 class="zh">每日業績與廣告花費趨勢</h2><span class="en">Daily Sales vs Ad Spend · 8/1–8/9</span></div>
+<div class="yoy-table" style="margin-bottom:20px;"><table style="border-top:3px solid var(--ink);width:100%;"><thead><tr><th class="zh" colspan="5" style="text-align:center;background:#1a2a45;font-size:13px;font-weight:700;color:#b8d4de;padding:10px 12px;">2025 vs 2026　同期比較（8/1–8/9）</th></tr><tr><th class="zh" style="text-align:left;width:24%;">指標</th><th class="zh" style="width:18%;">2025</th><th class="zh" style="width:18%;">2026</th><th class="zh" style="width:18%;">差額</th><th class="zh" style="width:22%;">YoY</th></tr></thead><tbody>
+<tr style="background:#fde8e5;"><td class="zh" style="font-weight:700;color:var(--shopee);">蝦皮 業績</td><td>$116,690</td><td>$118,343</td><td style="font-weight:700;color:var(--bad);">+$1,653</td><td><span style="display:inline-block;padding:3px 12px;border-radius:999px;font-weight:700;font-size:13px;background:#fbe9e7;color:var(--bad);">▲ 1.4%</span></td></tr>
+<tr style="background:#fde8e5;"><td class="zh" style="color:var(--shopee);">蝦皮 廣告花費</td><td>$6,623</td><td>$15,525</td><td style="font-weight:700;color:var(--bad);">+$8,902</td><td><span style="display:inline-block;padding:3px 12px;border-radius:999px;font-weight:700;font-size:13px;background:#fbe9e7;color:var(--bad);">▲ 134.4%</span></td></tr>
+<tr style="background:#fde8e5;"><td class="zh" style="color:var(--shopee);">蝦皮 ROAS</td><td>17.62x</td><td>7.62x</td><td style="font-weight:700;color:var(--good);">-10.00x</td><td><span style="display:inline-block;padding:3px 12px;border-radius:999px;font-weight:700;font-size:13px;background:#e3f3ec;color:var(--good);">▼ 下降 56.8%</span></td></tr>
+</tbody></table></div>
+<div class="chart-card"><div class="chart-controls" id="seriesChips_sp"><span style="font-family:var(--font-zh);font-size:12px;font-weight:700;color:#9aa6b1;align-self:center;margin-right:4px;">2026：</span><span class="chip active" data-series="shopee_sales" style="--chip-color:var(--shopee);"><span class="dot" style="background:var(--shopee)"></span>蝦皮 業績</span><span class="chip active" data-series="shopee_spend" style="--chip-color:#5c84a8;"><span class="dot" style="background:#5c84a8"></span>蝦皮 廣告花費</span><span class="chip" data-series="shopee_roas" style="--chip-color:var(--warn);"><span class="dot" style="background:var(--good)"></span>蝦皮 ROAS</span></div><div class="chart-controls" id="seriesChips2025_sp" style="margin-top:4px;"><span style="font-family:var(--font-zh);font-size:12px;font-weight:700;color:#9aa6b1;align-self:center;margin-right:4px;">2025同期：</span><span class="chip" data-series2025="shopee_sales_2025" style="--chip-color:var(--shopee);"><span class="dot" style="background:var(--shopee);opacity:.5"></span>蝦皮 業績</span><span class="chip" data-series2025="shopee_spend_2025" style="--chip-color:#5c84a8;"><span class="dot" style="background:#5c84a8;opacity:.5"></span>蝦皮 廣告花費</span><span class="chip" data-series2025="shopee_roas_2025" style="--chip-color:var(--warn);"><span class="dot" style="background:var(--good);opacity:.5"></span>蝦皮 ROAS</span></div><div style="position:relative;width:100%;"><canvas id="trendChart_sp"></canvas></div></div></section>
+<section><div class="section-head"><span class="section-num">03</span><h2 class="zh">2026 每月業績</h2><span class="en">Monthly Sales Performance · Jan – Aug 2026</span></div><table style="width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;border:1px solid var(--line);"><thead><tr style="background:var(--ink);"><th class="zh" style="padding:11px 14px;text-align:left;color:#fff;font-size:12.5px;width:34%;">月份</th><th class="zh" style="padding:11px 14px;text-align:right;color:#fff;font-size:12.5px;width:34%;">蝦皮 業績</th><th class="zh" style="padding:11px 14px;text-align:right;color:#fff;font-size:12.5px;width:32%;">日均</th></tr></thead><tbody><tr><td class="zh" style="padding:9px 14px;">1月</td><td style="padding:9px 14px;text-align:right;color:var(--shopee);font-weight:700;">$184,443</td><td style="padding:9px 14px;text-align:right;color:#9aa6b1;">$5,950</td></tr><tr><td class="zh" style="padding:9px 14px;">2月<div style="font-size:11px;color:var(--shopee);margin-top:2px;">農曆年檔期</div></td><td style="padding:9px 14px;text-align:right;color:var(--shopee);font-weight:700;">$262,230</td><td style="padding:9px 14px;text-align:right;color:#9aa6b1;">$9,365</td></tr><tr><td class="zh" style="padding:9px 14px;">3月</td><td style="padding:9px 14px;text-align:right;color:var(--shopee);font-weight:700;">$277,492</td><td style="padding:9px 14px;text-align:right;color:#9aa6b1;">$8,951</td></tr><tr><td class="zh" style="padding:9px 14px;">4月</td><td style="padding:9px 14px;text-align:right;color:var(--shopee);font-weight:700;">$205,596</td><td style="padding:9px 14px;text-align:right;color:#9aa6b1;">$6,853</td></tr><tr><td class="zh" style="padding:9px 14px;">5月<div style="font-size:11px;color:var(--shopee);margin-top:2px;">母親節檔期</div></td><td style="padding:9px 14px;text-align:right;color:var(--shopee);font-weight:700;">$292,486</td><td style="padding:9px 14px;text-align:right;color:#9aa6b1;">$9,435</td></tr><tr><td class="zh" style="padding:9px 14px;">6月</td><td style="padding:9px 14px;text-align:right;color:var(--shopee);font-weight:700;">$245,994</td><td style="padding:9px 14px;text-align:right;color:#9aa6b1;">$8,200</td></tr><tr><td class="zh" style="padding:9px 14px;">7月</td><td style="padding:9px 14px;text-align:right;color:var(--shopee);font-weight:700;">$247,035</td><td style="padding:9px 14px;text-align:right;color:#9aa6b1;">$7,969</td></tr><tr style="background:#fde8e5;"><td class="zh" style="padding:9px 14px;">8月<div style="font-size:11px;color:var(--shopee);margin-top:2px;">父親節檔期・截至 8/9</div></td><td style="padding:9px 14px;text-align:right;color:var(--shopee);font-weight:700;">$118,343</td><td style="padding:9px 14px;text-align:right;color:#9aa6b1;">$13,149</td></tr></tbody></table><div style="background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px 20px;margin-top:12px;"><div class="chart-controls" id="monthlyChips_sp" style="margin-bottom:12px;"><span class="chip active" data-mseries="shopee_total" style="--chip-color:var(--shopee);"><span class="dot" style="background:var(--shopee)"></span>月業績</span><span class="chip active" data-mseries="shopee_avg" style="--chip-color:var(--steel);"><span class="dot" style="background:var(--steel)"></span>日均業績</span></div><div style="position:relative;width:100%;"><canvas id="monthlyChart_sp"></canvas></div></div></section>
+<section><div class="section-head"><span class="section-num">04</span><h2 class="zh">各廣告管道成效彙整</h2><span class="en">Channel Performance Summary</span></div><div id="channelTableWrap_sp" style="overflow-x:auto;"></div></section>
+<section><div class="section-head"><span class="section-num">05</span><h2 class="zh">每日數據明細</h2><span class="en">Daily Performance Detail · 8/1–8/9</span></div><div id="dailyDetailWrap_sp" style="overflow-x:auto;"></div></section>
+<section id="sec-findings-shopee">
+    <div class="section-head">
+      <span class="section-num">06</span>
+      <h2 class="zh">執行發現與診斷建議</h2>
+      <span class="en">Findings &amp; Diagnosis · 蝦皮</span>
+    </div>
+
+    <div class="fb-card">
+      <h3 style="margin-bottom:14px;"><span class="tag" style="background:#5c84a8;">YoY 觀察</span></h3>
+      <ul style="font-family:var(--font-zh); font-size:13.5px; line-height:2; padding-left:20px; color:var(--ink);">
+        <li>花費由 $6,623 增至 $15,525（▲134.4%），業績僅由 $116,690 微增至 $118,343（▲1.4%），ROAS 由 17.62x 滑落至 7.62x（▼56.8%）——顯示加碼投放邊際效益遞減，建議檢視加碼預算的版位分配是否還有優化空間</li>
+      </ul>
+    </div>
+
+    <div class="fb-card" style="margin-top:18px;">
+      <h3 style="margin-bottom:14px;"><span class="tag" style="background:#3a5169;">各版位成效說明</span></h3>
+      <ul style="font-family:var(--font-zh); font-size:13.5px; line-height:2; padding-left:20px; color:var(--ink);">
+        <li>今年蝦皮父親節廣告版位分配同去年，主力仍放在站內商品廣告：今年 ROAS 5.4x（2025 年 ROAS 5.68x），對比去年成效差異不大</li>
+      </ul>
+    </div>
+
+    <div class="fb-card" style="margin-top:18px;">
+      <h3 style="margin-bottom:14px;"><span class="tag" style="background:#c9742b;">核心診斷</span></h3>
+      <ul style="font-family:var(--font-zh); font-size:13.5px; line-height:2; padding-left:20px; color:var(--ink);">
+        <li><b>蝦皮站內商品廣告：</b>維持現有策略，花費達成率與 ROAS 表現皆穩定，是本檔期最可靠的績效來源</li>
+        <li>商品廣告的本質是「承接主動搜尋的需求」，雖成效穩定，但它有一個天花板：只能接住已經在搜尋的人，接不到還沒開始搜尋的人。與 618 檔期「蝦皮品牌搜尋廣告因為品牌聲量不足而花不出去」是相同邏輯</li>
+        <li>本次業績成長停滯，很可能不是商品廣告沒效率，而是「能被廣告觸及到的既有需求」已經被商品廣告吃得差不多了，需要新的版位去開發還沒被觸及的人。建議增加曝光型版位，補足「主動需求」的上游供給</li>
+      </ul>
+    </div>
+  </section>
+</div></main>
+<footer class="zh">磁力品牌 父親節儀表板　·　資料來源：2025易利氣EC父親節報表.xlsx、202608父親節檔期EC廣告整理.xlsx　·　業績資料截至 8/9</footer>
+<script>
+const dailyData = [{"date": "8/1", "momo_sales": 28433, "shopee_sales": 12475, "momo_spend": 1682, "shopee_spend": 1695, "momo_roas": 16.9, "shopee_roas": 7.36}, {"date": "8/2", "momo_sales": 26733, "shopee_sales": 8027, "momo_spend": 1693, "shopee_spend": 1407, "momo_roas": 15.79, "shopee_roas": 5.71}, {"date": "8/3", "momo_sales": 14146, "shopee_sales": 6987, "momo_spend": 2296, "shopee_spend": 1346, "momo_roas": 6.16, "shopee_roas": 5.19}, {"date": "8/4", "momo_sales": 23731, "shopee_sales": 7320, "momo_spend": 2178, "shopee_spend": 1086, "momo_roas": 10.9, "shopee_roas": 6.74}, {"date": "8/5", "momo_sales": 17070, "shopee_sales": 12065, "momo_spend": 2400, "shopee_spend": 1668, "momo_roas": 7.11, "shopee_roas": 7.23}, {"date": "8/6", "momo_sales": 22435, "shopee_sales": 12601, "momo_spend": 2670, "shopee_spend": 1264, "momo_roas": 8.4, "shopee_roas": 9.97}, {"date": "8/7", "momo_sales": 11578, "shopee_sales": 16075, "momo_spend": 2230, "shopee_spend": 2230, "momo_roas": 5.19, "shopee_roas": 7.21}, {"date": "8/8", "momo_sales": 20839, "shopee_sales": 28052, "momo_spend": 2609, "shopee_spend": 2629, "momo_roas": 7.99, "shopee_roas": 10.67}, {"date": "8/9", "momo_sales": 13954, "shopee_sales": 14741, "momo_spend": 2255, "shopee_spend": 2200, "momo_roas": 6.19, "shopee_roas": 6.7}];
+
+const channelData = {"momo": {"rows": [{"name": "FB CPA購物車再行銷", "plan": 4650, "actual": 1415, "pct": 0.3043, "impressions": 15729, "clicks": 238, "conv": 6221, "cpm": 89.96, "cpc": 5.95, "ctr": 0.0151, "roas": 4.4, "flag": "月度維運廣告"}, {"name": "父親節檔期FB CPA導購", "plan": 8658, "actual": 8602, "pct": 0.9935, "impressions": 97450, "clicks": 1184, "conv": 21234, "cpm": 88.27, "cpc": 7.27, "ctr": 0.0121, "roas": 2.47}, {"name": "momo站內-商品廣告", "plan": 14000, "actual": 9996, "pct": 0.714, "impressions": 86483, "clicks": 2726, "conv": 86163, "cpm": 115.58, "cpc": 3.67, "ctr": 0.0315, "roas": 8.62}], "subtotal": {"name": "momo 小計", "plan": 27308, "actual": 20013, "pct": 0.7328, "impressions": 199662, "clicks": 4148, "conv": 113618, "cpm": 100.24, "cpc": 4.83, "ctr": 0.0208, "roas": 5.68}}, "shopee": {"rows": [{"name": "FB CPA購物車再行銷", "plan": 4650, "actual": 1531, "pct": 0.3292, "impressions": 15975, "clicks": 233, "conv": 2668, "cpm": 95.84, "cpc": 6.57, "ctr": 0.0146, "roas": 1.74, "flag": "月度維運廣告"}, {"name": "蝦皮站內商品廣告（關鍵字）", "plan": 14000, "actual": 13994, "pct": 0.9996, "impressions": 85400, "clicks": 1875, "conv": 75611, "cpm": 163.86, "cpc": 7.46, "ctr": 0.022, "roas": 5.4}, {"name": "磁力日-FB CPC", "plan": 627, "actual": null, "pct": 0, "impressions": null, "clicks": null, "conv": null, "cpm": null, "cpc": null, "ctr": null, "roas": null, "flag": "尚未開始"}, {"name": "磁力日-蝦皮站內商品廣告", "plan": 1275, "actual": null, "pct": 0, "impressions": null, "clicks": null, "conv": null, "cpm": null, "cpc": null, "ctr": null, "roas": null, "flag": "尚未開始"}], "subtotal": {"name": "蝦皮 小計", "plan": 18650, "actual": 15525, "pct": 0.8325, "impressions": 101375, "clicks": 2108, "conv": 78279, "cpm": 153.13, "cpc": 7.37, "ctr": 0.0208, "roas": 5.04}}};
+
+const fmtMoney = v => v==null ? "–" : "$" + Math.round(v).toLocaleString();
+const fmtNum = v => v==null ? "–" : Math.round(v).toLocaleString();
+const fmtPct = v => v==null ? "–" : (v*100).toFixed(1) + "%";
+function roasPill(v){
+  if(v == null) return '<span class="roas-pill roas-na">–</span>';
+  let cls = v >= 3 ? "roas-good" : v >= 1 ? "roas-mid" : "roas-bad";
+  return `<span class="roas-pill ${cls}">${v.toFixed(2)}x</span>`;
+}
+
+function fmtCurrency2(v){ return v==null ? "–" : "$" + Math.round(v).toLocaleString(); }
+
+function renderChannelTable(platform){
+  const d = channelData[platform];
+  const accentColor = platform==='momo' ? 'var(--momo)' : 'var(--shopee)';
+  let html = `<table style="border-top:3px solid ${accentColor};table-layout:fixed;width:100%;"><colgroup>
+    <col style="width:7%"><col style="width:17%">
+    <col style="width:9%"><col style="width:9%"><col style="width:6%">
+    <col style="width:8%"><col style="width:6%">
+    <col style="width:7%"><col style="width:7%"><col style="width:6%">
+    <col style="width:9%"><col style="width:9%">
+    </colgroup><thead><tr>
+    <th class="zh">平台</th><th class="zh">廣告版位</th>
+    <th class="zh" style="text-align:right;">Plan金額</th><th class="zh" style="text-align:right;">實際花費</th><th class="zh" style="text-align:right;">花費%</th>
+    <th class="zh" style="text-align:right;">曝光</th><th class="zh" style="text-align:right;">點擊</th>
+    <th class="zh" style="text-align:right;">CPM</th><th class="zh" style="text-align:right;">CPC</th><th class="zh" style="text-align:right;">CTR</th>
+    <th class="zh" style="text-align:right;">廣告帶來轉換</th>
+    <th class="zh" style="text-align:right;">廣告ROAS</th>
+  </tr></thead><tbody>`;
+  d.rows.forEach(r=>{
+    const flagClass = (r.flag === '尚未開始' || r.flag === '本檔期未編列') ? 'flag-anomaly' : '';
+    const flagBadge = r.flag === '月度維運廣告' ? '<span class="flag-badge" style="background:#7a93a8;">月度維運廣告</span>'
+                    : (r.flag === '尚未開始' || r.flag === '本檔期未編列') ? `<span class="flag-badge anomaly" style="background:#9aa6b1;">${r.flag}</span>` : '';
+    const convCell = r.conv ? '$'+Math.round(r.conv).toLocaleString() : '–';
+    html += `<tr class="${flagClass}">
+      <td class="zh">${platform==='momo' ? 'momo' : '蝦皮'}</td>
+      <td class="zh">${r.name}${flagBadge}</td>
+      <td>${fmtMoney(r.plan)}</td>
+      <td>${fmtMoney(r.actual)}</td>
+      <td>${fmtPct(r.pct)}</td>
+      <td>${fmtNum(r.impressions)}</td>
+      <td>${fmtNum(r.clicks)}</td>
+      <td>${fmtCurrency2(r.cpm)}</td>
+      <td>${fmtCurrency2(r.cpc)}</td>
+      <td>${fmtPct(r.ctr)}</td>
+      <td>${convCell}</td>
+      <td>${roasPill(r.roas)}</td>
+    </tr>`;
+  });
+  const s = d.subtotal;
+  const subConv = s.conv ? '$'+Math.round(s.conv).toLocaleString() : '–';
+  html += `<tr class="subtotal">
+      <td class="zh">${s.name}</td><td></td>
+      <td>${fmtMoney(s.plan)}</td>
+      <td>${fmtMoney(s.actual)}</td>
+      <td>${fmtPct(s.pct)}</td>
+      <td>${fmtNum(s.impressions)}</td>
+      <td>${fmtNum(s.clicks)}</td>
+      <td>${fmtCurrency2(s.cpm)}</td>
+      <td>${fmtCurrency2(s.cpc)}</td>
+      <td>${fmtPct(s.ctr)}</td>
+      <td>${subConv}</td>
+      <td>${roasPill(s.roas)}</td>
+    </tr>`;
+  html += `</tbody></table>`;
+  const _cw=document.getElementById(_activeTab==='shopee'?'channelTableWrap_sp':'channelTableWrap_mm');if(_cw)_cw.innerHTML=html;
+}
+renderChannelTable('momo');
+
+(document.getElementById('platformToggle')||{addEventListener:function(){}}).addEventListener('click', e=>{
+  if(e.target.tagName !== 'BUTTON') return;
+  document.querySelectorAll('#platformToggle button').forEach(b=>b.classList.remove('active'));
+  e.target.classList.add('active');
+  renderChannelTable(e.target.dataset.platform);
+});
+
+// ===== 2025 data (8/1-8/9) =====
+const dailyData2025 = [{"date": "8/1", "momo_sales_2025": 21655, "shopee_sales_2025": 9456, "momo_spend_2025": 644, "shopee_spend_2025": 734, "momo_roas_2025": 33.62, "shopee_roas_2025": 12.88}, {"date": "8/2", "momo_sales_2025": 21151, "shopee_sales_2025": 6374, "momo_spend_2025": 738, "shopee_spend_2025": 612, "momo_roas_2025": 28.67, "shopee_roas_2025": 10.42}, {"date": "8/3", "momo_sales_2025": 26152, "shopee_sales_2025": 11573, "momo_spend_2025": 705, "shopee_spend_2025": 734, "momo_roas_2025": 37.09, "shopee_roas_2025": 15.77}, {"date": "8/4", "momo_sales_2025": 20255, "shopee_sales_2025": 8902, "momo_spend_2025": 730, "shopee_spend_2025": 802, "momo_roas_2025": 27.75, "shopee_roas_2025": 11.1}, {"date": "8/5", "momo_sales_2025": 64869, "shopee_sales_2025": 13274, "momo_spend_2025": 69440, "shopee_spend_2025": 673, "momo_roas_2025": 0.93, "shopee_roas_2025": 19.72}, {"date": "8/6", "momo_sales_2025": 29646, "shopee_sales_2025": 15076, "momo_spend_2025": 50750, "shopee_spend_2025": 661, "momo_roas_2025": 0.58, "shopee_roas_2025": 22.81}, {"date": "8/7", "momo_sales_2025": 28498, "shopee_sales_2025": 14616, "momo_spend_2025": 50653, "shopee_spend_2025": 767, "momo_roas_2025": 0.56, "shopee_roas_2025": 19.06}, {"date": "8/8", "momo_sales_2025": 36698, "shopee_sales_2025": 28083, "momo_spend_2025": 50639, "shopee_spend_2025": 820, "momo_roas_2025": 0.72, "shopee_roas_2025": 34.25}, {"date": "8/9", "momo_sales_2025": 19289, "shopee_sales_2025": 9336, "momo_spend_2025": 652, "shopee_spend_2025": 820, "momo_roas_2025": 29.57, "shopee_roas_2025": 11.39}];
+
+// ===== Trend chart =====
+const seriesConfig = {
+  momo_sales:   {label:'2026 momo 業績', color:'#e6007e', type:'bar', yAxis:'y'},
+  shopee_sales: {label:'2026 蝦皮 業績', color:'#ee4d2d', type:'bar', yAxis:'y'},
+  momo_spend:   {label:'2026 momo 廣告花費', color:'#3a5169', type:'bar', yAxis:'y'},
+  shopee_spend: {label:'2026 蝦皮 廣告花費', color:'#5c84a8', type:'bar', yAxis:'y'},
+  momo_roas:    {label:'2026 momo ROAS', color:'#3f8f6c', type:'line', yAxis:'y1'},
+  shopee_roas:  {label:'2026 蝦皮 ROAS', color:'#c9742b', type:'line', yAxis:'y1'},
+};
+const seriesConfig2025 = {
+  momo_sales_2025:   {label:'2025 momo 業績', color:'#c084b0', type:'line', yAxis:'y'},
+  shopee_sales_2025: {label:'2025 蝦皮 業績', color:'#d4896a', type:'line', yAxis:'y'},
+  momo_spend_2025:   {label:'2025 momo 廣告花費', color:'#8499af', type:'line', yAxis:'y'},
+  shopee_spend_2025: {label:'2025 蝦皮 廣告花費', color:'#97b5c9', type:'line', yAxis:'y'},
+  momo_roas_2025:    {label:'2025 momo ROAS', color:'#77b899', type:'line', yAxis:'y1'},
+  shopee_roas_2025:  {label:'2025 蝦皮 ROAS', color:'#d9a87c', type:'line', yAxis:'y1'},
+};
+
+let trendChart;
+function renderChart(cid){
+  cid = cid || (_activeTab==='shopee' ? 'trendChart_sp' : 'trendChart_mm');
+  const ctxEl = document.getElementById(cid);
+  const ctx = ctxEl ? ctxEl.getContext('2d') : null;
+  if(!ctx) return;
+  const active2026 = Array.from(document.querySelectorAll((_activeTab==='shopee'?'#seriesChips_sp':'#seriesChips_mm')+' .chip.active')).map(c=>c.dataset.series).filter(Boolean);
+  const active2025 = Array.from(document.querySelectorAll((_activeTab==='shopee'?'#seriesChips2025_sp':'#seriesChips2025_mm')+' .chip.active')).map(c=>c.dataset['series2025']).filter(Boolean);
+
+  const datasets = [];
+  active2026.forEach(key=>{
+    const cfg = seriesConfig[key];
+    const base = {
+      label: cfg.label,
+      data: dailyData.map(d=> d[key] !== undefined ? d[key] : null),
+      backgroundColor: cfg.type==='bar' ? cfg.color + 'cc' : 'transparent',
+      borderColor: cfg.color,
+      yAxisID: cfg.yAxis,
+    };
+    if(cfg.type==='line'){
+      datasets.push({...base, type:'line', tension:.35, borderWidth:2.5, pointRadius:4, pointBackgroundColor:cfg.color});
+    } else {
+      datasets.push({...base, type:'bar', borderRadius:4, maxBarThickness:18});
+    }
+  });
+  active2025.forEach(key=>{
+    const cfg = seriesConfig2025[key];
+    datasets.push({
+      label: cfg.label,
+      data: dailyData2025.map(d=> d[key] !== undefined ? d[key] : null),
+      type: 'line',
+      tension:.35,
+      borderWidth:2,
+      borderDash:[6,4],
+      borderColor: cfg.color,
+      backgroundColor: 'transparent',
+      pointRadius:3,
+      pointBackgroundColor: cfg.color,
+      yAxisID: cfg.yAxis,
+    });
+  });
+
+  if(trendChart) trendChart.destroy();
+  trendChart = new Chart(ctx, {
+    data: { labels: dailyData.map(d=>d.date), datasets },
+    options: {
+      responsive:true,
+      interaction:{ mode:'index', intersect:false },
+      plugins:{
+        legend:{ position:'bottom', labels:{ font:{family:'Microsoft JhengHei', size:12} } },
+        tooltip:{
+          titleFont:{family:'Calibri'}, bodyFont:{family:'Microsoft JhengHei'},
+          callbacks:{
+            label: ctx => {
+              const v = ctx.raw;
+              if(v == null) return `${ctx.dataset.label}: –`;
+              if(ctx.dataset.label.includes('ROAS')) return `${ctx.dataset.label}: ${v.toFixed(2)}x`;
+              return `${ctx.dataset.label}: $${Math.round(v).toLocaleString()}`;
+            }
+          }
+        }
+      },
+      scales:{
+        x:{ ticks:{ font:{family:'Calibri'} }, grid:{ display:false } },
+        y:{ position:'left', title:{display:true, text:'金額 (NT$)', font:{family:'Microsoft JhengHei', size:12}},
+            ticks:{ font:{family:'Calibri'}, callback:v=>'$'+v.toLocaleString() } },
+        y1:{ position:'right', title:{display:true, text:'ROAS', font:{family:'Microsoft JhengHei', size:12}},
+             grid:{drawOnChartArea:false}, ticks:{font:{family:'Calibri'}, callback:v=>v+'x'} }
+      }
+    }
+  });
+}
+
+document.addEventListener('click', function(e){
+  var chip = e.target.closest('.chip[data-series]');
+  if(!chip) return;
+  chip.classList.toggle('active');
+  renderChart(_activeTab==='shopee'?'trendChart_sp':'trendChart_mm');
+});
+
+document.addEventListener('click', function(e){
+  var chip = e.target.closest('.chip[data-series2025]');
+  if(!chip) return;
+  chip.classList.toggle('active');
+  renderChart(_activeTab==='shopee'?'trendChart_sp':'trendChart_mm');
+});
+
+renderChart();
+
+// ===== Section 5: Daily Detail Tables =====
+const dailyDetail = {"momo": {"platform": "momo", "sales": [28433, 26733, 14146, 23731, 17070, 22435, 11578, 20839, 13954], "perf": [{"label": "FB CPA購物車再行銷", "period": "8/1–8/31", "daily_budget": 150, "highlight_col": "CPC", "impressions": [2204, 1873, 1451, 1442, 1866, 1592, 1878, 1858, 1565], "clicks": [47, 22, 22, 21, 17, 28, 21, 33, 27], "spend": [171, 144, 145, 169, 154, 133, 149, 193, 157], "conv": [653, 653, 653, null, null, 1365, 1306, 1591, null], "roas": [3.82, 4.53, 4.5, null, null, 10.26, 8.77, 8.24, null]}, {"label": "父親節檔期FB CPA導購", "period": "8/1–8/9", "daily_budget": 962, "highlight_col": "CPC", "impressions": [12785, 9972, 11999, 6219, 6974, 14718, 16125, 10260, 8398], "clicks": [449, 221, 87, 51, 57, 130, 75, 70, 44], "spend": [893, 966, 1026, 690, 885, 1189, 1019, 982, 952], "conv": [938, 10386, 712, 938, null, 4380, 3880, null, null], "roas": [1.05, 10.75, 0.69, 1.36, null, 3.68, 3.81, null, null]}, {"label": "商品廣告", "period": "8/1–8/9", "daily_budget": 1556, "highlight_col": "CPC", "impressions": [922, 1023, 8176, 12418, 9600, 12840, 12189, 15392, 13923], "clicks": [51, 52, 396, 431, 349, 373, 335, 378, 361], "spend": [618, 583, 1125, 1319, 1361, 1348, 1062, 1434, 1145], "conv": [8514, 9123, 4122, 15391, 6277, 17272, 399, 15777, 9288], "roas": [13.77, 15.65, 3.67, 11.67, 4.61, 12.81, 0.38, 11.0, 8.11]}], "spendByChannel": {"FB CPA購物車再行銷": [171, 144, 145, 169, 154, 133, 149, 193, 157], "父親節FB CPA導購": [893, 966, 1026, 690, 885, 1189, 1019, 982, 952], "商品廣告": [618, 583, 1125, 1319, 1361, 1348, 1062, 1434, 1145]}, "noDailyChannels": [], "channels": []}, "shopee": {"platform": "shopee", "sales": [12475, 8027, 6987, 7320, 12065, 12601, 16075, 28052, 14741], "perf": [{"label": "FB CPA購物車再行銷", "period": "8/1–8/31", "daily_budget": 150, "highlight_col": "CPC", "impressions": [1029, 781, 750, 943, 745, 707, 1062, 9312, 646], "clicks": [14, 14, 12, 19, 14, 8, 21, 123, 8], "spend": [140, 116, 99, 136, 113, 108, 150, 549, 120], "conv": [null, null, null, null, null, null, 1279, 1389, null], "roas": [null, null, null, null, null, null, 8.53, 2.53, null]}, {"label": "站內商品廣告", "period": "8/1–8/9", "daily_budget": 1556, "highlight_col": "CPC", "impressions": [7100, 8000, 9200, 10100, 11800, 9400, 10800, 3700, 15300], "clicks": [190, 248, 190, 202, 242, 231, 208, 63, 301], "spend": [1555, 1291, 1247, 950, 1555, 1156, 2080, 2080, 2080], "conv": [8250, 4847, 5999, 4194, 11240, 4465, 13599, 14782, 8235], "roas": [5.31, 3.75, 4.81, 4.41, 7.23, 3.86, 6.54, 7.11, 3.96]}], "spendByChannel": {"FB CPA購物車再行銷": [140, 116, 99, 136, 113, 108, 150, 549, 120], "站內商品廣告": [1555, 1291, 1247, 950, 1555, 1156, 2080, 2080, 2080]}, "noDailyChannels": [], "channels": []}};
+
+const dates = ["8/1", "8/2", "8/3", "8/4", "8/5", "8/6", "8/7", "8/8", "8/9"];
+
+function renderDailyDetail(platform){
+  const d = dailyDetail[platform];
+  const platformName = platform==='momo' ? 'momo' : '蝦皮';
+  const accentColor = platform==='momo' ? 'var(--momo)' : 'var(--shopee)';
+  const channelNames = Object.keys(d.spendByChannel);
+
+  let html = `<h3 class="zh" style="font-size:14px; margin-bottom:10px; color:var(--steel);">每日業績與各廣告版位花費</h3>`;
+  const dateW = 10, salesW = 14, totalW = 14;
+  const chW = ((100 - dateW - salesW - totalW) / channelNames.length).toFixed(2);
+  html += `<table style="margin-bottom:8px; border-top:3px solid ${accentColor}; table-layout:fixed; width:100%;"><colgroup>
+    <col style="width:${dateW}%"><col style="width:${salesW}%">`;
+  channelNames.forEach(() => { html += `<col style="width:${chW}%">`; });
+  html += `<col style="width:${totalW}%"></colgroup><thead>`;
+  html += `<tr>
+    <th class="zh" rowspan="2" style="vertical-align:middle; text-align:left;">日期</th>
+    <th class="zh" style="background:${accentColor}; text-align:right;">業績</th>
+    <th class="zh" colspan="${channelNames.length + 1}" style="background:var(--steel); text-align:center;">廣告花費</th>
+  </tr><tr>
+    <th class="zh" style="text-align:right;">業績</th>`;
+  channelNames.forEach(ch => {
+    html += `<th class="zh" style="text-align:right;">${ch}</th>`;
+  });
+  html += `<th class="zh" style="text-align:right;">合計</th></tr></thead><tbody>`;
+
+  dates.forEach((dt, i) => {
+    const rowSales = d.sales[i];
+    const chSpends = channelNames.map(ch => d.spendByChannel[ch][i] || 0);
+    const totalSpend = chSpends.reduce((a,b)=>a+b,0);
+    html += `<tr>
+      <td class="zh" style="text-align:left;">${dt}</td>
+      <td style="font-family:var(--font-en); text-align:right;">$${rowSales.toLocaleString()}</td>`;
+    chSpends.forEach(sp => {
+      html += `<td style="font-family:var(--font-en); text-align:right;">${sp ? '$'+Math.round(sp).toLocaleString() : '–'}</td>`;
+    });
+    html += `<td style="font-family:var(--font-en); text-align:right; font-weight:700;">${totalSpend ? '$'+Math.round(totalSpend).toLocaleString() : '–'}</td>
+    </tr>`;
+  });
+
+  const totSales = d.sales.reduce((a,b)=>a+b,0);
+  html += `<tr class="subtotal">
+    <td class="zh" style="text-align:left;">合計</td>
+    <td style="font-family:var(--font-en); text-align:right;"><b>$${totSales.toLocaleString()}</b></td>`;
+  channelNames.forEach(ch => {
+    const tot = d.spendByChannel[ch].reduce((a,b)=>a+b,0);
+    html += `<td style="font-family:var(--font-en); text-align:right;"><b>${tot ? '$'+Math.round(tot).toLocaleString() : '–'}</b></td>`;
+  });
+  const grandTotal = channelNames.reduce((a,ch) => a + d.spendByChannel[ch].reduce((x,y)=>x+y,0), 0);
+  html += `<td style="font-family:var(--font-en); text-align:right; font-weight:700;"><b>$${Math.round(grandTotal).toLocaleString()}</b></td></tr>`;
+  html += `</tbody></table>`;
+
+  d.perf.forEach(ch => {
+    const HL_CPC = ch.highlight_col === 'CPC';
+    const HL_CPM = ch.highlight_col === 'CPM';
+    const HL_STYLE_CPC = HL_CPC ? ' background:#fff9e0; color:#5a3e00; font-weight:700;' : '';
+    const HL_STYLE_CPM = HL_CPM ? ' background:#fff9e0; color:#5a3e00; font-weight:700;' : '';
+
+    const periodBadge = ch.period
+      ? `<span style="font-size:11px;font-weight:400;color:#9aa6b1;margin-left:8px;">走期 ${ch.period}　日預算 $${(ch.daily_budget||0).toLocaleString()}</span>`
+      : '';
+
+    let tableHtml = `<table style="border-top:3px solid ${accentColor}; table-layout:auto; width:100%;"><thead><tr>
+      <th class="zh" style="text-align:left; min-width:52px;">日期</th>
+      <th class="zh" style="text-align:right;">曝光</th>
+      <th class="zh" style="text-align:right;">點擊</th>
+      <th class="zh" style="text-align:right;">CTR</th>
+      <th class="zh" style="text-align:right;${HL_STYLE_CPC}">CPC</th>
+      <th class="zh" style="text-align:right;${HL_STYLE_CPM}">CPM</th>
+      <th class="zh" style="text-align:right;">花費</th>
+      <th class="zh" style="text-align:right;">廣告帶來轉換</th>
+      <th class="zh" style="text-align:right;">廣告ROAS</th>
+    </tr></thead><tbody>`;
+
+    dates.forEach((dt, i) => {
+      if (!ch.spend[i] && !ch.impressions[i]) return;
+      const imp = ch.impressions[i] || 0;
+      const clk = ch.clicks[i] || 0;
+      const sp  = ch.spend[i] || 0;
+      const cv  = ch.conv  ? (ch.conv[i]  || null) : null;
+      const rv  = ch.roas  ? (ch.roas[i]  || null) : null;
+      const ctr = imp ? (clk/imp*100).toFixed(2)+'%' : '–';
+      const cpc = clk && sp ? '$'+Math.round(sp/clk).toLocaleString() : '–';
+      const cpm = imp && sp ? '$'+Math.round((sp/imp)*1000).toLocaleString() : '–';
+      const rowStyle = !sp ? 'color:#bbb;' : '';
+      tableHtml += `<tr style="${rowStyle}">
+        <td class="zh" style="text-align:left;">${dt}</td>
+        <td style="text-align:right;">${imp ? imp.toLocaleString() : '–'}</td>
+        <td style="text-align:right;">${clk ? clk.toLocaleString() : '–'}</td>
+        <td style="text-align:right;">${ctr}</td>
+        <td style="text-align:right;${HL_STYLE_CPC}">${cpc}</td>
+        <td style="text-align:right;${HL_STYLE_CPM}">${cpm}</td>
+        <td style="text-align:right;">${sp ? '$'+Math.round(sp).toLocaleString() : '–'}</td>
+        <td style="text-align:right;">${cv ? '$'+Math.round(cv).toLocaleString() : '–'}</td>
+        <td style="text-align:right;">${rv ? rv+'x' : '–'}</td>
+      </tr>`;
+    });
+
+    const activeDays = dates.map((dt,i)=>i).filter(i=>ch.spend[i]||ch.impressions[i]);
+    const totImp = activeDays.reduce((a,i)=>a+(ch.impressions[i]||0),0);
+    const totClk = activeDays.reduce((a,i)=>a+(ch.clicks[i]||0),0);
+    const totSpd = activeDays.reduce((a,i)=>a+(ch.spend[i]||0),0);
+    const totCv  = ch.conv ? activeDays.reduce((a,i)=>a+(ch.conv[i]||0),0) : 0;
+    const avgRoas = totCv && totSpd ? (totCv/totSpd).toFixed(2) : null;
+    tableHtml += `<tr class="subtotal">
+      <td class="zh" style="text-align:left;">合計</td>
+      <td style="text-align:right;"><b>${totImp.toLocaleString()}</b></td>
+      <td style="text-align:right;"><b>${totClk.toLocaleString()}</b></td>
+      <td style="text-align:right;"><b>${totImp ? (totClk/totImp*100).toFixed(2)+'%' : '–'}</b></td>
+      <td style="text-align:right;${HL_STYLE_CPC}"><b>${totClk && totSpd ? '$'+Math.round(totSpd/totClk).toLocaleString() : '–'}</b></td>
+      <td style="text-align:right;${HL_STYLE_CPM}"><b>${totImp && totSpd ? '$'+Math.round((totSpd/totImp)*1000).toLocaleString() : '–'}</b></td>
+      <td style="text-align:right;"><b>$${Math.round(totSpd).toLocaleString()}</b></td>
+      <td style="text-align:right;"><b>${totCv ? '$'+Math.round(totCv).toLocaleString() : '–'}</b></td>
+      <td style="text-align:right;"><b>${avgRoas ? avgRoas+'x' : '–'}</b></td>
+    </tr></tbody></table>`;
+
+    html += `<details class="perf-detail">
+      <summary>${ch.label}${periodBadge}　每日成效明細<span style="font-family:var(--font-en); font-size:12px; color:#9aa6b1; font-weight:400; margin-left:10px;">點擊展開</span></summary>
+      <div class="detail-body">${tableHtml}</div>
+    </details>`;
+  });
+
+  const _dw=document.getElementById(_activeTab==='shopee'?'dailyDetailWrap_sp':'dailyDetailWrap_mm');if(_dw)_dw.innerHTML=html;
+}
+renderDailyDetail('momo');
+
+(document.getElementById('dailyPlatformToggle')||{addEventListener:function(){}}).addEventListener('click', e=>{
+  if(e.target.tagName !== 'BUTTON') return;
+  document.querySelectorAll('#dailyPlatformToggle button').forEach(b=>b.classList.remove('active'));
+  e.target.classList.add('active');
+  renderDailyDetail(e.target.dataset.platform);
+});
+
+// ===== Section 03: Monthly Sales Chart =====
+const MONTHLY_SALES = {"labels": ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月\n截至8/9"], "momo_total": [461299, 680695, 473906, 469153, 635926, 509448, 402616, 178919], "shopee_total": [184443, 262230, 277492, 205596, 292486, 245994, 247035, 118343], "momo_avg": [14881, 24311, 15287, 15638, 20514, 16982, 12988, 19880], "shopee_avg": [5950, 9365, 8951, 6853, 9435, 8200, 7969, 13149]};
+const monthlySeriesCfg = {
+  momo_total:   {label:'momo 業績',  color:'#e6007e', type:'bar',  yAxis:'y'},
+  shopee_total: {label:'蝦皮 業績',  color:'#ee4d2d', type:'bar',  yAxis:'y'},
+  momo_avg:     {label:'momo 日均',  color:'#c084a0', type:'line', yAxis:'y1'},
+  shopee_avg:   {label:'蝦皮 日均',  color:'#d4a07a', type:'line', yAxis:'y1'},
+};
+let monthlyChart;
+function renderMonthlyChart() {
+  const active = Array.from(document.querySelectorAll((_activeTab==='shopee'?'#monthlyChips_sp':'#monthlyChips_mm')+' .chip.active')).map(c=>c.dataset.mseries);
+  const datasets = active.map(key => {
+    const cfg = monthlySeriesCfg[key];
+    const base = {label:cfg.label, data:MONTHLY_SALES[key], borderColor:cfg.color, backgroundColor:cfg.color+'cc', yAxisID:cfg.yAxis};
+    return cfg.type==='bar'
+      ? {...base, type:'bar', borderRadius:6, maxBarThickness:36}
+      : {...base, type:'line', tension:.35, borderWidth:2.5, pointRadius:4, pointBackgroundColor:cfg.color, backgroundColor:'transparent'};
+  });
+  const usedAxes = new Set(datasets.map(d=>d.yAxisID));
+  const _mc=document.getElementById(_activeTab==='shopee'?'monthlyChart_sp':'monthlyChart_mm');if(!_mc)return;
+  if(monthlyChart)monthlyChart.destroy();
+  monthlyChart=new Chart(_mc.getContext('2d'), {
+    data: {labels: MONTHLY_SALES.labels, datasets},
+    options: {
+      responsive:true, interaction:{mode:'index',intersect:false},
+      plugins:{
+        legend:{position:'bottom', labels:{font:{family:'Microsoft JhengHei',size:12}}},
+        tooltip:{titleFont:{family:'Calibri'}, bodyFont:{family:'Microsoft JhengHei'},
+          callbacks:{label: ctx=>`${ctx.dataset.label}: $${Math.round(ctx.raw).toLocaleString()}`}}
+      },
+      scales:{
+        x:{ticks:{font:{family:'Calibri'}}, grid:{display:false}},
+        y:{position:'left', display:usedAxes.has('y'),
+           title:{display:true, text:'業績 (NT$)', font:{family:'Microsoft JhengHei',size:12}},
+           ticks:{font:{family:'Calibri'}, callback:v=>'$'+Math.round(v).toLocaleString()}},
+        y1:{position:'right', display:usedAxes.has('y1'),
+            title:{display:true, text:'日均 (NT$)', font:{family:'Microsoft JhengHei',size:12}},
+            grid:{drawOnChartArea:false},
+            ticks:{font:{family:'Calibri'}, callback:v=>'$'+Math.round(v).toLocaleString()}},
+      }
+    }
+  });
+}
+document.addEventListener('click', function(e){
+  var chip = e.target.closest('.chip[data-mseries]');
+  if(!chip) return;
+  chip.classList.toggle('active');
+  renderMonthlyChart();
+});
+renderMonthlyChart();
+
+
+var _activeTab='momo';
+
+function switchTab(tab){
+  _activeTab=tab;
+  document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.toggle('active',b.dataset.tab===tab);});
+  document.querySelectorAll('.tab-page').forEach(function(p){p.classList.toggle('active',p.dataset.page===tab);});
+  window.scrollTo({top:0,behavior:'smooth'});
+  var plat=tab==='shopee'?'shopee':'momo';
+  var cid=tab==='shopee'?'trendChart_sp':'trendChart_mm';
+  setTimeout(function(){
+    try{renderChart(cid);}catch(e){console.error('RC',e.message);}
+    try{renderMonthlyChart();}catch(e){console.error('RM',e.message);}
+    try{renderChannelTable(plat);}catch(e){console.error('RCT',e.message);}
+    try{renderDailyDetail(plat);}catch(e){console.error('RDD',e.message);}
+  },80);
+}
+
+function bootCharts(){
+  if(typeof Chart==='undefined'){setTimeout(bootCharts,100);return;}
+  switchTab('momo');
+}
+window.addEventListener('load',bootCharts);
+bootCharts();
+</script>
+</body></html>
